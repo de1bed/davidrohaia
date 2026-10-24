@@ -1,0 +1,10 @@
+{
+  "name": "david-rocha-personal-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev.mjs",
+    "test": "node --test tests/feed.test.mjs"
+  }
+}
