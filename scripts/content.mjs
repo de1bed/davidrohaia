@@ -1,6 +1,7 @@
+import channelSnapshot from './youtube-snapshot.mjs';
 export const channelId = 'UC4MSDfKsvDTxbUDd9w7tavQ';
 export const channelUrl = 'https://www.youtube.com/@davidrochaia';
-export const videos = [
+const previousVideos = [
   {id:'sH3SfbTnh9s',title:'8 noticias de IA en 3 días que no te puedes perder',published:'2026-10-24T01:02:36+00:00',short:true,image:'/assets/youtube-news.jpg'},
   {id:'4wwDfZezlQM',title:'La historia de OpenAI: de “sin fines de lucro” a negociar miles de millones con Trump.',published:'2026-10-19T03:07:00+00:00',short:false,image:'/assets/youtube-openai.jpg'},
   {id:'XfkdES89S5E',title:'Preserved — Higgsfield Global Film Festival',short:false,image:'/assets/youtube-preserved.jpg'},
@@ -8,6 +9,7 @@ export const videos = [
   {id:'_PIaniIW0Zc',title:'The Avenerds — Higgsfield Action',short:false,image:'/assets/gallos-avenerds.jpg'},
   {id:'Wg42r-mAj2Q',title:'Steve Jobs: Apple hoy, el despido que lo cambió todo y su advertencia sobre IA',short:false,image:'https://i.ytimg.com/vi/Wg42r-mAj2Q/hqdefault.jpg'}
 ];
+export const videos=channelSnapshot.videos.length?channelSnapshot.videos:previousVideos;
 export const projects = [
  {slug:'ctpatrol',name:'CTPatrol',category:'Seguridad · Operaciones',summary:'Inspecciones con evidencia. Decisiones con contexto.',description:'Un flujo móvil para inspecciones C-TPAT: puntos de revisión, fotografías georreferenciadas, análisis con IA y expedientes.',url:'https://ctpatrol.vercel.app',repo:'https://github.com/de1bed/ctpatrolweb',visual:'patrol',features:['Inspección guiada','Evidencia fotográfica','Análisis con IA','Panel administrativo']},
  {slug:'nexa',name:'Nexa Visit',category:'Accesos · Experiencia móvil',summary:'La visita empieza antes de llegar.',description:'Del enlace de invitación al pase QR. Cuatro experiencias conectadas para quien invita, quien llega, quien autoriza y quien administra.',url:'https://nexa-alpha-opal.vercel.app',repo:'https://github.com/de1bed/nexa',visual:'nexa',features:['Invitaciones por enlace','Registro desde el teléfono','Pases QR','Control de acceso']},
