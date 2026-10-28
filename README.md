@@ -4,7 +4,7 @@ Sitio personal multipágina con tres recorridos: mirar historias, resolver con p
 
 ## Desarrollo
 
-Requiere Node.js 22 o posterior. No necesita instalar dependencias.
+Requiere Node.js 22 (la versión configurada para producción). No necesita instalar dependencias.
 
 ```sh
 npm run build
@@ -35,7 +35,32 @@ npm test
 npm run build
 ```
 
-El build produce las páginas estáticas para revisión local y un Worker ESM con los archivos integrados para Sites. `dist/` es salida generada. Se conserva la identidad de hosting en `.openai/hosting.json`.
+El build produce las páginas estáticas para revisión local y un Worker ESM con los archivos integrados para Sites. `dist/` es salida generada y se limpia en cada build. Se conserva la identidad de hosting en `.openai/hosting.json`.
+
+## Vercel
+
+La integración con GitHub despliega `main`. `vercel.json` configura automáticamente:
+
+- Framework: **Other** (`null`).
+- Build Command: `npm run build:vercel`.
+- Output Directory: `dist`.
+- Node.js: **22.x**.
+
+En el panel de Vercel, Root Directory debe ser la raíz del repositorio (`.`), donde están `package.json` y `vercel.json`.
+
+El build de Vercel publica las 17 páginas y sus recursos directamente en el CDN; excluye el Worker y los metadatos de Sites. Las rutas, como `/proyectos/` y `/mini-libros/`, tienen su propio `index.html`; no se usa un fallback de SPA que oculte páginas inexistentes.
+
+`api/youtube.js` es una función Node independiente: reutiliza el catálogo público de YouTube, tiene un límite de 30 segundos y comparte respuestas durante 60 segundos en el CDN. Si YouTube no responde, entrega el catálogo de respaldo con `stale: true` y una caché menor. No necesita API keys ni variables de entorno. El contenido de respaldo permite compilar sin conexión a YouTube.
+
+Para comprobar la salida antes de subirla:
+
+```sh
+npm test
+npm run build:vercel
+npm run dev
+```
+
+Si el proyecto ya tenía overrides manuales en Vercel, comprueba que Root Directory sea la raíz del repositorio. No selecciones `dist` como raíz; esa carpeta se genera durante el build.
 
 Canal: https://www.youtube.com/@davidrochaia
 
