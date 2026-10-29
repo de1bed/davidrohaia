@@ -133,6 +133,19 @@ html:not(.js) .n-slide+.n-slide{margin-top:48px}
 .sc-picks button::after{content:'';position:absolute;inset:40% 0 0;background:linear-gradient(transparent,rgba(8,8,10,.75))}
 .sc-picks span{position:absolute;z-index:1;left:8px;right:8px;bottom:6px;font-size:12px;font-weight:600;color:#fff;text-align:left;text-shadow:0 1px 6px rgba(0,0,0,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
+/* Agentes */
+.ag-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.ag-card{position:relative;display:flex;flex-direction:column;height:100%;background:var(--b-card);border:1px solid var(--b-line);border-radius:22px;padding:14px 18px 18px;transition:transform .3s,box-shadow .3s,border-color .3s}
+.ag-card:hover{transform:translateY(-4px);border-color:var(--b-ink);box-shadow:0 24px 50px -36px rgba(20,16,10,.45)}
+.ag-card figure{margin:0 -4px 6px;aspect-ratio:1;border-radius:16px;overflow:hidden;background:#fff}
+.ag-card img{width:100%;height:100%;object-fit:cover}
+.ag-num{position:absolute;top:22px;left:24px;font-size:12px;font-weight:700;color:var(--b-faint)}
+.ag-card h3{font-size:19px;letter-spacing:-.03em;margin-bottom:4px}
+.ag-card p{font-size:14px;line-height:1.45;color:var(--b-soft)}
+.ag-card .ag-short{color:var(--b-faint);margin-top:4px}
+.ag-price{font-weight:650;color:var(--b-ink)!important;margin:12px 0 8px}
+.ag-card .b-link{margin-top:auto;font-size:14px;align-self:flex-start}
+
 /* Ventana de navegador para capturas */
 .b-window{margin:0;background:var(--b-card);border:1px solid var(--b-line);border-radius:16px;overflow:hidden}
 .b-window-bar{display:flex;gap:6px;padding:10px 14px;background:#f1efeb;border-bottom:1px solid var(--b-line)}
@@ -356,7 +369,7 @@ main>.b-section:last-child{padding-bottom:clamp(64px,8vw,112px)}
  .n-media.is-portrait{aspect-ratio:16/12}
  #gallos.sc .sc-intro{order:0}
  .sc-intro,.ct-side{position:static}
- .v-grid,.bk-grid{grid-template-columns:1fr 1fr}
+ .v-grid,.bk-grid,.ag-grid{grid-template-columns:1fr 1fr}
  .nl-cards{grid-template-columns:1fr}
 }
 @media (max-width:600px){
@@ -376,8 +389,9 @@ main>.b-section:last-child{padding-bottom:clamp(64px,8vw,112px)}
  .n-dots{gap:4px;flex-wrap:nowrap}
  .n-dots button{width:26px}
  .n-arrows button{width:38px;height:38px}
- .sc-picks,.bk-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:calc(var(--b-gutter)*-1);padding-right:var(--b-gutter)}
- .sc-picks::-webkit-scrollbar,.bk-grid::-webkit-scrollbar{display:none}
+ .sc-picks,.bk-grid,.ag-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:calc(var(--b-gutter)*-1);padding-right:var(--b-gutter)}
+ .sc-picks::-webkit-scrollbar,.bk-grid::-webkit-scrollbar,.ag-grid::-webkit-scrollbar{display:none}
+ .ag-grid>li{flex:0 0 74%;scroll-snap-align:start}
  .sc-picks button{flex:0 0 112px;scroll-snap-align:start}
  .bk-grid>.bk-card{flex:0 0 78%;scroll-snap-align:start}
 }

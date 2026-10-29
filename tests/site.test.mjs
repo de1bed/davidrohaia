@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import {allPages,tagFor} from '../scripts/pages.mjs';
-import {WHATSAPP_NUMBER,news,gallos,vortex,miniLibros,contactOptions,reels} from '../scripts/content.mjs';
+import {WHATSAPP_NUMBER,news,gallos,vortex,miniLibros,contactOptions,reels,agents} from '../scripts/content.mjs';
 
 const pages = allPages();
 const html = Object.values(pages).join('\n');
@@ -123,4 +123,20 @@ test('AI development (Vortex Lab) always comes before film (Gallos Media)',()=>{
   assert.ok(stage.indexOf('ctpatrol') < stage.indexOf('XfkdES89S5E'), 'productos antes que cine en el noticiero');
   assert.match(home, /Desarrollo inteligencia artificial para empresas/);
   assert.equal(contactOptions[0].key, 'software');
+});
+
+test('the eight Vortex Lab agents show on the home and products pages, with their page and price',()=>{
+  assert.equal(agents.list.length, 8);
+  for (const page of [home, pages['/productos/']]) {
+    const section = page.slice(page.indexOf('id="agentes"'));
+    for (const a of agents.list) {
+      assert.ok(section.includes(`https://vortexlabai.com/contratar-${a.slug}`), `falta ${a.name}`);
+      assert.ok(section.includes(`/assets/agentes/${a.slug}.webp`));
+      assert.ok(asset(`/assets/agentes/${a.slug}.webp`));
+    }
+    assert.match(section, /Desde \$5,400 MXN al mes/);
+  }
+  assert.ok(home.indexOf('id="agentes"') < home.indexOf('id="gallos"'));
+  const stage = home.slice(home.indexOf('data-newsroom'), home.indexOf('id="vortex"'));
+  assert.ok(stage.indexOf('agentes-equipo') < stage.indexOf('ctpatrol'), 'los agentes van justo después de la foto');
 });
