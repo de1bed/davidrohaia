@@ -114,3 +114,13 @@ test('contact page has my photo, the options and WhatsApp',()=>{
   assert.match(contact, new RegExp(`data-whatsapp="${WHATSAPP_NUMBER}"`));
   assert.match(html, new RegExp(`wa\\.me/${WHATSAPP_NUMBER}`));
 });
+
+test('AI development (Vortex Lab) always comes before film (Gallos Media)',()=>{
+  assert.ok(home.indexOf('id="vortex"') < home.indexOf('id="gallos"'));
+  const work = pages['/lo-que-hago/'];
+  assert.ok(work.indexOf('id="vortex"') < work.indexOf('id="gallos"'));
+  const stage = home.slice(home.indexOf('data-newsroom'), home.indexOf('id="vortex"'));
+  assert.ok(stage.indexOf('ctpatrol') < stage.indexOf('XfkdES89S5E'), 'productos antes que cine en el noticiero');
+  assert.match(home, /Desarrollo inteligencia artificial para empresas/);
+  assert.equal(contactOptions[0].key, 'software');
+});
