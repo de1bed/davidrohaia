@@ -57,24 +57,26 @@ test('products have their real captures and every product anchor exists',()=>{
   assert.match(products, /nexa\.vortexlabai\.com/);
 });
 
-test('videos carry a tag, shorts use the vertical cover, Preserved chapters are grouped',()=>{
+test('long videos carry a tag and can be filtered by topic',()=>{
   const videos = pages['/videos/'];
   assert.match(videos, /data-format="short"/);
   assert.match(videos, /data-tag="Noticias"/);
   assert.match(videos, /class="v-tag"/);
-  assert.match(videos, /oardefault\.jpg/);
-  assert.match(videos, /Preserved, contada en capítulos/);
   assert.equal(tagFor({id:'aaaaaaaaaaa',title:'8 noticias de IA en 3 días'}), 'Noticias');
   assert.equal(tagFor({id:'XfkdES89S5E',title:'Preserved'}), 'Cine');
 });
 
-test('reels show their covers and link to my TikTok',()=>{
-  for (const r of reels) {
-    assert.ok(home.includes(r.image), `falta ${r.title}`);
-    assert.ok(asset(r.image));
+test('the "En corto" rail shows my reel covers and links them to TikTok',()=>{
+  for (const page of [home, pages['/videos/']]) {
+    const rail = page.slice(page.indexOf('data-shorts>'), page.indexOf('</ol>', page.indexOf('data-shorts>')));
+    for (const r of reels) {
+      assert.ok(rail.includes(r.image), `falta ${r.title}`);
+      assert.ok(asset(r.image));
+    }
+    assert.match(rail, /href="https:\/\/www\.tiktok\.com\/@davidrochaia"/);
+    assert.doesNotMatch(rail, /data-video=|oardefault|frame0/);
   }
-  assert.match(home, /id="reels"/);
-  assert.match(home, /href="https:\/\/www\.tiktok\.com\/@davidrochaia"/);
+  assert.doesNotMatch(home, /id="reels"/);
   assert.doesNotMatch(html, /tiktok-embed|tiktok\.com\/embed\.js/);
   assert.match(home, /data-instagram hidden/);
 });

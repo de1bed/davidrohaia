@@ -29,21 +29,19 @@ export function tagFor(v) {
   if (videoNotes[v.id]?.tag) return videoNotes[v.id].tag;
   return videoTags.find(t => new RegExp(t.pattern, 'i').test(v.title))?.tag || 'Opinión';
 }
-// Los Shorts usan la miniatura vertical que se sube a YouTube, no el primer cuadro del video.
-const shortImage = v => `https://i.ytimg.com/vi/${v.id}/oardefault.jpg`;
 function videoButton(v, cls = '', image = v.image) {
   const context = videoNotes[v.id]?.note || v.context || (v.short ? 'Una idea corta del canal @davidrochaia.' : 'Un video del canal @davidrochaia.');
   return `<button class="v-thumb ${cls}" type="button" data-video="${esc(v.id)}" data-title="${esc(v.title)}" data-context="${esc(context)}" aria-label="Reproducir: ${esc(v.title)}"><img src="${esc(image)}" alt="" loading="lazy" data-fallback-id="${esc(v.id)}"><span class="v-play" aria-hidden="true">▶</span><span class="v-tag">${esc(tagFor(v))}</span></button>`;
 }
 const longCard = v => `<article class="v-card">${videoButton(v)}<h3>${esc(v.title)}</h3><p class="v-meta">${esc(videoNotes[v.id]?.note || v.publishedLabel || 'YouTube · @davidrochaia')}</p></article>`;
-const shortCard = v => `<li><article class="v-short">${videoButton(v, 'is-short', v.grouped ? v.image : shortImage(v))}<h3>${esc(v.title)}</h3>${v.grouped ? `<p class="v-meta">${esc(v.context)}</p>` : ''}</article></li>`;
-function channel(limitLongs, limitShorts) {
-  const {longs, shorts} = shapeCatalog(videos);
+// "En corto": miniaturas propias de reels que llevan a TikTok (se editan en `reels`).
+const reelCard = r => `<li data-reel data-title="${esc(r.title.toLocaleLowerCase('es'))}"><a class="v-short" href="${esc(r.url || tiktok.url)}" target="_blank" rel="noreferrer" aria-label="Ver en TikTok: ${esc(r.title)}"><span class="v-thumb is-short"><img src="${esc(r.image)}" alt="" loading="lazy" width="540" height="959"><span class="v-play" aria-hidden="true">▶</span></span><h3>${esc(r.title)}</h3></a></li>`;
+function channel(limitLongs) {
+  const {longs} = shapeCatalog(videos);
   const l = limitLongs ? longs.slice(0, limitLongs) : longs;
-  const s = limitShorts ? shorts.slice(0, limitShorts) : shorts;
   return `<div class="v-grid" data-longs${limitLongs ? ` data-limit="${limitLongs}"` : ''}>${l.map(longCard).join('')}</div>
-<div class="v-rail-head" data-shorts-head><h3>En corto</h3><p>Ideas de menos de un minuto.</p></div>
-<ol class="v-rail" data-shorts${limitShorts ? ` data-limit="${limitShorts}"` : ''}>${s.map(shortCard).join('')}</ol>`;
+<div class="v-rail-head" data-shorts-head><h3>En corto</h3><p>Ideas de menos de un minuto.</p><a class="b-link" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer">Ver en TikTok ${arrow}</a></div>
+<ol class="v-rail" data-shorts>${reels.map(reelCard).join('')}<li><a class="v-short" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer"><span class="v-thumb is-short rl-more"><strong>@${esc(tiktok.handle)}</strong><span>Más en TikTok ${arrow}</span></span></a></li></ol>`;
 }
 
 // ─── Piezas ────────────────────────────────────────────────────────
@@ -103,12 +101,6 @@ function showcase(brand, items, id) {
   return `<section class="b-section b-wrap sc" id="${id}" data-showcase><div class="sc-intro"><p class="b-eyebrow">${esc(brand.role)}</p><h2>${esc(brand.name)}</h2><p class="sc-summary">${esc(brand.summary)}</p>${brand.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}<a class="b-link" href="${esc(brand.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(brand.name)} ${arrow}</a></div><div class="sc-stage"><div class="sc-media">${media}</div><div class="sc-picks" role="group" aria-label="Trabajos de ${esc(brand.name)}">${picks}</div></div></section>`;
 }
 
-function socialSection() {
-  return `<section class="b-section b-wrap" id="reels">${head(`TikTok · @${esc(tiktok.handle)}`, esc(tiktok.title), esc(tiktok.text), `<a class="b-btn is-dark" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer">Ver más en TikTok ${arrow}</a>`)}
-<ol class="rl-grid">${reels.map(r => `<li><a class="rl-card" href="${esc(r.url || tiktok.url)}" target="_blank" rel="noreferrer"><img src="${esc(r.image)}" alt="${esc(r.title)}" loading="lazy" width="540" height="959"><span class="v-play" aria-hidden="true">▶</span></a></li>`).join('')}<li><a class="rl-card rl-more" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer"><strong>@${esc(tiktok.handle)}</strong><span>Más reels en TikTok ${arrow}</span></a></li></ol>
-<ol class="r-posts" data-instagram hidden></ol><p class="b-more"><a class="b-link" href="${esc(instagram.url)}" target="_blank" rel="noreferrer">También en Instagram ${arrow}</a></p></section>`;
-}
-
 function bookCard(b) {
   const buy = b.buyUrl ? `<a class="b-btn is-accent" href="${esc(b.buyUrl)}" target="_blank" rel="noreferrer">Comprar${b.price ? ` · ${esc(b.price)}` : ''} ${arrow}</a>` : `<a class="b-btn" href="/newsletter/">Avísame cuando salga ${next}</a>`;
   return `<article class="bk-card"><div class="bk-cover is-${esc(b.tone)}"><small>MINI LIBRO · DAVID ROCHA</small><strong>${esc(b.title)}</strong><span>${esc(b.subtitle)}</span><b>${esc(b.status)}</b></div><div class="bk-body"><p>${b.buyUrl ? 'Disponible' : 'Te aviso por el newsletter cuando salga.'}</p>${buy}</div></article>`;
@@ -129,8 +121,7 @@ function home() {
 <section class="b-proof" aria-label="Dónde ha aparecido mi trabajo"><p>Mi trabajo en</p><div class="b-marquee"><div>${proof.map(p => `<span>${esc(p)}</span>`).join('<i aria-hidden="true">✦</i>')}<i aria-hidden="true">✦</i></div><div aria-hidden="true">${proof.map(p => `<span>${esc(p)}</span>`).join('<i>✦</i>')}<i>✦</i></div></div></section>
 ${showcase(gallos, gallos.works, 'gallos')}
 ${showcase(vortex, vortex.showcase, 'vortex')}
-<section class="b-section b-wrap" id="youtube">${head('YouTube · @davidrochaia', esc(thinking.title), esc(thinking.text), `<a class="b-btn is-dark" href="${esc(channelUrl)}?sub_confirmation=1" target="_blank" rel="noreferrer">Suscribirme ${arrow}</a>`)}${channel(3, 10)}<p class="b-more"><a class="b-link" href="/videos/">Ver todos los videos ${next}</a></p></section>
-${socialSection()}
+<section class="b-section b-wrap" id="youtube">${head('YouTube · @davidrochaia', esc(thinking.title), esc(thinking.text), `<a class="b-btn is-dark" href="${esc(channelUrl)}?sub_confirmation=1" target="_blank" rel="noreferrer">Suscribirme ${arrow}</a>`)}${channel(3)}<ol class="r-posts" data-instagram hidden></ol><p class="b-more"><a class="b-link" href="/videos/">Ver todos los videos ${next}</a><a class="b-link" href="${esc(instagram.url)}" target="_blank" rel="noreferrer">También en Instagram ${arrow}</a></p></section>
 <section class="b-section b-wrap" id="libros">${head('Mini libros', esc(miniLibros.title), esc(miniLibros.paragraphs[0]), `<a class="b-link" href="/mini-libros/">Ver la colección ${next}</a>`)}<div class="bk-grid">${miniLibros.books.map(bookCard).join('')}</div></section>
 ${newsletterBlock('inicio')}
 ${contactBand()}`;

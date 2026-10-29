@@ -205,14 +205,13 @@ html:not(.js) .n-slide+.n-slide{margin-top:48px}
 .r-posts i{position:absolute;top:8px;right:8px;font-style:normal;font-size:11px;color:#fff;background:rgba(15,15,18,.7);border-radius:999px;padding:3px 7px}
 
 /* Reels */
-.rl-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-.rl-card{position:relative;display:block;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:var(--b-night)}
-.rl-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.rl-card:hover img{transform:scale(1.03)}
-.rl-more{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;padding:22px;color:#fff;background:linear-gradient(160deg,#26232b,#0e0d10)}
-.rl-more strong{font-size:22px;letter-spacing:-.03em}
+.rl-more{display:flex!important;flex-direction:column;justify-content:flex-end;gap:8px;padding:20px;color:#fff;background:linear-gradient(160deg,#26232b,#0e0d10)}
+.v-rail-head .b-link{margin-left:auto;font-size:14px}
+.v-short{display:block}
+.v-short:hover h3{color:var(--b-accent)}
+#youtube .r-posts{margin-top:16px;grid-template-columns:repeat(6,1fr)}
+.rl-more strong{font-size:20px;letter-spacing:-.03em}
 .rl-more span{font-size:15px;color:rgba(255,255,255,.72)}
-#reels .r-posts{margin-top:16px;grid-template-columns:repeat(6,1fr)}
 .p-mockup{margin:0 0 12px;border-radius:16px;overflow:hidden;border:1px solid var(--b-line)}
 .p-mockup img{width:100%}
 
@@ -371,9 +370,7 @@ main>.b-section:last-child{padding-bottom:clamp(64px,8vw,112px)}
  .ct-options{grid-template-columns:1fr}
  .cta-grid{grid-template-columns:1fr}
  .b-footer-grid{grid-template-columns:1fr}
- .r-posts,#reels .r-posts{grid-template-columns:repeat(3,1fr)}
- .rl-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-right:calc(var(--b-gutter)*-1);padding-right:var(--b-gutter)}
- .rl-grid>li{flex:0 0 62%;scroll-snap-align:start}
+ .r-posts,#youtube .r-posts{grid-template-columns:repeat(3,1fr)}
  .n-dots{gap:4px;flex-wrap:nowrap}
  .n-dots button{width:26px}
  .n-arrows button{width:38px;height:38px}

@@ -157,12 +157,10 @@ export const thinking = {
 
 export const tiktok = {
   handle: 'davidrochaia',
-  url: 'https://www.tiktok.com/@davidrochaia',
-  title: 'Reels',
-  text: 'La versión rápida: una noticia, una herramienta o una idea en menos de un minuto.'
+  url: 'https://www.tiktok.com/@davidrochaia'
 };
 
-// Reels: miniaturas que llevan a TikTok. Para agregar uno, copia una línea y cambia la imagen y el título.
+// "En corto": miniaturas de reels que llevan a TikTok. Para agregar uno, copia una línea y cambia la imagen y el título.
 export const reels = [
   {title: '¿Musk monopolio? SpaceX controla el espacio', image: '/assets/reel-musk-spacex.webp'},
   {title: '¿Hablar con los muertos?', image: '/assets/reel-hablar-con-muertos.webp'},
