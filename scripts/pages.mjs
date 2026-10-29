@@ -1,4 +1,4 @@
-import {agents,channelUrl,contactEmail,contactOptions,gallos,instagram,miniLibros,news,newsletter,products,profile,proof,reels,siteUrl,socials,thinking,tiktok,videoNotes,videoTags,videos,vortex,WHATSAPP_NUMBER,whatsappMessage} from './content.mjs';
+import {agents,channelUrl,contactEmail,contactOptions,portfolio,gallos,instagram,miniLibros,news,newsletter,products,profile,proof,reels,siteUrl,socials,thinking,tiktok,videoNotes,videoTags,videos,vortex,WHATSAPP_NUMBER,whatsappMessage} from './content.mjs';
 
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
@@ -74,37 +74,51 @@ function latestVideo() {
   const {longs} = shapeCatalog(videos);
   return longs[0];
 }
+const pairs = list => list.reduce((out, r, i) => (i % 2 ? out[out.length - 1].push(r) : out.push([r]), out), []);
 function newsSlide(item, i) {
   const H = i === 0 ? 'h1' : 'h2';
+  const open = `<article class="n-slide${item.kind === 'intro' ? ' is-intro' : item.kind === 'reels' ? ' is-reels' : ''}" data-slide data-label="${esc(item.label || '')}">`;
   if (item.kind === 'intro') {
-    return `<article class="n-slide is-intro" data-slide><div class="n-copy"><p class="b-kicker"><span class="b-dot"></span>${esc(profile.name)} · ${esc(profile.location)}</p><${H}>${esc(profile.headline)}</${H}><p class="b-lead">${esc(profile.lead)}</p><div class="b-actions">${whatsappButton('Escríbeme por WhatsApp', 'b-btn is-accent is-lg')}<a class="b-link" href="/lo-que-hago/">Lo que hago ${next}</a></div></div><figure class="n-media is-portrait"><img src="${esc(profile.photo)}" alt="Retrato de ${esc(profile.name)}" width="720" height="720"></figure></article>`;
+    return `${open}<div class="n-copy"><p class="b-kicker"><span class="b-dot"></span>${esc(profile.name)} · ${esc(profile.location)}</p><${H}>${esc(profile.headline)}</${H}><p class="b-lead">${esc(profile.lead)}</p><div class="b-actions">${whatsappButton('Escríbeme por WhatsApp', 'b-btn is-accent is-lg')}<a class="b-link" href="/lo-que-hago/">Lo que he hecho ${next}</a></div></div><figure class="n-media is-portrait"><img src="${esc(profile.photo)}" alt="Retrato de ${esc(profile.name)}" width="720" height="720"></figure></article>`;
+  }
+  if (item.kind === 'reels') {
+    const [a, b] = item.pair;
+    const phone = r => `<a class="n-phone" href="${esc(r.url || tiktok.url)}" target="_blank" rel="noreferrer" aria-label="Ver en TikTok: ${esc(r.title)}"><img src="${esc(r.image)}" alt="" width="540" height="959" loading="lazy"></a>`;
+    const profilePhone = `<a class="n-phone is-profile" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer"><img src="${esc(profile.photo)}" alt="" width="720" height="720" loading="lazy"><strong>@${esc(tiktok.handle)}</strong><span>Más en TikTok</span></a>`;
+    return `${open}<div class="n-copy"><p class="n-kicker"><span class="n-tag">En corto</span>TikTok · @${esc(tiktok.handle)}</p><${H}>${esc(a.title)}</${H}><p class="b-lead">${b ? `Y también: “${esc(b.title)}”. ` : ''}La versión rápida de lo que estoy viendo en IA, en menos de un minuto.</p><div class="b-actions"><a class="b-btn is-accent is-lg" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer">Ver en TikTok ${arrow}</a></div></div><figure class="n-media is-phones">${phone(a)}${b ? phone(b) : profilePhone}</figure></article>`;
   }
   if (item.kind === 'latest-video') {
     const v = latestVideo();
     if (!v) return '';
     const note = videoNotes[v.id] || {};
     const image = v.image || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
-    return `<article class="n-slide" data-slide data-latest-video><div class="n-copy"><p class="n-kicker"><span class="n-tag">${esc(tagFor(v))}</span>${esc(item.kicker)}</p><${H} data-latest-title>${esc(note.title || v.title)}</${H}><p class="b-lead" data-latest-note>${esc(note.note || 'Lo más nuevo del canal: contexto, opinión y un poco de ironía.')}</p><div class="b-actions"><button class="b-btn is-accent is-lg" type="button" data-video="${esc(v.id)}" data-title="${esc(v.title)}" data-latest-button>Ver el video <span aria-hidden="true">▶</span></button><a class="b-link" href="/videos/">Más videos ${next}</a></div></div><figure class="n-media is-video"><button type="button" class="n-play" data-video="${esc(v.id)}" data-title="${esc(v.title)}" aria-label="Reproducir: ${esc(v.title)}" data-latest-thumb><img src="${esc(image)}" alt="" data-fallback-id="${esc(v.id)}"><span class="v-play" aria-hidden="true">▶</span></button></figure></article>`;
+    return `${open.replace('data-slide', 'data-slide data-latest-video')}<div class="n-copy"><p class="n-kicker"><span class="n-tag">${esc(tagFor(v))}</span>${esc(item.kicker)}</p><${H} data-latest-title>${esc(note.title || v.title)}</${H}><p class="b-lead" data-latest-note>${esc(note.note || 'Lo más nuevo del canal: contexto, opinión y un poco de ironía.')}</p><div class="b-actions"><button class="b-btn is-accent is-lg" type="button" data-video="${esc(v.id)}" data-title="${esc(v.title)}" data-latest-button>Ver el video <span aria-hidden="true">▶</span></button><a class="b-link" href="/videos/">Más videos ${next}</a></div></div><figure class="n-media is-video"><button type="button" class="n-play" data-video="${esc(v.id)}" data-title="${esc(v.title)}" aria-label="Reproducir: ${esc(v.title)}" data-latest-thumb><img src="${esc(image)}" alt="" data-fallback-id="${esc(v.id)}"><span class="v-play" aria-hidden="true">▶</span></button></figure></article>`;
   }
-  return `<article class="n-slide" data-slide><div class="n-copy"><p class="n-kicker">${item.tag ? `<span class="n-tag">${esc(item.tag)}</span>` : ''}${esc(item.kicker)}</p><${H}>${esc(item.title)}</${H}><p class="b-lead">${esc(item.text)}</p><div class="b-actions">${action({...item.button, title: item.title, text: item.text}, 'b-btn is-accent is-lg')}</div></div><figure class="n-media"><img src="${esc(item.image)}" alt="${esc(item.imageAlt || '')}" loading="lazy"></figure></article>`;
+  return `${open}<div class="n-copy"><p class="n-kicker">${item.tag ? `<span class="n-tag">${esc(item.tag)}</span>` : ''}${esc(item.kicker)}</p><${H}>${esc(item.title)}</${H}><p class="b-lead">${esc(item.text)}</p><div class="b-actions">${action({...item.button, title: item.title, text: item.text}, 'b-btn is-accent is-lg')}</div></div><figure class="n-media"><img src="${esc(item.image)}" alt="${esc(item.imageAlt || '')}" loading="lazy"></figure></article>`;
+}
+// Cada tarjeta 'reels' toma el siguiente par de miniaturas; los pares que sobren van antes de la última tarjeta.
+export function newsItems() {
+  const queue = pairs(reels);
+  const items = news.flatMap(item => item.kind !== 'reels' ? [item] : queue.length ? [{...item, pair: queue.shift()}] : []);
+  if (queue.length) items.splice(items.length - 1, 0, ...queue.map(pair => ({kind: 'reels', label: 'En corto', pair})));
+  return items;
 }
 function newsroom() {
-  const slides = news.map(newsSlide).filter(Boolean);
+  const items = newsItems();
+  const slides = items.map(newsSlide).filter(Boolean);
+  const labels = items.map(it => it.label || '');
   return `<section class="n-hero" aria-roledescription="carrusel" aria-label="Lo más reciente" data-newsroom><div class="b-wrap"><div class="n-stage">${slides.join('')}</div>
-<div class="n-controls"><div class="n-dots" role="group" aria-label="Elegir noticia">${slides.map((_, i) => `<button type="button" data-goto="${i}" aria-label="Noticia ${i + 1} de ${slides.length}"${i ? '' : ' aria-current="true"'}><i></i></button>`).join('')}</div><div class="n-arrows"><button type="button" data-step="-1" aria-label="Noticia anterior">←</button><button type="button" data-pause aria-label="Pausar" aria-pressed="false">Ⅱ</button><button type="button" data-step="1" aria-label="Siguiente noticia">→</button></div></div></div><p class="sr-only" aria-live="polite" data-news-announce></p></section>`;
+<div class="n-progress"><p class="n-now"><span data-news-count>01 / ${String(slides.length).padStart(2, '0')}</span><b data-news-label>${esc(labels[0])}</b></p><div class="n-bars" role="group" aria-label="Elegir">${slides.map((_, i) => `<button type="button" data-goto="${i}" aria-label="${esc(labels[i] || `Tarjeta ${i + 1}`)}"${i ? '' : ' aria-current="true"'}><i></i></button>`).join('')}</div></div></div><p class="sr-only" aria-live="polite" data-news-announce></p></section>`;
 }
 
-// Escaparate fijo con trabajos que rotan (Gallos Media, Vortex Lab).
-function showcase(brand, items, id) {
+// Escaparate fijo con trabajos que rotan. El nombre de la empresa va como crédito.
+function showcase(brand, items, id, {smallCredit = false} = {}) {
   const media = items.map((it, i) => `<article class="sc-item" data-sc-item${i ? ' hidden' : ''}><figure><img src="${esc(it.image)}" alt="${esc(it.title)}" loading="lazy"></figure><div class="sc-caption"><p class="sc-label">${esc(it.label)}</p><h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>${action({...it, label: it.video ? 'Ver' : 'Conocer'}, 'b-btn is-light')}</div></article>`).join('');
   const picks = items.map((it, i) => `<button type="button" data-sc-pick="${i}"${i ? '' : ' aria-current="true"'}><img src="${esc(it.image)}" alt="" loading="lazy"><span>${esc(it.title)}</span></button>`).join('');
-  return `<section class="b-section b-wrap sc" id="${id}" data-showcase><div class="sc-intro"><p class="b-eyebrow">${esc(brand.role)}</p><h2>${esc(brand.name)}</h2><p class="sc-summary">${esc(brand.summary)}</p>${brand.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}<a class="b-link" href="${esc(brand.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(brand.name)} ${arrow}</a></div><div class="sc-stage"><div class="sc-media">${media}</div><div class="sc-picks" role="group" aria-label="Trabajos de ${esc(brand.name)}">${picks}</div></div></section>`;
-}
-
-const money = n => `$${n.toLocaleString('en-US')}`;
-function agentsSection(cls = '') {
-  return `<section class="b-section b-wrap${cls}" id="agentes">${head('Vortex Lab · Agentes', esc(agents.title), esc(agents.text), `<a class="b-btn is-dark" href="${esc(agents.url)}" target="_blank" rel="noreferrer">Ver en Vortex Lab ${arrow}</a>`)}
-<ol class="ag-grid">${agents.list.map((a, i) => `<li><a class="ag-card" href="https://vortexlabai.com/contratar-${esc(a.slug)}" target="_blank" rel="noreferrer"><figure><img src="/assets/agentes/${esc(a.slug)}.webp" alt="Agente ${esc(a.name)}" width="720" height="720" loading="lazy"></figure><span class="ag-num">${String(i + 1).padStart(2, '0')}</span><h3>${esc(a.name)}</h3><p>${esc(a.tagline)}</p><p class="ag-short">${esc(a.short)}</p><p class="ag-price">Desde ${money(a.from)} MXN al mes</p><span class="b-link">Conocer ${arrow}</span></a></li>`).join('')}</ol></section>`;
+  const credit = smallCredit
+    ? `<p class="sc-credit">${esc(brand.credit.replace(brand.name, '').trim())} <a href="${esc(brand.url)}" target="_blank" rel="noreferrer">${esc(brand.name)} ${arrow}</a></p>`
+    : `<a class="b-link" href="${esc(brand.url)}" target="_blank" rel="noreferrer">${esc(brand.credit)} ${arrow}</a>`;
+  return `<section class="b-section b-wrap sc" id="${id}" data-showcase><div class="sc-intro"><p class="b-eyebrow">${esc(brand.eyebrow)}</p><h2>${esc(brand.title)}</h2><p class="sc-summary">${esc(brand.summary)}</p>${brand.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}${credit}</div><div class="sc-stage"><div class="sc-media">${media}</div><div class="sc-picks" role="group" aria-label="${esc(brand.title)}">${picks}</div></div></section>`;
 }
 
 function bookCard(b) {
@@ -125,9 +139,8 @@ function contactBand() {
 function home() {
   return `${newsroom()}
 ${showcase(vortex, vortex.showcase, 'vortex')}
-${agentsSection(' is-tight')}
 <section class="b-proof" aria-label="Dónde ha aparecido mi trabajo"><p>Mi trabajo en</p><div class="b-marquee"><div>${proof.map(p => `<span>${esc(p)}</span>`).join('<i aria-hidden="true">✦</i>')}<i aria-hidden="true">✦</i></div><div aria-hidden="true">${proof.map(p => `<span>${esc(p)}</span>`).join('<i>✦</i>')}<i>✦</i></div></div></section>
-${showcase(gallos, gallos.works, 'gallos')}
+${showcase(gallos, gallos.works, 'gallos', {smallCredit: true})}
 <section class="b-section b-wrap" id="youtube">${head('YouTube · @davidrochaia', esc(thinking.title), esc(thinking.text), `<a class="b-btn is-dark" href="${esc(channelUrl)}?sub_confirmation=1" target="_blank" rel="noreferrer">Suscribirme ${arrow}</a>`)}${channel(3)}<ol class="r-posts" data-instagram hidden></ol><p class="b-more"><a class="b-link" href="/videos/">Ver todos los videos ${next}</a><a class="b-link" href="${esc(instagram.url)}" target="_blank" rel="noreferrer">También en Instagram ${arrow}</a></p></section>
 <section class="b-section b-wrap" id="libros">${head('Mini libros', esc(miniLibros.title), esc(miniLibros.paragraphs[0]), `<a class="b-link" href="/mini-libros/">Ver la colección ${next}</a>`)}<div class="bk-grid">${miniLibros.books.map(bookCard).join('')}</div></section>
 ${newsletterBlock('inicio')}
@@ -135,17 +148,16 @@ ${contactBand()}`;
 }
 
 function workPage() {
-  const grid = items => `<div class="w-grid">${items.map(it => `<article class="w-card"><figure><img src="${esc(it.image)}" alt="${esc(it.title)}" loading="lazy"></figure><p class="sc-label">${esc(it.label)}</p><h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>${action({...it, label: it.video ? 'Ver' : 'Conocer'}, 'b-link')}</article>`).join('')}</div>`;
-  return `<section class="b-page-hero b-wrap"><p class="b-eyebrow">Lo que hago</p><h1>Agentes, productos y cine. Todo con IA.</h1><p class="b-lead">Trabajo desde dos lugares: Vortex Lab, donde desarrollamos inteligencia artificial para empresas (agentes y productos), y Gallos Media, donde hacemos cine y campañas. Esto es parte de lo que ha salido de ahí.</p></section>
-<section class="b-section b-wrap is-tight" id="vortex"><div class="w-head"><p class="b-eyebrow">${esc(vortex.role)}</p><h2>${esc(vortex.name)}</h2><p class="b-head-lead">${esc(vortex.summary)} ${vortex.paragraphs.map(esc).join(' ')}</p><a class="b-link" href="${esc(vortex.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(vortex.name)} ${arrow}</a></div>${grid(vortex.showcase)}</section>
-<section class="b-section b-wrap" id="gallos"><div class="w-head"><p class="b-eyebrow">${esc(gallos.role)}</p><h2>${esc(gallos.name)}</h2><p class="b-head-lead">${esc(gallos.summary)} ${gallos.paragraphs.map(esc).join(' ')}</p><a class="b-link" href="${esc(gallos.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(gallos.name)} ${arrow}</a></div>${grid(gallos.works)}</section>
+  const card = it => `<li data-pf="${esc(it.type)}"><article class="w-card"><figure>${it.video ? `<button type="button" class="w-media" data-video="${esc(it.video)}" data-title="${esc(it.title)}" data-context="${esc(it.text)}" aria-label="Ver ${esc(it.title)}"><img src="${esc(it.image)}" alt="" loading="lazy"><span class="v-play" aria-hidden="true">▶</span></button>` : `<a class="w-media" href="${esc(it.href)}"${ext(it.href)} aria-label="${esc(it.title)}"><img src="${esc(it.image)}" alt="" loading="lazy"></a>`}</figure><p class="sc-label">${esc(it.type)}</p><h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>${it.credit ? `<p class="w-credit">${esc(it.credit)}</p>` : ''}</article></li>`;
+  return `<section class="b-page-hero b-wrap"><p class="b-eyebrow">Lo que he hecho</p><h1>Agentes, plataformas, producciones y diseño.</h1><p class="b-lead">Esto es parte de lo que he construido. Se va actualizando conforme sale algo nuevo.</p>
+<div class="b-chips is-pf" role="group" aria-label="Tipo de trabajo"><button type="button" data-pf-filter="" aria-pressed="true">Todo</button>${portfolio.types.map(t => `<button type="button" data-pf-filter="${esc(t)}" aria-pressed="false">${esc(t)}</button>`).join('')}</div></section>
+<section class="b-section b-wrap is-tight" id="portafolio"><ol class="w-grid">${portfolio.items.map(card).join('')}</ol></section>
 ${contactBand()}`;
 }
 
 function productsPage() {
-  return `<section class="b-page-hero b-wrap"><p class="b-eyebrow">Productos · ${esc(vortex.name)}</p><h1>Agentes y productos que ya están funcionando.</h1><p class="b-lead">Salen de Vortex Lab. Los construimos para problemas que vimos de cerca y ahora cualquier empresa los puede usar.</p><nav class="pr-jump" aria-label="Productos"><a href="#agentes">Agentes de IA</a>${products.map(p => `<a href="#${slug(p.name)}">${esc(p.name)}</a>`).join('')}</nav></section>
-${agentsSection(' is-tight')}
-<div class="b-wrap pr-list">${products.map(p => {
+  return `<section class="b-page-hero b-wrap"><p class="b-eyebrow">Productos · ${esc(vortex.name)}</p><h1>Agentes y plataformas que ya están funcionando.</h1><p class="b-lead">Salen de Vortex Lab. Los construimos para problemas que vimos de cerca y ahora cualquier empresa los puede usar.</p><nav class="pr-jump" aria-label="Productos"><a href="#agentes">Agentes de IA</a>${products.map(p => `<a href="#${slug(p.name)}">${esc(p.name)}</a>`).join('')}</nav></section>
+<div class="b-wrap pr-list"><article class="p-panel" id="agentes"><div class="p-copy"><p class="b-eyebrow">Vortex Lab</p><h2>${esc(agents.title)}</h2><p>${esc(agents.text)}</p><div class="b-actions"><a class="b-btn is-accent" href="${esc(agents.url)}" target="_blank" rel="noreferrer">Conocer en Vortex Lab ${arrow}</a><a class="b-btn" href="/contacto/?quiero=producto&amp;producto=${encodeURIComponent('agentes de IA')}">Quiero agentes ${next}</a></div></div><figure class="p-mockup"><img src="${esc(agents.image)}" alt="Agentes de IA de Vortex Lab." width="1600" height="1100" loading="lazy"></figure></article>${products.map(p => {
     const id = slug(p.name);
     const mockup = p.mockup ? `<figure class="p-mockup"><img src="${esc(p.mockup.src)}" alt="${esc(p.mockup.alt)}" width="${p.mockup.width}" height="${p.mockup.height}" loading="lazy"></figure>` : '';
     const cta = p.url ? `<a class="b-btn is-accent" href="${esc(p.url)}" target="_blank" rel="noreferrer">${esc(p.link)} ${arrow}</a>` : '';
@@ -203,8 +215,8 @@ function shell(title, body, current = '', description = profile.description) {
 export function allPages() {
   return {
     '/': shell(profile.headline, home()),
-    '/lo-que-hago/': shell('Lo que hago', workPage(), 'lo-que-hago', `${vortex.summary} ${gallos.summary}`),
-    '/productos/': shell('Agentes y productos', productsPage(), 'productos', `${agents.title} ${products.map(p => `${p.name}: ${p.pitch}`).join(' ')}`),
+    '/lo-que-hago/': shell('Lo que he hecho', workPage(), 'lo-que-hago', 'Agentes de IA, plataformas, producciones cinematográficas con IA y diseño web.'),
+    '/productos/': shell('Agentes y plataformas', productsPage(), 'productos', `${agents.title}. ${products.map(p => `${p.name}: ${p.pitch}`).join(' ')}`),
     '/videos/': shell('Videos', videosPage(), 'videos', thinking.text),
     '/mini-libros/': shell('Mini libros', miniPage(), 'mini-libros', miniLibros.paragraphs[0]),
     '/newsletter/': shell('Newsletter', newsletterPage(), 'newsletter', newsletter.description),

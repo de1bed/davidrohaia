@@ -11,10 +11,12 @@ Sitio de marca personal, en primera persona. Todo el texto vive en `scripts/cont
 | Quiero cambiar… | Dónde |
 | --- | --- |
 | Titular, bajada, ubicación, foto | `profile` |
-| Noticias del inicio (agregar, quitar, ordenar) | `news` |
+| Noticias del encabezado (agregar, quitar, ordenar) | `news`; cada `{kind: 'reels'}` muestra el siguiente par de `reels` en teléfonos |
 | Título con gancho, mini opinión y etiqueta de un video | `videoNotes` (por id de YouTube) |
 | Etiquetas automáticas de videos | `videoTags` |
-| Trabajos que rotan en Gallos Media y Vortex Lab | `gallos.works`, `vortex.showcase` |
+| Trabajos que rotan en Desarrollo de IA y Producciones | `vortex.showcase`, `gallos.works` |
+| Portafolio de /lo-que-hago/ | `portfolio` (tipos e items) |
+| Agentes de IA (texto y enlace a Vortex Lab) | `agents` |
 | Mini libros (portada, precio y enlace de compra) | `miniLibros.books` (`buyUrl` + `price` cambian el botón a "Comprar") |
 | Opciones del formulario de contacto | `contactOptions` |
 | Número de WhatsApp | `WHATSAPP_NUMBER` (hoy es un placeholder) |
