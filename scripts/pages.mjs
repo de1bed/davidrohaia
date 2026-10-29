@@ -1,41 +1,203 @@
-import {projects,articles,channelUrl,siteUrl,profile,socials,newsletter,contactEmail} from './content.mjs';
-import {videoLibraryPage,miniBooksPage,preservedPage,audienceSection} from './experience.mjs';
-import {brandHome,brandProjects,brandNewsletter,brandWork,subscribeForm} from './brand.mjs';
-export const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const defaultDescription='David Rocha construye productos con inteligencia artificial, crea documentales y cine con IA, y escribe Señal IA, un newsletter potenciado con IA.';
-const arrow='<span aria-hidden="true">↗</span>';
-const play='<span class="play-symbol" aria-hidden="true">▶</span>';
-const link=(url,label,cls='text-link')=>`<a class="${cls}" href="${esc(url)}"${url.startsWith('http')?' target="_blank" rel="noreferrer"':''}>${label} ${arrow}</a>`;
-const meta=(a,b)=>`<div class="meta"><span>${a}</span>${b?`<span>${b}</span>`:''}</div>`;
-export function productArt(type){
- if(type==='nexa')return `<div class="product-art nexa-art" aria-label="Vista de Nexa Visit"><span class="art-word">Nexa<span>Visit</span></span><div class="phone"><img src="/assets/nexa-visitor.png" alt="Captura real del registro móvil de Nexa Visit" loading="lazy"></div><span class="art-caption">Una invitación. Una llegada más simple.</span></div>`;
- if(type==='patrol')return `<div class="product-art patrol-art"><span class="art-word">CT<span>Patrol</span></span><div class="inspection-panel" aria-label="Esquema del flujo de CTPatrol"><div class="mock-toolbar"><span class="mock-dot"></span><span>Inspección de seguridad</span><span>•••</span></div><div class="inspection-body"><small>FLUJO DE INSPECCIÓN</small><strong>Cada punto.<br>Cada evidencia.</strong><div class="check-item"><span>✓</span> Revisión guiada</div><div class="check-item"><span>✓</span> Evidencia fotográfica</div><div class="check-item"><span>✦</span> Análisis con IA</div><div class="mock-action">Crear expediente <span>→</span></div></div></div><span class="art-caption">Seguridad con contexto.</span></div>`;
- if(type==='wash')return `<div class="product-art wash-art"><span class="art-word">CimaWash</span><div class="wash-symbol" aria-hidden="true"><span>✳</span><span>✳</span><strong>cw.</strong></div><span class="art-caption">Pídelo. Sigue con tu día.</span></div>`;
- if(type==='orbit')return `<div class="product-art orbit-art"><span class="art-word">Órbita</span><div class="orbit-map" aria-hidden="true"><span class="orbit-center">DR</span><i>Proyectos</i><i>Personas</i><i>Ideas</i><i>Empresas</i></div><span class="art-caption">Todo está conectado.</span></div>`;
- return `<div class="product-art quote-art"><span class="art-word">Treve</span><div class="paper-sheet"><small>COTIZACIÓN</small><strong>Menos pasos.<br>Más claridad.</strong><span></span><span></span><span></span><b>PDF ↗</b></div><span class="art-caption">Documentos que siguen tu ritmo.</span></div>`;
+import {channelUrl,contactEmail,gallos,miniLibros,newsletter,products,profile,siteUrl,socials,thinking,videos,vortex,webDesign,WHATSAPP_NUMBER,whatsappMessage} from './content.mjs';
+
+export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+
+const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+const preservedFilmId = 'XfkdES89S5E';
+
+export function shapeCatalog(list) {
+  const clean = (list || []).filter(v => /^[\w-]{11}$/.test(v.id) && v.title);
+  const preservedShorts = clean.filter(v => v.short && /preserved/i.test(v.title));
+  const rest = clean.filter(v => !(v.short && /preserved/i.test(v.title)));
+  const longs = rest.filter(v => !v.short);
+  const shorts = rest.filter(v => v.short);
+  if (preservedShorts.length) {
+    const film = clean.find(v => v.id === preservedFilmId);
+    const source = film || preservedShorts[0];
+    shorts.push({
+      id: source.id,
+      title: thinking.preservedTitle,
+      image: source.image,
+      short: true,
+      grouped: preservedShorts.length,
+      context: thinking.preservedNote
+    });
+  }
+  return {longs, shorts};
 }
-function imageArt(src,alt,cls=''){return `<div class="image-art ${cls}"><img src="${esc(src)}" alt="${esc(alt)}" loading="eager"></div>`;}
-function videoCard(v){return `<article class="video-card"><button class="video-thumb" data-video="${v.id}" data-title="${esc(v.title)}" aria-label="Reproducir: ${esc(v.title)}"><img src="${esc(v.image)}" alt="" loading="lazy">${play}<span class="media-tag">${v.short?'SHORT':'VIDEO'}</span></button>${meta(v.short?'Shorts':'YouTube',v.published?new Date(v.published).toLocaleDateString('es-MX',{day:'numeric',month:'short',timeZone:'America/Tijuana'}):'') }<h3><button class="title-button" data-video="${v.id}" data-title="${esc(v.title)}">${esc(v.title)}</button></h3></article>`;}
-function projectCard(p){return `<article class="project-card"><a class="project-image" href="/proyectos/${p.slug}/" aria-label="Explorar ${p.name}">${productArt(p.visual)}</a>${meta(p.category,'Producto')}<div class="card-heading"><h3><a href="/proyectos/${p.slug}/">${p.name}</a></h3>${link(`/proyectos/${p.slug}/`,'','round-link')}</div><p>${p.summary}</p></article>`;}
-function articleCard(a){return `<article class="note-card"><a class="note-art" href="/blog/${a.slug}/" aria-label="Leer ${esc(a.title)}">${a.image?imageArt(a.image,a.title):productArt(a.visual)}</a>${meta(a.category,a.read)}<h3><a href="/blog/${a.slug}/">${a.title}</a></h3><p>${a.summary}</p>${link(`/blog/${a.slug}/`,'Leer nota')}</article>`;}
-const sectionTitle=(label,title,url,cta)=>`<div class="section-heading"><div><p class="eyebrow">${label}</p><h2>${title}</h2></div>${url?link(url,cta):''}</div>`;
-const signup=()=>`<div class="signup"><p class="eyebrow">NEWSLETTER · SEÑAL IA</p><h2>La próxima buena idea<br>puede llegar por correo.</h2><p>${esc(newsletter.description)}</p>${subscribeForm('notas')}</div>`;
-const head=(label,title,desc)=>`<section class="page-intro"><p class="eyebrow">${label}</p><h1>${title}</h1><p>${desc}</p></section>`;
-export function home(){return brandHome({productArt});}
-export function projectsPage(){return brandProjects({productArt});}
-export function workPage(){return brandWork({productArt});}
-export function projectPage(p){return `<section class="product-detail-hero"><div><p class="eyebrow">${p.category}</p><h1>${p.name}</h1><p class="detail-summary">${p.summary}</p><p>${p.description}</p><div class="inline-actions">${link(p.url,p.demo?'Probar demo':'Ver proyecto','button solid')}${p.repo!==p.url?link(p.repo,'Ver código'):''}</div></div>${productArt(p.visual)}</section>${audienceSection(p)}<section class="content-section"><div class="section-heading"><div><p class="eyebrow">EL RECORRIDO</p><h2>Diseñado alrededor del trabajo.</h2></div></div><div class="capability-grid">${p.features.map((x,i)=>`<div><span>0${i+1}</span><h3>${x}</h3></div>`).join('')}</div></section><section class="content-section tinted"><p class="eyebrow">SIGUE EXPLORANDO</p><div class="project-grid">${projects.filter(x=>x.slug!==p.slug).slice(0,2).map(projectCard).join('')}</div></section>`;}
-export function videosPage(){return videoLibraryPage();}
-export function blogPage(){return `${head('NOTAS · PROCESOS · PREGUNTAS','Pensar también<br>es parte de crear.','Un cuaderno sobre tecnología, decisiones de producto e historias que merecen una segunda mirada.')}<section class="content-section first-section"><div class="notes-grid">${articles.map(articleCard).join('')}</div></section>${signup()}`;}
-export function articlePage(a){return `<article class="article-page"><header class="article-heading"><p class="eyebrow">${a.category} · ${a.read} de lectura</p><h1>${a.title}</h1><p>${a.summary}</p><span>Notas de producto · David Rocha</span></header><div class="article-cover">${a.image?imageArt(a.image,a.title):productArt(a.visual)}</div><div class="article-body">${a.paragraphs.map(([h,p])=>`<h2>${h}</h2><p>${p}</p>`).join('')}${a.video?`<button class="button solid" data-video="${a.video}" data-title="${esc(a.title)}">${play} Ver documental</button>`:''}<div class="source-note">Para explorar el proyecto: ${link(a.source,'Fuente y más contexto')}</div>${link('/blog/','Volver a las notas')}</div></article>`;}
-export function newsletterPage(){return brandNewsletter();}
-export function libraryPage(){return miniBooksPage();}
-export function aboutPage(){return `<section class="about-hero"><div><p class="eyebrow">SOBRE MÍ</p><h1>Hola,<br>soy David.</h1><p>Trabajo entre creatividad, tecnología y producto. Me interesa transformar una idea en algo que se pueda ver, usar o compartir.</p><div class="inline-actions">${link('mailto:david@gallosmedia.com','Hablemos','button solid')}${link(channelUrl,'YouTube')}</div></div><img src="/assets/david-rocha-portrait.jpg" alt="Retrato original de David Rocha"></section><section class="content-section"><div class="about-statement"><p class="eyebrow">CÓDIGO, CÁMARA Y CURIOSIDAD</p><h2>Las herramientas cambian.<br>Las ganas de crear, siguen.</h2><p>Mis proyectos conectan tres intereses: construir software que resuelva problemas, contar historias con nuevas herramientas y compartir lo que voy aprendiendo por el camino.</p></div><div class="about-paths"><a href="/proyectos/"><span>01</span><h3>Construir</h3><p>Productos digitales, automatizaciones y sistemas.</p>${arrow}</a><a href="/videos/"><span>02</span><h3>Crear</h3><p>Documentales, ficción y Gallos Media.</p>${arrow}</a><a href="/newsletter/"><span>03</span><h3>Compartir</h3><p>Videos, notas y Señal IA.</p>${arrow}</a></div></section><section class="contact-strip"><h2>Una buena conversación<br>puede iniciar algo.</h2>${link('mailto:david@gallosmedia.com','david@gallosmedia.com','button solid')}</section>`;}
-export function shell(title,body,current='',description=defaultDescription){
- const nav=[['proyectos','Proyectos'],['videos','Videos'],['newsletter','Newsletter'],['mini-libros','Mini Libros'],['sobre-mi','Sobre mí']];
- const brandPage=!current||['proyectos','newsletter','trabajemos'].includes(current);
- const fullTitle=current?`${title} — David Rocha`:`David Rocha — ${title}`;
- const image=`${siteUrl}/assets/og-david-rocha.jpg`;
- return `<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(fullTitle)}</title><meta name="description" content="${esc(description)}"><meta name="theme-color" content="#f6f4f0"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:type" content="website"><meta property="og:site_name" content="David Rocha"><meta property="og:locale" content="es_MX"><meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:image" content="${esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="preload" href="/assets/inter-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/experience.css"><link rel="stylesheet" href="/brand.css"></head><body class="${current?'inner-page':'home-page'}${brandPage?' brand-page':''}"><a class="skip-link" href="#contenido">Ir al contenido</a><header class="site-header"><div class="nav-shell"><a class="brand" href="/" aria-label="David Rocha · Inicio"><img src="/assets/david-rocha-signature-black.png" alt="@davidrochaia" width="2172" height="724"></a><nav class="main-nav" aria-label="Principal">${nav.map(([slug,label])=>`<a href="/${slug}/" ${current===slug?'aria-current="page"':''}>${label}</a>`).join('')}</nav><a class="header-contact" href="/trabajemos/"${current==='trabajemos'?' aria-current="page"':''}>Trabajemos juntos ${arrow}</a><button class="menu-button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú"><span></span><span></span></button></div><nav id="mobile-nav" class="mobile-nav" aria-label="Menú móvil" hidden>${nav.map(([slug,label])=>`<a href="/${slug}/">${label} <span>↗</span></a>`).join('')}<a href="/trabajemos/" class="mobile-cta">Trabajemos juntos <span>↗</span></a></nav></header><main id="contenido">${body}</main><footer class="site-footer b-footer"><div class="b-footer-grid"><div><a href="/" class="footer-brand" aria-label="Inicio"><img src="/assets/david-rocha-signature-black.png" alt="@davidrochaia" loading="lazy"></a><p>${esc(profile.lead)}</p></div><div><p class="b-eyebrow">EXPLORA</p>${nav.map(([slug,label])=>`<a href="/${slug}/">${label}</a>`).join('')}<a href="/blog/">Notas</a><a href="/trabajemos/">Trabajemos juntos</a></div><div><p class="b-eyebrow">SÍGUEME</p>${socials.map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noreferrer">${esc(x.name)} ↗</a>`).join('')}<a href="mailto:${contactEmail}">${contactEmail}</a></div><div class="b-footer-signup"><p class="b-eyebrow">${esc(newsletter.name.toUpperCase())}</p><p>${esc(newsletter.promise)}</p>${subscribeForm('footer')}</div></div><div class="footer-bottom"><span>© ${new Date().getFullYear()} David Rocha · ${esc(profile.location)}</span><div><a href="https://gallosmedia.com/" target="_blank" rel="noreferrer">Gallos Media ↗</a><a href="/newsletter/">Señal IA</a></div></div></footer><dialog class="video-dialog" aria-labelledby="video-dialog-title"><div class="video-dialog-header"><span id="video-dialog-title">Reproducir video</span><button class="icon-button" data-close-video aria-label="Cerrar video">×</button></div><p class="video-context" data-video-context hidden></p><div class="video-embed"></div><a class="watch-youtube" target="_blank" rel="noreferrer">Abrir en YouTube ↗</a></dialog><script src="/script.js" defer></script><script src="/experience.js" defer></script><script src="/brand.js" defer></script></body></html>`;
+
+function whatsappButton(label = 'Escribir por WhatsApp', cls = 'btn') {
+  return `<!-- WHATSAPP_NUMBER es un placeholder: cámbialo en scripts/content.mjs -->
+<a class="${cls}" href="${esc(whatsappHref)}" target="_blank" rel="noreferrer">${esc(label)} <span aria-hidden="true">↗</span></a>`;
 }
-export function allPages(){const result={'/':shell('Productos, historias e ideas con IA',home()),'/proyectos/':shell('Proyectos',projectsPage(),'proyectos'),'/trabajemos/':shell('Trabajemos juntos',workPage(),'trabajemos','Automatización con IA, productos digitales a la medida y contenido con IA para empresas. Hablemos de tu proyecto.'),'/videos/':shell('Videos & Gallos Media',videosPage(),'videos'),'/blog/':shell('Notas',blogPage(),'blog'),'/newsletter/':shell('Señal IA · Newsletter',newsletterPage(),'newsletter',`${newsletter.promise} ${newsletter.description}`),'/biblioteca/':shell('Mini Libros',libraryPage(),'mini-libros'),'/mini-libros/':shell('Mini Libros',libraryPage(),'mini-libros'),'/videos/preserved/':shell('Preserved · Contexto y cortometraje',preservedPage(),'videos'),'/sobre-mi/':shell('Sobre mí',aboutPage(),'sobre-mi')};for(const p of projects)result[`/proyectos/${p.slug}/`]=shell(p.name,projectPage(p),'proyectos');for(const a of articles)result[`/blog/${a.slug}/`]=shell(a.title,articlePage(a),'blog');return result;}
+
+export function subscribeForm(source) {
+  return `<form class="signup" data-subscribe data-source="${esc(source)}" novalidate>
+<label class="field"><span>${esc(newsletter.emailLabel)}</span><input name="email" type="email" autocomplete="email" required maxlength="254" placeholder="tu@correo.com"></label>
+<label class="field"><span>${esc(newsletter.roleLabel)}</span><input name="oficio" type="text" autocomplete="organization-title" required minlength="2" maxlength="80" placeholder="${esc(newsletter.rolePlaceholder)}"></label>
+<input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">${esc(newsletter.button)}</button>
+<p class="form-status" data-subscribe-status role="status">Sin spam. Si ya no la quieres, le escribes y sales.</p>
+</form>`;
+}
+
+function videoButton(v, cls = '') {
+  const context = v.context || (v.short ? 'Una idea corta del canal @davidrochaia.' : 'Un video del canal @davidrochaia.');
+  return `<button class="thumb ${cls}" type="button" data-video="${esc(v.id)}" data-title="${esc(v.title)}" data-context="${esc(context)}" aria-label="Reproducir: ${esc(v.title)}"><img src="${esc(v.image)}" alt="" loading="lazy" data-fallback-id="${esc(v.id)}"><span class="play" aria-hidden="true">▶</span></button>`;
+}
+
+function sala(mode) {
+  const {longs, shorts} = shapeCatalog(videos);
+  const feature = longs[0];
+  const side = mode === 'home' ? longs.slice(1, 4) : longs.slice(1);
+  const rail = mode === 'home' ? shorts.slice(0, 8) : shorts;
+  const featureHtml = feature ? `<article class="feature">${videoButton(feature, 'is-wide')}<div><p class="kicker">Para ver cómo piensa</p><h3>${esc(feature.title)}</h3><p>${esc(feature.publishedLabel || 'YouTube · @davidrochaia')}</p></div></article>` : '<p>El canal se está actualizando.</p>';
+  const sideHtml = side.map(v => `<li><article class="essay">${videoButton(v)}<div><h3>${esc(v.title)}</h3><p>${esc(v.publishedLabel || (v.short ? 'Corto' : 'Video'))}</p></div></article></li>`).join('');
+  const railHtml = rail.map(v => `<li><article class="chip">${videoButton(v, v.short ? 'is-short' : '')}<h3>${esc(v.title)}</h3>${v.grouped ? `<p>${esc(v.context)}</p>` : ''}</article></li>`).join('');
+  return `<div class="sala" data-sala="${mode}">${featureHtml}<ol class="essays">${sideHtml}</ol></div><ol class="rail">${railHtml}</ol>`;
+}
+
+function shots(product) {
+  return `<div class="shots">${product.shots.map(s => `<figure><img src="${esc(s.src)}" alt="${esc(s.alt)}" width="${s.width}" height="${s.height}" loading="lazy"></figure>`).join('')}</div>`;
+}
+
+function heroReel() {
+  const {longs} = shapeCatalog(videos);
+  return `<div class="hero-reel" data-hero-reel>${longs.slice(0, 3).map(v => `<article>${videoButton(v)}<p class="reel-title">${esc(v.title)}</p></article>`).join('')}</div>`;
+}
+
+function home() {
+  return `<section class="hero">
+<div class="hero-copy">
+<p class="kicker">${esc(profile.name)} · ${esc(profile.location)}</p>
+<h1>${esc(profile.headline)}</h1>
+<p class="lead">${esc(profile.lead)}</p>
+<div class="actions">${whatsappButton()}<a class="text-link" href="#cine">Seguir la historia <span aria-hidden="true">↓</span></a></div>
+</div>
+${heroReel()}
+</section>
+
+<section class="chapter" id="cine">
+<div class="chapter-copy">
+<p class="kicker">En el set</p>
+<h2>Primero, una imagen que se pueda proyectar.</h2>
+${gallos.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}
+<p><a class="text-link" href="${esc(gallos.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(gallos.name)} <span aria-hidden="true">↗</span></a></p>
+</div>
+<figure class="frame"><img src="${esc(gallos.image)}" alt="${esc(gallos.imageAlt)}" width="1400" height="875" loading="lazy"></figure>
+</section>
+
+<section class="chapter invert" id="agentes">
+<figure class="frame"><img src="${esc(vortex.image)}" alt="${esc(vortex.imageAlt)}" width="1400" height="875" loading="lazy"></figure>
+<div class="chapter-copy">
+<p class="kicker">Dentro de la empresa</p>
+<h2>Después, adentro de la operación.</h2>
+${vortex.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}
+<p><a class="text-link" href="${esc(vortex.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(vortex.name)} <span aria-hidden="true">↗</span></a></p>
+</div>
+</section>
+
+<section class="chapter" id="productos">
+<div class="chapter-intro">
+<p class="kicker">${esc(vortex.name)}</p>
+<h2>De ese mismo laboratorio salen productos con nombre.</h2>
+<p>CTPatrol, NEXA VISIT y PrepIQ no andan sueltos. Viven en Vortex Lab.</p>
+</div>
+${products.map(p => `<article class="piece"><div class="piece-copy"><h3>${esc(p.name)}</h3><p>${esc(p.text)}</p>${p.url ? `<a class="text-link" href="${esc(p.url)}" target="_blank" rel="noreferrer">${esc(p.link)} <span aria-hidden="true">↗</span></a>` : ''}</div>${shots(p)}</article>`).join('')}
+</section>
+
+<section class="chapter band" id="pagina">
+<div class="chapter-copy">
+<p class="kicker">La cara pública</p>
+<h2>Y la página con la que te encuentran.</h2>
+${webDesign.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}
+<p><a class="text-link" href="${esc(gallos.url)}" target="_blank" rel="noreferrer">Ver cómo se presenta ${esc(gallos.name)} <span aria-hidden="true">↗</span></a></p>
+</div>
+</section>
+
+<section class="chapter" id="pensar">
+<div class="chapter-intro">
+<p class="kicker">YouTube · @davidrochaia</p>
+<h2>${esc(thinking.title)}</h2>
+<p>${esc(thinking.text)}</p>
+<p><a class="text-link" href="/videos/">Ver el canal completo <span aria-hidden="true">→</span></a></p>
+</div>
+${sala('home')}
+</section>
+
+<section class="chapter" id="lecturas">
+<div class="chapter-copy">
+<p class="kicker">Mini libros</p>
+<h2>${esc(miniLibros.title)}</h2>
+${miniLibros.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}
+<p><a class="text-link" href="/mini-libros/">Cómo nacen <span aria-hidden="true">→</span></a></p>
+</div>
+</section>
+
+<section class="chapter band" id="newsletter">
+<div class="chapter-copy">
+<p class="kicker">${esc(newsletter.name)}</p>
+<h2>${esc(newsletter.promise)}</h2>
+<p>${esc(newsletter.description)}</p>
+${subscribeForm('inicio')}
+</div>
+</section>
+
+<section class="close" id="contacto">
+<h2>Si esto se parece a tu empresa, escríbele.</h2>
+<p>Cuéntale qué estás tratando de producir, de meter en la operación o de publicar. Te contesta por WhatsApp.</p>
+${whatsappButton('Abrir WhatsApp', 'btn is-large')}
+<p class="fine">También puedes escribir a <a href="mailto:${esc(contactEmail)}">${esc(contactEmail)}</a>.</p>
+</section>`;
+}
+
+function videosPage() {
+  return `<section class="page-hero">
+<p class="kicker">YouTube · @davidrochaia</p>
+<h1>${esc(thinking.title)}</h1>
+<p>${esc(thinking.text)}</p>
+<div class="toolbar"><div class="filters" role="group" aria-label="Qué quieres ver"><button type="button" data-format="all" aria-pressed="true">Todo</button><button type="button" data-format="video" aria-pressed="false">Videos</button><button type="button" data-format="short" aria-pressed="false">En corto</button></div><label class="search"><span class="sr-only">Buscar en los videos</span><input type="search" data-video-search placeholder="Busca un tema"></label></div>
+</section>
+<section class="library" data-library>${sala('library')}</section>
+<p class="catalog-status" data-catalog-status></p>
+<p class="fine"><a class="text-link" href="${esc(channelUrl)}" target="_blank" rel="noreferrer">Abrir el canal en YouTube <span aria-hidden="true">↗</span></a></p>`;
+}
+
+function miniPage() {
+  const {longs} = shapeCatalog(videos);
+  const origins = longs.slice(0, 4);
+  return `<section class="page-hero">
+<p class="kicker">Mini libros</p>
+<h1>${esc(miniLibros.title)}</h1>
+${miniLibros.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}
+</section>
+<section class="origins"><h2>Nacen de videos que ya puedes ver.</h2><ol class="essays is-grid">${origins.map(v => `<li><article class="essay">${videoButton(v)}<div><h3>${esc(v.title)}</h3><p>De este video sale un mini libro: la idea, corta, para leerla después.</p></div></article></li>`).join('')}</ol></section>
+<section class="close"><h2>Si quieres el siguiente, escríbele.</h2><p>Dile qué video te quedó dando vueltas y a qué te dedicas. El mini libro se arma desde ahí.</p>${whatsappButton()}</section>`;
+}
+
+function newsletterPage() {
+  return `<section class="page-hero">
+<p class="kicker">${esc(newsletter.name)}</p>
+<h1>${esc(newsletter.promise)}</h1>
+<p>${esc(newsletter.description)}</p>
+<p>Negocios, economía e inteligencia artificial, contados según el trabajo de quien la recibe.</p>
+${subscribeForm('newsletter')}
+<p class="fine">${esc(newsletter.note)}</p>
+</section>`;
+}
+
+function shell(title, body, current = '', description = profile.description) {
+  const nav = [['videos', 'Videos'], ['mini-libros', 'Mini libros'], ['newsletter', 'Newsletter']];
+  const fullTitle = current ? `${title} — David Rocha` : `David Rocha — ${title}`;
+  const image = `${siteUrl}/assets/og.jpg`;
+  return `<!doctype html><html lang="es-MX"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(fullTitle)}</title><meta name="description" content="${esc(description)}"><meta name="theme-color" content="#0A0A0C"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:type" content="website"><meta property="og:site_name" content="David Rocha"><meta property="og:locale" content="es_MX"><meta property="og:title" content="${esc(fullTitle)}"><meta property="og:description" content="${esc(description)}"><meta property="og:image" content="${esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><link rel="preload" href="/assets/anton-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/assets/inter-latin.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/site.css"></head><body class="${current ? 'inner' : 'home'}"><a class="skip" href="#contenido">Ir al contenido</a><header class="site-header"><div class="bar"><a class="brand" href="/" aria-label="David Rocha, inicio"><img src="/assets/firma.webp" alt="@davidrochaia" width="640" height="120"></a><nav class="main-nav" aria-label="Principal">${nav.map(([slug, label]) => `<a href="/${slug}/"${current === slug ? ' aria-current="page"' : ''}>${label}</a>`).join('')}</nav>${whatsappButton('WhatsApp', 'btn is-small')}<button class="menu" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú"><span></span><span></span></button></div><nav id="mobile-nav" class="mobile-nav" aria-label="Menú móvil" hidden>${nav.map(([slug, label]) => `<a href="/${slug}/">${label}</a>`).join('')}${whatsappButton('WhatsApp')}</nav></header><main id="contenido">${body}</main><footer class="site-footer"><div><a class="brand" href="/"><img src="/assets/firma.webp" alt="" width="640" height="120"></a><p>${esc(profile.lead)}</p></div><div><p class="kicker">En esta página</p>${nav.map(([slug, label]) => `<a href="/${slug}/">${label}</a>`).join('')}<a href="/#contacto">Contacto</a></div><div><p class="kicker">También</p>${socials.map(s => `<a href="${esc(s.url)}" target="_blank" rel="noreferrer">${esc(s.name)} ↗</a>`).join('')}<a href="mailto:${esc(contactEmail)}">${esc(contactEmail)}</a><a href="${esc(gallos.url)}" target="_blank" rel="noreferrer">${esc(gallos.name)} ↗</a><a href="${esc(vortex.url)}" target="_blank" rel="noreferrer">${esc(vortex.name)} ↗</a></div></footer><dialog class="player" aria-labelledby="player-title"><div class="player-bar"><span id="player-title">Video</span><button type="button" data-close-video aria-label="Cerrar video">×</button></div><p class="player-context" data-video-context hidden></p><div class="player-frame"></div><a class="watch" target="_blank" rel="noreferrer">Abrir en YouTube ↗</a></dialog><script id="video-seed" type="application/json">${JSON.stringify({videos}).replace(/</g, '\\u003c')}</script><script src="/site.js" defer></script></body></html>`;
+}
+
+export function allPages() {
+  return {
+    '/': shell(profile.headline, home()),
+    '/videos/': shell('Videos', videosPage(), 'videos', thinking.text),
+    '/mini-libros/': shell('Mini libros', miniPage(), 'mini-libros', miniLibros.paragraphs[0]),
+    '/newsletter/': shell('Newsletter', newsletterPage(), 'newsletter', newsletter.description)
+  };
+}

@@ -17,20 +17,31 @@ async function readBody(req) {
   return JSON.parse(raw||'{}');
 }
 
-async function send(provider,email,source,env,fetchImpl) {
+function cleanOficio(value) {
+  const oficio=String(value||'').trim().replace(/\s+/g,' ');
+  if(!oficio)return '';
+  if(oficio.length>80)return null;
+  return oficio;
+}
+
+async function send(provider,email,source,oficio,env,fetchImpl) {
   if(provider==='beehiiv') {
+    const payload={email,reactivate_existing:true,send_welcome_email:true,utm_source:'sitio-david-rocha',utm_medium:source};
+    if(oficio)payload.utm_content=oficio;
     const response=await fetchImpl(`https://api.beehiiv.com/v2/publications/${encodeURIComponent(env.BEEHIIV_PUBLICATION_ID)}/subscriptions`,{
       method:'POST',
       headers:{Authorization:`Bearer ${env.BEEHIIV_API_KEY}`,'Content-Type':'application/json'},
-      body:JSON.stringify({email,reactivate_existing:true,send_welcome_email:true,utm_source:'sitio-david-rocha',utm_medium:source}),
+      body:JSON.stringify(payload),
       signal:AbortSignal.timeout(8000)
     });
     return response.ok;
   }
+  const payload={email_address:email,tags:['sitio',source]};
+  if(oficio)payload.notes=oficio;
   const response=await fetchImpl('https://api.buttondown.com/v1/subscribers',{
     method:'POST',
     headers:{Authorization:`Token ${env.BUTTONDOWN_API_KEY}`,'Content-Type':'application/json'},
-    body:JSON.stringify({email_address:email,tags:['sitio',source]}),
+    body:JSON.stringify(payload),
     signal:AbortSignal.timeout(8000)
   });
   if(response.ok)return true;
@@ -57,11 +68,13 @@ export function createSubscribeHandler({env=process.env,fetchImpl=fetch}={}) {
     if(body.company)return reply(200,{ok:true});
     const email=String(body.email||'').trim().toLowerCase();
     if(email.length>254||!emailPattern.test(email))return reply(400,{error:'invalid_email'});
+    const oficio=cleanOficio(body.oficio);
+    if(oficio===null)return reply(400,{error:'invalid_oficio'});
     const source=String(body.source||'sitio').replace(/[^\w-]/g,'').slice(0,32)||'sitio';
     const provider=providerFrom(env);
     if(!provider)return reply(503,{error:'not_configured'});
     try {
-      if(await send(provider,email,source,env,fetchImpl))return reply(200,{ok:true});
+      if(await send(provider,email,source,oficio,env,fetchImpl))return reply(200,{ok:true});
     } catch {}
     return reply(502,{error:'provider_failed'});
   };

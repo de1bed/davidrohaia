@@ -4,7 +4,7 @@ import subscribe from '../api/subscribe.js';
 import {readFile,stat} from 'node:fs/promises';
 import path from 'node:path';
 const root=path.resolve('dist');
-const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml','.woff2':'font/woff2'};
+const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml','.webp':'image/webp','.woff2':'font/woff2'};
 createServer(async(req,res)=>{
  try{
   const url=new URL(req.url,'http://localhost');
