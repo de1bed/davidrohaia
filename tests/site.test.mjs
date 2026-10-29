@@ -54,3 +54,17 @@ test('videos are not stuck on a hardcoded film filter',()=>{
   assert.match(home, /data-video=/);
   assert.doesNotMatch(home, /david-rocha-portrait|david-neon/);
 });
+
+test('the home page reads in a clear order: index, what he does, what he shares',()=>{
+  const order = ['id="mapa"', 'Parte 1', 'id="cine"', 'id="agentes"', 'id="productos"', 'id="pagina"', 'Parte 2', 'id="youtube"', 'id="tiktok"', 'id="lecturas"', 'id="newsletter"', 'id="contacto"'];
+  const positions = order.map(marker => home.indexOf(marker));
+  positions.forEach((position, i) => assert.ok(position > -1, `falta ${order[i]}`));
+  assert.deepEqual([...positions].sort((a, b) => a - b), positions);
+  for (const href of ['#cine', '#agentes', '#productos', '#pagina', '#youtube', '#tiktok', '#lecturas', '#newsletter']) assert.match(home, new RegExp(`href="${href}"`));
+});
+
+test('TikTok shows the latest videos through the official creator embed',()=>{
+  assert.match(home, /class="tiktok-embed"[^>]*data-unique-id="davidrochaia"[^>]*data-embed-type="creator"/);
+  assert.match(home, /https:\/\/www\.tiktok\.com\/@davidrochaia/);
+  assert.doesNotMatch(home, /<script[^>]+tiktok\.com\/embed\.js/, 'the TikTok script loads lazily from site.js');
+});

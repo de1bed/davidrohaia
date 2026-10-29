@@ -120,3 +120,14 @@ export const newsletter = {
   button: 'Quiero recibirla',
   note: 'El formulario ya guarda el correo y a qué te dedicas. Falta conectar el servicio que envía la nota; mientras tanto, el mensaje le llega a David por correo.'
 };
+
+// Dónde ha aparecido el trabajo. Solo hechos verificables.
+export const proof = ['Higgsfield Global Film Festival', 'Telcel HistorIAs', 'Higgsfield Action', 'Lunáticos TV', 'La Perrona'];
+
+// TikTok: la sección usa el embed oficial de perfil, que muestra los videos más recientes.
+export const tiktok = {
+  handle: 'davidrochaia',
+  url: 'https://www.tiktok.com/@davidrochaia',
+  title: 'Lo más reciente, en corto.',
+  text: 'En TikTok va la versión rápida: una noticia, una herramienta o una idea en menos de un minuto. Aquí aparecen sus videos más nuevos.'
+};

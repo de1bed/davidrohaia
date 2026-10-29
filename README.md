@@ -1,6 +1,11 @@
 # David Rocha
 
-Sitio de marca personal. El texto vive en `scripts/content.mjs`. La página cuenta una historia: cine con IA en Gallos Media, agentes y productos en Vortex Lab, la página web y el diseño, y la forma de pensar de David en YouTube.
+Sitio de marca personal. El texto vive en `scripts/content.mjs`. El inicio abre con un índice y se lee en dos partes:
+
+1. **Lo que hace por una empresa**: 01 cine (Gallos Media), 02 agentes (Vortex Lab), 03 productos (CTPatrol, NEXA VISIT, PrepIQ, con pestañas y capturas reales), 04 páginas web.
+2. **Lo que comparte**: 05 YouTube, 06 TikTok, 07 Mini libros, 08 Newsletter.
+
+Cierra con contacto por WhatsApp. Diseño en `public/site.css`; comportamiento (videos en vivo, pestañas, galería, TikTok, formularios) en `public/site.js`.
 
 ## Cómo actualizar el sitio
 
@@ -12,6 +17,8 @@ Sitio de marca personal. El texto vive en `scripts/content.mjs`. La página cuen
 | CTPatrol, NEXA VISIT, PrepIQ | `products` y los archivos `public/assets/*-app-0N.webp` |
 | Mini libros y newsletter | `miniLibros`, `newsletter` |
 | Redes | `socials` |
+| Dónde ha aparecido el trabajo | `proof` |
+| Sección de TikTok | `tiktok` (usa el embed oficial del perfil: los videos más nuevos aparecen solos) |
 
 Los videos del canal no se editan a mano: salen de YouTube y, si no responde, de `scripts/youtube-snapshot.mjs`.
 
