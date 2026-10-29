@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import {allPages,tagFor} from '../scripts/pages.mjs';
-import {WHATSAPP_NUMBER,news,gallos,vortex,miniLibros,contactOptions,reels,agents} from '../scripts/content.mjs';
+import {WHATSAPP_NUMBER,news,gallos,vortex,miniLibros,contactOptions,reels,agents,portfolio} from '../scripts/content.mjs';
 
 const pages = allPages();
 const html = Object.values(pages).join('\n');
@@ -17,7 +17,7 @@ test('the site has its own routes for what I do, products and contact',()=>{
 
 test('the site speaks in first person',()=>{
   assert.match(home, /Soy David, de Tijuana/);
-  assert.match(home, /Gallos Media es mi productora/);
+  assert.match(home, /También produzco para Lunáticos TV/);
   assert.doesNotMatch(html, /David produce|David mete|David diseña|escríbele|Si quieres conocerlo/);
 });
 
@@ -118,25 +118,53 @@ test('contact page has my photo, the options and WhatsApp',()=>{
 test('AI development (Vortex Lab) always comes before film (Gallos Media)',()=>{
   assert.ok(home.indexOf('id="vortex"') < home.indexOf('id="gallos"'));
   const work = pages['/lo-que-hago/'];
-  assert.ok(work.indexOf('id="vortex"') < work.indexOf('id="gallos"'));
+  assert.ok(work.indexOf('data-pf="Agentes de IA"') < work.indexOf('data-pf="Producciones"'));
   const stage = home.slice(home.indexOf('data-newsroom'), home.indexOf('id="vortex"'));
   assert.ok(stage.indexOf('ctpatrol') < stage.indexOf('XfkdES89S5E'), 'productos antes que cine en el noticiero');
-  assert.match(home, /Desarrollo inteligencia artificial para empresas/);
+  assert.match(home, /Desarrollo e implemento inteligencia artificial en empresas/);
   assert.equal(contactOptions[0].key, 'software');
 });
 
-test('the eight Vortex Lab agents show on the home and products pages, with their page and price',()=>{
-  assert.equal(agents.list.length, 8);
+test('agents are presented as a service, without counting or listing them (that lives in Vortex Lab)',()=>{
   for (const page of [home, pages['/productos/']]) {
-    const section = page.slice(page.indexOf('id="agentes"'));
-    for (const a of agents.list) {
-      assert.ok(section.includes(`https://vortexlabai.com/contratar-${a.slug}`), `falta ${a.name}`);
-      assert.ok(section.includes(`/assets/agentes/${a.slug}.webp`));
-      assert.ok(asset(`/assets/agentes/${a.slug}.webp`));
-    }
-    assert.match(section, /Desde \$5,400 MXN al mes/);
+    assert.match(page, /Implementación de agentes de IA/);
+    assert.match(page, /https:\/\/vortexlabai\.com\/agentes/);
+    assert.doesNotMatch(page, /[Oo]cho agentes|8 agentes|Ocho especialistas|contratar-|Clasificación arancelaria|Agente Custom|MXN al mes/);
   }
-  assert.ok(home.indexOf('id="agentes"') < home.indexOf('id="gallos"'));
+});
+
+test('films are sold as "producciones cinematográficas con IA"; Gallos Media is only a small credit',()=>{
+  const section = home.slice(home.indexOf('id="gallos"'), home.indexOf('</section>', home.indexOf('id="gallos"')));
+  assert.match(section, /<h2>Producciones cinematográficas con IA<\/h2>/);
+  assert.doesNotMatch(section, /<h2>Gallos Media/);
+  assert.match(section, /class="sc-credit">Producido en <a[^>]*gallosmedia\.com/);
   const stage = home.slice(home.indexOf('data-newsroom'), home.indexOf('id="vortex"'));
-  assert.ok(stage.indexOf('agentes-equipo') < stage.indexOf('ctpatrol'), 'los agentes van justo después de la foto');
+  assert.doesNotMatch(stage, /Gallos Media/);
+});
+
+test('the header rotates without arrows or pause button and shows reels two by two in phones',()=>{
+  const stage = home.slice(home.indexOf('data-newsroom'), home.indexOf('id="vortex"'));
+  assert.doesNotMatch(stage, /data-step|data-pause/);
+  assert.match(stage, /data-news-count/);
+  const phoneSlides = stage.split('data-slide').filter(part => part.includes('class="n-media is-phones"'));
+  assert.equal(phoneSlides.length, Math.ceil(reels.length / 2));
+  for (const r of reels) assert.ok(stage.includes(r.image), `falta ${r.title}`);
+});
+
+test('NEXA VISIT and PrepIQ are shown in computer and iPad mockups',()=>{
+  for (const name of ['nexa-dispositivos','prepiq-dispositivos']) {
+    assert.ok(asset(`/assets/${name}.webp`));
+    assert.ok(home.includes(`/assets/${name}.webp`));
+    assert.ok(pages['/productos/'].includes(`/assets/${name}.webp`));
+  }
+});
+
+test('"Lo que he hecho" is a portfolio by type of work, not split by company',()=>{
+  const work = pages['/lo-que-hago/'];
+  for (const t of portfolio.types) assert.ok(work.includes(`data-pf-filter="${t}"`));
+  for (const it of portfolio.items) {
+    assert.ok(work.includes(it.image), `falta ${it.title}`);
+    assert.ok(asset(it.image));
+  }
+  assert.doesNotMatch(work, /<h2>Gallos Media|<h2>Vortex Lab/);
 });

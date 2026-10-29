@@ -46,47 +46,70 @@
   });
   dialog?.addEventListener('close', () => { dialog.querySelector('.video-embed').replaceChildren(); trigger?.focus(); document.dispatchEvent(new Event('player-change')); });
 
-  // Rotador genérico: avanza solo, se pausa con el mouse encima, al enfocar, con un video abierto o con la pestaña oculta.
-  function rotator({root, count, show, delay, pauseButton}) {
-    let index = 0, timer, hover = false, focus = false, userPaused = reduced;
-    const paused = () => userPaused || hover || focus || document.hidden || dialog?.open;
+  // Rotador genérico: avanza solo; se detiene al enfocar con teclado, con un video abierto, con la pestaña oculta
+  // o si la persona pidió menos movimiento. Opcionalmente también con el mouse encima.
+  function rotator({root, count, show, delay, pauseOnHover = true}) {
+    let index = 0, timer, hover = false, focus = false;
+    const paused = () => reduced || hover || focus || document.hidden || dialog?.open;
     const schedule = () => {
       clearTimeout(timer);
       root.classList.toggle('is-paused', paused());
-      if (pauseButton) { pauseButton.textContent = userPaused ? '▶' : 'Ⅱ'; pauseButton.setAttribute('aria-pressed', String(userPaused)); pauseButton.setAttribute('aria-label', userPaused ? 'Reanudar' : 'Pausar'); }
       if (!paused()) timer = setTimeout(() => go(index + 1), delay);
     };
     const go = (i, announce) => { index = (i + count) % count; show(index, announce); schedule(); };
-    root.addEventListener('mouseenter', () => { hover = true; schedule(); });
-    root.addEventListener('mouseleave', () => { hover = false; schedule(); });
-    root.addEventListener('focusin', () => { focus = true; schedule(); });
+    if (pauseOnHover) {
+      root.addEventListener('mouseenter', () => { hover = true; schedule(); });
+      root.addEventListener('mouseleave', () => { hover = false; schedule(); });
+    }
+    root.addEventListener('focusin', event => { if (event.target.matches(':focus-visible')) { focus = true; schedule(); } });
     root.addEventListener('focusout', event => { if (!root.contains(event.relatedTarget)) { focus = false; schedule(); } });
     document.addEventListener('visibilitychange', schedule);
     document.addEventListener('player-change', schedule);
-    pauseButton?.addEventListener('click', () => { userPaused = !userPaused; schedule(); });
     go(0);
-    return {go: (i, announce) => go(i, announce), step: (d) => go(index + d, true)};
+    return {go: (i, announce) => go(i, announce), step: d => go(index + d, true)};
   }
 
   // Noticiero del inicio
   const newsroom = document.querySelector('[data-newsroom]');
   if (newsroom) {
     const slides = [...newsroom.querySelectorAll('[data-slide]')];
-    const dots = [...newsroom.querySelectorAll('[data-goto]')];
+    const bars = [...newsroom.querySelectorAll('[data-goto]')];
     const announce = newsroom.querySelector('[data-news-announce]');
-    const delay = 8000;
+    const count = newsroom.querySelector('[data-news-count]');
+    const label = newsroom.querySelector('[data-news-label]');
+    const total = String(slides.length).padStart(2, '0');
+    const delay = 7000;
     newsroom.style.setProperty('--n-time', `${delay}ms`);
     const show = (i, say) => {
       slides.forEach((s, j) => { s.classList.toggle('is-active', i === j); s.inert = i !== j; });
-      dots.forEach((d, j) => { d.removeAttribute('aria-current'); if (i === j) { void d.offsetWidth; d.setAttribute('aria-current', 'true'); } });
+      bars.forEach((d, j) => { d.removeAttribute('aria-current'); d.classList.toggle('is-done', j < i); if (i === j) { void d.offsetWidth; d.setAttribute('aria-current', 'true'); } });
+      count.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`;
+      label.textContent = slides[i].dataset.label || '';
       if (say) announce.textContent = slides[i].querySelector('h1,h2')?.textContent || '';
     };
-    const r = rotator({root: newsroom, count: slides.length, show, delay, pauseButton: newsroom.querySelector('[data-pause]')});
-    dots.forEach(d => d.addEventListener('click', () => r.go(Number(d.dataset.goto), true)));
-    newsroom.querySelectorAll('[data-step]').forEach(b => b.addEventListener('click', () => r.step(Number(b.dataset.step))));
+    const r = rotator({root: newsroom, count: slides.length, show, delay, pauseOnHover: false});
+    bars.forEach(d => d.addEventListener('click', () => r.go(Number(d.dataset.goto), true)));
+    newsroom.addEventListener('keydown', event => { if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') r.step(event.key === 'ArrowRight' ? 1 : -1); });
+    // Deslizar con el dedo
+    let startX = null, startY = 0;
+    newsroom.addEventListener('touchstart', event => { startX = event.touches[0].clientX; startY = event.touches[0].clientY; }, {passive: true});
+    newsroom.addEventListener('touchend', event => {
+      if (startX === null) return;
+      const dx = event.changedTouches[0].clientX - startX, dy = event.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) r.step(dx < 0 ? 1 : -1);
+      startX = null;
+    });
   }
 
-  // Escaparates de Gallos Media y Vortex Lab
+  // Portafolio: filtro por tipo de trabajo
+  const pfButtons = [...document.querySelectorAll('[data-pf-filter]')];
+  pfButtons.forEach(button => button.addEventListener('click', () => {
+    const type = button.dataset.pfFilter;
+    pfButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    document.querySelectorAll('[data-pf]').forEach(item => { item.hidden = Boolean(type) && item.dataset.pf !== type; });
+  }));
+
+  // Escaparates (desarrollo de IA y producciones)
   document.querySelectorAll('[data-showcase]').forEach(root => {
     const items = [...root.querySelectorAll('[data-sc-item]')];
     const picks = [...root.querySelectorAll('[data-sc-pick]')];

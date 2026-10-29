@@ -19,8 +19,8 @@ export const profile = {
   location: 'Tijuana, México',
   photo: '/assets/david-rocha.webp',
   headline: 'La inteligencia artificial, puesta a trabajar.',
-  lead: 'Soy David, de Tijuana. Desarrollo inteligencia artificial para empresas: agentes que trabajan dentro de la operación y el software que la usa. También hago cine con IA. Aquí voy dejando lo que aprendo y lo que voy construyendo.',
-  description: 'David Rocha, desde Tijuana: desarrollo de inteligencia artificial para empresas en Vortex Lab (agentes y productos), cine con IA en Gallos Media y videos sobre tecnología, economía y sociedad.'
+  lead: 'Soy David, de Tijuana. Desarrollo e implemento inteligencia artificial en empresas: agentes que trabajan dentro de la operación y las plataformas que la usan. También hago producciones cinematográficas con IA. Aquí voy dejando lo que construyo.',
+  description: 'David Rocha, desde Tijuana: desarrollo e implementación de inteligencia artificial en empresas, plataformas propias, producciones cinematográficas con IA y videos sobre tecnología, economía y sociedad.'
 };
 
 export const socials = [
@@ -32,17 +32,23 @@ export const socials = [
 
 // ─── Noticiero del inicio ───────────────────────────────────────────
 // Cada tarjeta rota sola. Para agregar una noticia, copia un bloque y cámbialo.
-// kind: 'intro' (con mi foto), 'latest-video' (el video más reciente del canal, se actualiza solo) o 'item'.
+// kind: 'intro' (con mi foto), 'latest-video' (el video más reciente del canal, se actualiza solo),
+// 'reels' (dos miniaturas de `reels` en teléfonos; cada 'reels' toma el siguiente par) o 'item'.
+// label es el nombre corto que aparece en la barra de avance.
 // button.video abre el reproductor; button.href abre un enlace.
 export const news = [
-  {kind: 'intro'},
-  {kind: 'item', kicker: 'Vortex Lab · Agentes', title: 'Ocho agentes de IA que trabajan dentro de tu empresa.', text: 'Encuentran proveedores, clasifican partidas, timbran facturas, arman cotizaciones y revisan contratos. Cada uno aprende tus reglas y entrega un resultado concreto.', image: '/assets/agentes-hero.webp', imageAlt: 'Los agentes de Vortex Lab.', tag: 'Agentes', button: {label: 'Conocer los agentes', href: '/productos/#agentes'}},
-  {kind: 'item', kicker: 'Vortex Lab · CTPatrol', title: 'Inspecciones de seguridad que no pierden la evidencia.', text: 'Cada punto lleva foto, calificación y una guía de qué revisar, desde el teléfono. Lo usamos para inspecciones C-TPAT.', image: '/assets/ctpatrol-telefonos.webp', imageAlt: 'CTPatrol en el teléfono: la lista de puntos de una inspección y la guía de qué verificar en la defensa.', tag: 'Producto', button: {label: 'Conocer CTPatrol', href: '/productos/#ctpatrol'}},
-  {kind: 'item', kicker: 'Vortex Lab · NEXA VISIT', title: 'Que la visita empiece antes de llegar.', text: 'La invitación sale por un enlace, la persona se registra en su teléfono y llega con un pase. La caseta sabe quién entra.', image: '/assets/nexa-app-01.webp', imageAlt: 'Resumen del día en NEXA VISIT.', tag: 'Producto', button: {label: 'Conocer NEXA VISIT', href: '/productos/#nexa-visit'}},
-  {kind: 'item', kicker: 'Vortex Lab · PrepIQ', title: 'Un restaurante que sabe qué tiene en la cocina.', text: 'PrepIQ ya está listo: inventario, turnos y cocina en un solo lugar, con IA para restaurantes.', image: '/assets/prepiq-app-02.webp', imageAlt: 'Inventario en PrepIQ.', tag: 'Producto', button: {label: 'Conocer PrepIQ', href: '/productos/#prepiq'}},
-  {kind: 'latest-video', kicker: 'Nuevo en YouTube'},
-  {kind: 'item', kicker: 'Gallos Media · Cortometraje', title: '¿Qué hace real a una mente?', text: 'Preserved es un cortometraje que hicimos con IA para el Higgsfield Global Film Festival. Una pregunta sobre conciencia e identidad.', image: '/assets/film-preserved.webp', imageAlt: 'Preserved, cortometraje hecho con IA.', tag: 'Cine', button: {label: 'Ver Preserved', video: 'XfkdES89S5E'}},
-  {kind: 'item', kicker: 'Una nota por correo', title: 'Una nota que llega sabiendo a qué te dedicas.', text: 'Me dices a qué te dedicas y la nota de negocios, economía e IA llega acomodada a tu trabajo.', image: '/assets/newsletter-preview.svg', imageAlt: 'Ejemplo de la nota del newsletter.', tag: 'Newsletter', button: {label: 'Quiero recibirla', href: '/newsletter/'}}
+  {kind: 'intro', label: 'Hola'},
+  {kind: 'item', label: 'Agentes de IA', kicker: 'Vortex Lab · Agentes de IA', title: 'Implementación de agentes de IA en tu operación.', text: 'Agentes que aprenden tus reglas, trabajan en tus canales y entregan un resultado concreto. Cuáles hay y cómo funcionan, lo ves en Vortex Lab.', image: '/assets/agentes-hero.webp', imageAlt: 'Agentes de IA de Vortex Lab.', tag: 'Agentes', button: {label: 'Conocer en Vortex Lab', href: 'https://vortexlabai.com/agentes'}},
+  {kind: 'reels', label: 'En corto'},
+  {kind: 'item', label: 'CTPatrol', kicker: 'Plataforma · CTPatrol', title: 'Inspecciones de seguridad que no pierden la evidencia.', text: 'Cada punto lleva foto, calificación y una guía de qué revisar, desde el teléfono. La usamos para inspecciones C-TPAT.', image: '/assets/ctpatrol-telefonos.webp', imageAlt: 'CTPatrol en el teléfono: la lista de puntos de una inspección y la guía de qué verificar en la defensa.', tag: 'Plataforma', button: {label: 'Conocer CTPatrol', href: '/productos/#ctpatrol'}},
+  {kind: 'item', label: 'NEXA VISIT', kicker: 'Plataforma · NEXA VISIT', title: 'Que la visita empiece antes de llegar.', text: 'La invitación sale por un enlace, la persona se registra en su teléfono y llega con un pase. La caseta sabe quién entra.', image: '/assets/nexa-dispositivos.webp', imageAlt: 'NEXA VISIT en computadora y iPad.', tag: 'Plataforma', button: {label: 'Conocer NEXA VISIT', href: '/productos/#nexa-visit'}},
+  {kind: 'reels', label: 'En corto'},
+  {kind: 'item', label: 'PrepIQ', kicker: 'Plataforma · PrepIQ', title: 'Un restaurante que sabe qué tiene en la cocina.', text: 'Inventario, turnos y cocina en un solo lugar, con IA para restaurantes.', image: '/assets/prepiq-dispositivos.webp', imageAlt: 'PrepIQ en computadora y iPad.', tag: 'Plataforma', button: {label: 'Conocer PrepIQ', href: '/productos/#prepiq'}},
+  {kind: 'latest-video', label: 'YouTube', kicker: 'Nuevo en YouTube'},
+  {kind: 'reels', label: 'En corto'},
+  {kind: 'item', label: 'Preserved', kicker: 'Producción · Cortometraje', title: '¿Qué hace real a una mente?', text: 'Preserved es un cortometraje hecho con IA para el Higgsfield Global Film Festival. Una pregunta sobre conciencia e identidad.', image: '/assets/film-preserved.webp', imageAlt: 'Preserved, cortometraje hecho con IA.', tag: 'Producción', button: {label: 'Ver Preserved', video: 'XfkdES89S5E'}},
+  {kind: 'reels', label: 'En corto'},
+  {kind: 'item', label: 'Newsletter', kicker: 'Una nota por correo', title: 'Una nota que llega sabiendo a qué te dedicas.', text: 'Me dices a qué te dedicas y la nota de negocios, economía e IA llega acomodada a tu trabajo.', image: '/assets/newsletter-preview.svg', imageAlt: 'Ejemplo de la nota del newsletter.', tag: 'Newsletter', button: {label: 'Quiero recibirla', href: '/newsletter/'}}
 ];
 
 // Notas para videos específicos: un título con gancho, una mini opinión y su etiqueta.
@@ -70,13 +76,16 @@ export const videoTags = [
 export const gallos = {
   name: 'Gallos Media',
   url: 'https://gallosmedia.com/',
-  role: 'Productora',
-  summary: 'Gallos Media es mi productora. Hacemos cine, campañas y videos con inteligencia artificial, y los pilotamos personas.',
+  // Se presenta como servicio; el nombre de la productora va pequeño, como crédito.
+  eyebrow: 'Producción',
+  title: 'Producciones cinematográficas con IA',
+  summary: 'Cortometrajes, campañas y videos musicales hechos con inteligencia artificial y dirigidos por personas.',
   paragraphs: [
-    'La idea es sencilla: piezas con calidad de sala, no un filtro encima de un video cualquiera.',
-    'También producimos para Lunáticos TV, una productora más grande, donde me toca potenciar el trabajo con inteligencia artificial.'
+    'Piezas con calidad de sala, no un filtro encima de un video cualquiera.',
+    'También produzco para Lunáticos TV, donde me toca potenciar el trabajo con inteligencia artificial.'
   ],
-  // Los trabajos rotan en la sección de Gallos Media. Agrega aquí los nuevos.
+  credit: 'Producido en Gallos Media',
+  // Los trabajos rotan en la sección de producciones. Agrega aquí los nuevos.
   works: [
     {title: 'Preserved', label: 'Cortometraje · Higgsfield Global Film Festival', image: '/assets/film-preserved.webp', video: 'XfkdES89S5E', text: '¿Qué hace real a una mente? Ciencia ficción hecha con IA.'},
     {title: 'El amor se devuelve', label: 'Cortometraje · Telcel HistorIAs', image: '/assets/film-amor.webp', video: '1n8a83i2yVQ', text: 'Lo que significan las madres frente al paso del tiempo.'},
@@ -89,36 +98,28 @@ export const gallos = {
 export const vortex = {
   name: 'Vortex Lab',
   url: 'https://vortexlabai.com',
-  role: 'Desarrollo de IA',
-  summary: 'Vortex Lab es donde metemos agentes de inteligencia artificial dentro de las empresas y construimos productos propios.',
+  eyebrow: 'Vortex Lab',
+  title: 'Desarrollo e implementación de IA',
+  summary: 'Implementamos agentes de inteligencia artificial dentro de las empresas y construimos plataformas propias.',
+  credit: 'Entrar a Vortex Lab',
   paragraphs: [
     'No se quedan en una presentación: hay agentes operando de verdad, armando trámites, dando seguimiento y dejando el expediente listo. Uno de esos trabajos es el de los trámites del SAT; el nombre de la empresa se queda en la empresa.'
   ],
-  // Lo que rota en la sección de Vortex Lab: los agentes y luego cada producto.
+  // Lo que rota en la sección: los agentes y luego cada plataforma.
   showcase: [
-    {title: 'Ocho agentes de IA', label: 'Agentes de IA', image: '/assets/agentes-equipo.webp', text: 'Sourcing, facturación, cotizaciones, legal y más: cada uno se encarga de un proceso.', href: '/productos/#agentes'},
-    {title: 'CTPatrol', label: 'Producto · Seguridad', image: '/assets/ctpatrol-telefonos.webp', text: 'Inspecciones desde el teléfono: cada punto con foto, calificación y guía.', href: '/productos/#ctpatrol'},
-    {title: 'NEXA VISIT', label: 'Producto · Accesos', image: '/assets/nexa-app-03.webp', text: 'Invitaciones, registro desde el teléfono y pases para entrar.', href: '/productos/#nexa-visit'},
-    {title: 'PrepIQ', label: 'Producto · Restaurantes', image: '/assets/prepiq-app-03.webp', text: 'IA para la cocina, el inventario y los turnos.', href: '/productos/#prepiq'}
+    {title: 'Implementación de agentes de IA', label: 'Agentes de IA', image: '/assets/agentes-equipo.webp', text: 'Agentes que trabajan dentro de la operación y entregan resultados concretos.', href: 'https://vortexlabai.com/agentes'},
+    {title: 'CTPatrol', label: 'Plataforma · Seguridad', image: '/assets/ctpatrol-telefonos.webp', text: 'Inspecciones desde el teléfono: cada punto con foto, calificación y guía.', href: '/productos/#ctpatrol'},
+    {title: 'NEXA VISIT', label: 'Plataforma · Accesos', image: '/assets/nexa-dispositivos.webp', text: 'Invitaciones, registro desde el teléfono y pases para entrar.', href: '/productos/#nexa-visit'},
+    {title: 'PrepIQ', label: 'Plataforma · Restaurantes', image: '/assets/prepiq-dispositivos.webp', text: 'IA para la cocina, el inventario y los turnos.', href: '/productos/#prepiq'}
   ]
 };
 
-// Agentes de Vortex Lab (tomados de vortexlabai.com/agentes). from = precio mensual desde, en MXN.
+// Agentes: aquí no se listan ni se cuentan; el detalle vive en Vortex Lab.
 export const agents = {
-  title: 'Ocho especialistas. Un proceso menos para ti.',
-  text: 'Cada agente aprende tus reglas, trabaja en tus canales y entrega un resultado concreto. Elige el proceso que quieres delegar.',
+  title: 'Implementación de agentes de IA',
+  text: 'Agentes que aprenden tus reglas, trabajan en tus canales y entregan un resultado concreto. Cuáles hay y cómo funcionan, lo ves en Vortex Lab.',
   url: 'https://vortexlabai.com/agentes',
-  image: '/assets/agentes-equipo.webp',
-  list: [
-    {slug: 'sourcing', name: 'Sourcing', tagline: 'El que encuentra a tus proveedores.', short: 'Encuentra proveedores reales en minutos.', from: 5400},
-    {slug: 'clasificacion', name: 'Clasificación arancelaria', tagline: 'El que acelera tu clasificación arancelaria (MX).', short: 'Clasifica partidas según ley mexicana.', from: 6900},
-    {slug: 'facturacion', name: 'Facturación', tagline: 'El que timbra y envía tus CFDI.', short: 'De cotización a CFDI sin intervención manual.', from: 4900},
-    {slug: 'cotizaciones', name: 'Cotizaciones', tagline: 'El que arma tus propuestas con tu marca.', short: 'Propuestas con tu marca, en fracción del tiempo.', from: 4400},
-    {slug: 'legal', name: 'Legal', tagline: 'El que revisa tus contratos antes que tú.', short: 'Focos rojos en contratos, listos para tu abogado.', from: 6900},
-    {slug: 'marketing', name: 'Marketing', tagline: 'El que dispara tu contenido sin perder tu voz.', short: 'Contenido multi-canal con tu voz de marca.', from: 3900},
-    {slug: 'comunicacion', name: 'Comunicación', tagline: 'El que redacta, responde y da seguimiento.', short: 'Buzón bajo control, sin quemar horas.', from: 3900},
-    {slug: 'custom', name: 'Agente Custom', tagline: 'El que se diseña alrededor de tu proceso.', short: 'Tu proceso, convertido en un agente hecho a la medida.', from: 7900}
-  ]
+  image: '/assets/agentes-equipo.webp'
 };
 
 // Capturas reales, ya sin nombres de personas ni texto de relleno.
@@ -142,6 +143,7 @@ export const products = [
     name: 'NEXA VISIT',
     url: 'https://nexa.vortexlabai.com',
     pitch: 'Que la visita empiece antes de llegar.',
+    mockup: {src: '/assets/nexa-dispositivos.webp', width: 1600, height: 1100, alt: 'NEXA VISIT en computadora y iPad.'},
     text: 'NEXA VISIT cuida quién entra. La invitación sale por un enlace, la persona se registra en su teléfono y llega con un pase.',
     for: 'Empresas, recepciones y casetas de acceso.',
     link: 'Abrir NEXA VISIT',
@@ -155,6 +157,7 @@ export const products = [
     name: 'PrepIQ',
     url: '',
     pitch: 'Un restaurante que sabe qué tiene en la cocina.',
+    mockup: {src: '/assets/prepiq-dispositivos.webp', width: 1600, height: 1100, alt: 'PrepIQ en computadora y iPad.'},
     text: 'PrepIQ ya está listo. Es un producto de IA para restaurantes: inventario, cocina, turnos y reportes en un solo lugar.',
     for: 'Restaurantes y cocinas con varios turnos.',
     link: '',
@@ -165,6 +168,26 @@ export const products = [
     ]
   }
 ];
+
+// ─── Portafolio (/lo-que-hago/) ────────────────────────────────────
+// Lo que he hecho, por tipo de trabajo. Para agregar algo, copia una línea.
+// credit es opcional y se muestra pequeño (dónde se hizo).
+export const portfolio = {
+  types: ['Agentes de IA', 'Plataformas', 'Producciones', 'Diseño web'],
+  items: [
+    {type: 'Agentes de IA', title: 'Implementación de agentes de IA', text: 'Agentes que trabajan dentro de la operación de empresas: trámites, seguimiento y expedientes listos.', image: '/assets/agentes-equipo.webp', href: 'https://vortexlabai.com/agentes', credit: 'Vortex Lab'},
+    {type: 'Plataformas', title: 'CTPatrol', text: 'Inspecciones de seguridad desde el teléfono, con evidencia y expediente en el mismo flujo.', image: '/assets/ctpatrol-telefonos.webp', href: '/productos/#ctpatrol', credit: 'Vortex Lab'},
+    {type: 'Plataformas', title: 'NEXA VISIT', text: 'Control de visitas: invitación por enlace, registro desde el teléfono y pase para entrar.', image: '/assets/nexa-dispositivos.webp', href: '/productos/#nexa-visit', credit: 'Vortex Lab'},
+    {type: 'Plataformas', title: 'PrepIQ', text: 'IA para restaurantes: inventario, cocina, turnos y reportes en un solo lugar.', image: '/assets/prepiq-dispositivos.webp', href: '/productos/#prepiq', credit: 'Vortex Lab'},
+    {type: 'Producciones', title: 'Preserved', text: 'Cortometraje de ciencia ficción hecho con IA para el Higgsfield Global Film Festival.', image: '/assets/film-preserved.webp', video: 'XfkdES89S5E', credit: 'Gallos Media'},
+    {type: 'Producciones', title: 'El amor se devuelve', text: 'Cortometraje sobre las madres y el paso del tiempo, para Telcel HistorIAs.', image: '/assets/film-amor.webp', video: '1n8a83i2yVQ', credit: 'Gallos Media'},
+    {type: 'Producciones', title: 'The Avenerds', text: 'Ciencia ficción hecha con IA para Higgsfield Action.', image: '/assets/film-avenerds.webp', video: '_PIaniIW0Zc', credit: 'Gallos Media'},
+    {type: 'Producciones', title: 'La Perrona', text: 'Campaña para la salsa tijuanense nacida en 1960.', image: '/assets/film-la-perrona.webp', href: 'https://gallosmedia.com/proyectos', credit: 'Gallos Media'},
+    {type: 'Producciones', title: 'Platicando con la luna', text: 'Video musical de Alonso Ortiz, con Lunáticos TV.', image: '/assets/film-luna.webp', href: 'https://gallosmedia.com/proyectos', credit: 'Gallos Media'},
+    {type: 'Diseño web', title: 'Vortex Lab', text: 'Sitio e identidad del laboratorio de IA.', image: '/assets/web-vortex.webp', href: 'https://vortexlabai.com'},
+    {type: 'Diseño web', title: 'Gallos Media', text: 'Sitio de la productora: cine y campañas con IA.', image: '/assets/web-gallos.webp', href: 'https://gallosmedia.com/'}
+  ]
+};
 
 // ─── Lo que comparto ───────────────────────────────────────────────
 export const thinking = {
