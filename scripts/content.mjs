@@ -1,6 +1,7 @@
 import channelSnapshot from './youtube-snapshot.mjs';
 export const channelId = 'UC4MSDfKsvDTxbUDd9w7tavQ';
 export const channelUrl = 'https://www.youtube.com/@davidrochaia';
+export const siteUrl=(process.env.SITE_URL||(process.env.VERCEL_PROJECT_PRODUCTION_URL?`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`:'')).replace(/\/$/,'');
 const previousVideos = [
   {id:'sH3SfbTnh9s',title:'8 noticias de IA en 3 días que no te puedes perder',published:'2026-10-24T01:02:36+00:00',short:true,image:'/assets/youtube-news.jpg'},
   {id:'4wwDfZezlQM',title:'La historia de OpenAI: de “sin fines de lucro” a negociar miles de millones con Trump.',published:'2026-10-19T03:07:00+00:00',short:false,image:'/assets/youtube-openai.jpg'},
@@ -10,19 +11,67 @@ const previousVideos = [
   {id:'Wg42r-mAj2Q',title:'Steve Jobs: Apple hoy, el despido que lo cambió todo y su advertencia sobre IA',short:false,image:'https://i.ytimg.com/vi/Wg42r-mAj2Q/hqdefault.jpg'}
 ];
 export const videos=channelSnapshot.videos.length?channelSnapshot.videos:previousVideos;
+// ─── Marca personal ───────────────────────────────────────────────
+// Todo lo que aparece en el inicio se edita aquí. Los videos se actualizan solos desde YouTube.
+export const contactEmail='david@gallosmedia.com';
+export const profile={
+ name:'David Rocha',
+ location:'Tijuana, México',
+ headline:'Construyo productos con IA<br>y cuento historias con ella.',
+ lead:'Creo software que resuelve problemas reales de operación con VortexLab IA, hago documentales y cine con IA en Gallos Media, y comparto cada semana lo que aprendo en Señal IA.',
+ roles:['Builder','Creador','Cine con IA'],
+ // Enlace opcional para agendar (Calendly, Cal.com…). Vacío: se usa el correo.
+ calendarUrl:''
+};
+export const socials=[
+ {name:'YouTube',url:channelUrl,handle:'@davidrochaia'},
+ {name:'Instagram',url:'https://instagram.com/davidrochaia/',handle:'@davidrochaia'},
+ {name:'TikTok',url:'https://www.tiktok.com/@davidrochaia',handle:'@davidrochaia'},
+ {name:'GitHub',url:'https://github.com/de1bed',handle:'de1bed'}
+];
+// Lugares donde ha aparecido el trabajo. Solo hechos verificables.
+export const proof=['Higgsfield Global Film Festival','Telcel HistorIAs','Higgsfield Action','La Perrona','LunaticosTV','Gallos Media'];
+// "Ahora mismo": cámbialo cada vez que arranques algo nuevo.
+export const now={updated:'Octubre 2026',items:[
+ 'Preparando la edición 002 de Señal IA.',
+ 'Escribiendo el primer Mini Libro: la historia de OpenAI.',
+ 'Publicando noticias de IA cada semana en YouTube y Shorts.'
+]};
+export const newsletter={
+ name:'Señal IA',
+ frequency:'Cada semana',
+ promise:'Lo que importa de la IA, filtrado para ti.',
+ description:'Un newsletter potenciado con IA: un sistema de agentes revisa noticias, lanzamientos y herramientas; yo elijo lo que sí vale tu tiempo y lo explico en lenguaje de negocio.',
+ steps:[
+  ['La IA rastrea','Agentes revisan y resumen cientos de fuentes cada semana.'],
+  ['Yo filtro','Elijo lo que sí cambia algo y le doy contexto.'],
+  ['Tú decides','Lo lees en 5 minutos, con ideas para aplicar.']
+ ]
+};
+export const ventures=[
+ {name:'VortexLab IA',role:'Automatización e IA',description:'Sistemas de inteligencia artificial y automatización para resolver problemas de operación en empresas.',image:'/assets/gallos-vortex.jpg',url:''},
+ {name:'Gallos Media',role:'Estudio creativo',description:'Cine, campañas y videos musicales hechos con nuevas herramientas.',image:'/assets/gallos-avenerds.jpg',url:'https://gallosmedia.com/'}
+];
+export const services=[
+ {title:'Automatización con IA',description:'Quito el trabajo repetitivo de tu operación: inspecciones, documentos, accesos y reportes.',examples:['ctpatrol','cotizador']},
+ {title:'Productos digitales a la medida',description:'De la idea a una app que tu equipo y tus clientes usan desde el teléfono.',examples:['nexa','cimawash']},
+ {title:'Video y contenido con IA',description:'Campañas, cortos y piezas para marcas, producidas con IA en Gallos Media.',examples:[],work:['La Perrona','Telcel HistorIAs']}
+];
+// ─── Productos ───────────────────────────────────────────────────
+// status: texto corto que se muestra como etiqueta. demo: false si la URL es solo el código.
 export const projects = [
- {slug:'ctpatrol',name:'CTPatrol',category:'Seguridad · Operaciones',summary:'Inspecciones con evidencia. Decisiones con contexto.',description:'Un flujo móvil para inspecciones C-TPAT: puntos de revisión, fotografías georreferenciadas, análisis con IA y expedientes.',url:'https://ctpatrol.vercel.app',repo:'https://github.com/de1bed/ctpatrolweb',visual:'patrol',features:['Inspección guiada','Evidencia fotográfica','Análisis con IA','Panel administrativo']},
- {slug:'nexa',name:'Nexa Visit',category:'Accesos · Experiencia móvil',summary:'La visita empieza antes de llegar.',description:'Del enlace de invitación al pase QR. Cuatro experiencias conectadas para quien invita, quien llega, quien autoriza y quien administra.',url:'https://nexa-alpha-opal.vercel.app',repo:'https://github.com/de1bed/nexa',visual:'nexa',features:['Invitaciones por enlace','Registro desde el teléfono','Pases QR','Control de acceso']},
- {slug:'cimawash',name:'CimaWash',category:'Servicios · Campus',summary:'Tu auto limpio, sin moverlo de su lugar.',description:'Un servicio de lavado para el campus UABC que conecta pedido por QR, pago y operación del equipo.',url:'https://cimawash.vercel.app',repo:'https://github.com/de1bed/cimawash',visual:'wash',features:['Pedido sin cuenta','Ubicación por cajón','Pago digital','Operación del equipo']},
- {slug:'orbita',name:'Órbita',category:'Conocimiento · Organización',summary:'Ver las conexiones cambia el mapa.',description:'Un universo profesional interactivo para conectar proyectos, personas, empresas y próximos movimientos.',url:'https://github.com/de1bed/mapadevida',repo:'https://github.com/de1bed/mapadevida',visual:'orbit',features:['Mapa interactivo','Relaciones y etiquetas','Planes y proyectos','Conexiones en borrador']},
- {slug:'cotizador',name:'Cotizador Treve',category:'Automatización · Documentos',summary:'Del formulario al PDF, en el mismo flujo.',description:'Cotizaciones y contratos con vista previa, acceso por permisos y registro de actividad.',url:'https://tempaltes.vercel.app',repo:'https://github.com/de1bed/tempaltes',visual:'quote',features:['Vista previa en vivo','PDF Carta y A4','Permisos por sección','Bitácora']}
+ {slug:'ctpatrol',name:'CTPatrol',category:'Seguridad · Operaciones',summary:'Inspecciones con evidencia. Decisiones con contexto.',description:'Un flujo móvil para inspecciones C-TPAT: puntos de revisión, fotografías georreferenciadas, análisis con IA y expedientes.',url:'https://ctpatrol.vercel.app',status:'Demo en vivo',demo:true,repo:'https://github.com/de1bed/ctpatrolweb',visual:'patrol',features:['Inspección guiada','Evidencia fotográfica','Análisis con IA','Panel administrativo']},
+ {slug:'nexa',name:'Nexa Visit',category:'Accesos · Experiencia móvil',summary:'La visita empieza antes de llegar.',description:'Del enlace de invitación al pase QR. Cuatro experiencias conectadas para quien invita, quien llega, quien autoriza y quien administra.',url:'https://nexa-alpha-opal.vercel.app',status:'Demo en vivo',demo:true,repo:'https://github.com/de1bed/nexa',visual:'nexa',features:['Invitaciones por enlace','Registro desde el teléfono','Pases QR','Control de acceso']},
+ {slug:'cimawash',name:'CimaWash',category:'Servicios · Campus',summary:'Tu auto limpio, sin moverlo de su lugar.',description:'Un servicio de lavado para el campus UABC que conecta pedido por QR, pago y operación del equipo.',url:'https://cimawash.vercel.app',status:'Demo en vivo',demo:true,repo:'https://github.com/de1bed/cimawash',visual:'wash',features:['Pedido sin cuenta','Ubicación por cajón','Pago digital','Operación del equipo']},
+ {slug:'orbita',name:'Órbita',category:'Conocimiento · Organización',summary:'Ver las conexiones cambia el mapa.',description:'Un universo profesional interactivo para conectar proyectos, personas, empresas y próximos movimientos.',url:'https://github.com/de1bed/mapadevida',status:'Prototipo',demo:false,repo:'https://github.com/de1bed/mapadevida',visual:'orbit',features:['Mapa interactivo','Relaciones y etiquetas','Planes y proyectos','Conexiones en borrador']},
+ {slug:'cotizador',name:'Cotizador Treve',category:'Automatización · Documentos',summary:'Del formulario al PDF, en el mismo flujo.',description:'Cotizaciones y contratos con vista previa, acceso por permisos y registro de actividad.',url:'https://tempaltes.vercel.app',status:'Demo en vivo',demo:true,repo:'https://github.com/de1bed/tempaltes',visual:'quote',features:['Vista previa en vivo','PDF Carta y A4','Permisos por sección','Bitácora']}
 ];
 export const films = [
- {title:'Preserved',label:'Cortometraje · Ciencia ficción',image:'/assets/youtube-preserved.jpg',id:'XfkdES89S5E',description:'Una historia creada con IA, presentada en el Higgsfield Global Film Festival.'},
+ {title:'Preserved',label:'Cortometraje · Ciencia ficción',image:'/assets/youtube-preserved.jpg',id:'XfkdES89S5E',contest:'Higgsfield Global Film Festival',description:'Una historia creada con IA, presentada en el Higgsfield Global Film Festival.'},
  {title:'La Perrona',label:'Campaña · Hecho en Tijuana',image:'/assets/gallos-la-perrona.jpg',description:'Colaboración con la marca tijuanense de salsa nacida en 1960.',url:'https://gallosmedia.com/proyectos'},
  {title:'Platicando con la luna',label:'Video musical · Alonso Ortiz',image:'/assets/gallos-luna.jpg',description:'Video musical en colaboración con LunaticosTV.',url:'https://gallosmedia.com/proyectos'},
- {title:'El amor se devuelve',label:'Cortometraje · Telcel HistorIAs',image:'/assets/gallos-madres.jpg',id:'1n8a83i2yVQ',description:'Un recordatorio de lo que significan las madres frente al paso del tiempo.'},
- {title:'The Avenerds',label:'Ciencia ficción · Higgsfield Action',image:'/assets/gallos-avenerds.jpg',id:'_PIaniIW0Zc',description:'Cuando la inteligencia artificial supera a sus creadores, el aliado puede convertirse en enemigo.'},
+ {title:'El amor se devuelve',label:'Cortometraje · Telcel HistorIAs',image:'/assets/gallos-madres.jpg',id:'1n8a83i2yVQ',contest:'Telcel HistorIAs',description:'Un recordatorio de lo que significan las madres frente al paso del tiempo.'},
+ {title:'The Avenerds',label:'Ciencia ficción · Higgsfield Action',image:'/assets/gallos-avenerds.jpg',id:'_PIaniIW0Zc',contest:'Higgsfield Action',description:'Cuando la inteligencia artificial supera a sus creadores, el aliado puede convertirse en enemigo.'},
  {title:'VortexLab IA',label:'Marca · Tecnología',image:'/assets/gallos-vortex.jpg',description:'Automatización e inteligencia artificial para resolver problemas de operación.',url:'https://gallosmedia.com/proyectos'}
 ];
 export const articles = [
