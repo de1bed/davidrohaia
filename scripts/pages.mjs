@@ -1,4 +1,4 @@
-import {channelUrl,contactEmail,contactOptions,gallos,instagram,miniLibros,news,newsletter,products,profile,proof,reels,siteUrl,socials,thinking,tiktok,videoNotes,videoTags,videos,vortex,WHATSAPP_NUMBER,whatsappMessage} from './content.mjs';
+import {agents,channelUrl,contactEmail,contactOptions,gallos,instagram,miniLibros,news,newsletter,products,profile,proof,reels,siteUrl,socials,thinking,tiktok,videoNotes,videoTags,videos,vortex,WHATSAPP_NUMBER,whatsappMessage} from './content.mjs';
 
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
@@ -101,6 +101,12 @@ function showcase(brand, items, id) {
   return `<section class="b-section b-wrap sc" id="${id}" data-showcase><div class="sc-intro"><p class="b-eyebrow">${esc(brand.role)}</p><h2>${esc(brand.name)}</h2><p class="sc-summary">${esc(brand.summary)}</p>${brand.paragraphs.map(p => `<p>${esc(p)}</p>`).join('')}<a class="b-link" href="${esc(brand.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(brand.name)} ${arrow}</a></div><div class="sc-stage"><div class="sc-media">${media}</div><div class="sc-picks" role="group" aria-label="Trabajos de ${esc(brand.name)}">${picks}</div></div></section>`;
 }
 
+const money = n => `$${n.toLocaleString('en-US')}`;
+function agentsSection(cls = '') {
+  return `<section class="b-section b-wrap${cls}" id="agentes">${head('Vortex Lab · Agentes', esc(agents.title), esc(agents.text), `<a class="b-btn is-dark" href="${esc(agents.url)}" target="_blank" rel="noreferrer">Ver en Vortex Lab ${arrow}</a>`)}
+<ol class="ag-grid">${agents.list.map((a, i) => `<li><a class="ag-card" href="https://vortexlabai.com/contratar-${esc(a.slug)}" target="_blank" rel="noreferrer"><figure><img src="/assets/agentes/${esc(a.slug)}.webp" alt="Agente ${esc(a.name)}" width="720" height="720" loading="lazy"></figure><span class="ag-num">${String(i + 1).padStart(2, '0')}</span><h3>${esc(a.name)}</h3><p>${esc(a.tagline)}</p><p class="ag-short">${esc(a.short)}</p><p class="ag-price">Desde ${money(a.from)} MXN al mes</p><span class="b-link">Conocer ${arrow}</span></a></li>`).join('')}</ol></section>`;
+}
+
 function bookCard(b) {
   const buy = b.buyUrl ? `<a class="b-btn is-accent" href="${esc(b.buyUrl)}" target="_blank" rel="noreferrer">Comprar${b.price ? ` · ${esc(b.price)}` : ''} ${arrow}</a>` : `<a class="b-btn" href="/newsletter/">Avísame cuando salga ${next}</a>`;
   return `<article class="bk-card"><div class="bk-cover is-${esc(b.tone)}"><small>MINI LIBRO · DAVID ROCHA</small><strong>${esc(b.title)}</strong><span>${esc(b.subtitle)}</span><b>${esc(b.status)}</b></div><div class="bk-body"><p>${b.buyUrl ? 'Disponible' : 'Te aviso por el newsletter cuando salga.'}</p>${buy}</div></article>`;
@@ -119,6 +125,7 @@ function contactBand() {
 function home() {
   return `${newsroom()}
 ${showcase(vortex, vortex.showcase, 'vortex')}
+${agentsSection(' is-tight')}
 <section class="b-proof" aria-label="Dónde ha aparecido mi trabajo"><p>Mi trabajo en</p><div class="b-marquee"><div>${proof.map(p => `<span>${esc(p)}</span>`).join('<i aria-hidden="true">✦</i>')}<i aria-hidden="true">✦</i></div><div aria-hidden="true">${proof.map(p => `<span>${esc(p)}</span>`).join('<i>✦</i>')}<i>✦</i></div></div></section>
 ${showcase(gallos, gallos.works, 'gallos')}
 <section class="b-section b-wrap" id="youtube">${head('YouTube · @davidrochaia', esc(thinking.title), esc(thinking.text), `<a class="b-btn is-dark" href="${esc(channelUrl)}?sub_confirmation=1" target="_blank" rel="noreferrer">Suscribirme ${arrow}</a>`)}${channel(3)}<ol class="r-posts" data-instagram hidden></ol><p class="b-more"><a class="b-link" href="/videos/">Ver todos los videos ${next}</a><a class="b-link" href="${esc(instagram.url)}" target="_blank" rel="noreferrer">También en Instagram ${arrow}</a></p></section>
@@ -136,7 +143,8 @@ ${contactBand()}`;
 }
 
 function productsPage() {
-  return `<section class="b-page-hero b-wrap"><p class="b-eyebrow">Productos · ${esc(vortex.name)}</p><h1>Productos que ya están funcionando.</h1><p class="b-lead">Salen de Vortex Lab. Los construimos para problemas que vimos de cerca y ahora cualquier empresa los puede usar.</p><nav class="pr-jump" aria-label="Productos">${products.map(p => `<a href="#${slug(p.name)}">${esc(p.name)}</a>`).join('')}</nav></section>
+  return `<section class="b-page-hero b-wrap"><p class="b-eyebrow">Productos · ${esc(vortex.name)}</p><h1>Agentes y productos que ya están funcionando.</h1><p class="b-lead">Salen de Vortex Lab. Los construimos para problemas que vimos de cerca y ahora cualquier empresa los puede usar.</p><nav class="pr-jump" aria-label="Productos"><a href="#agentes">Agentes de IA</a>${products.map(p => `<a href="#${slug(p.name)}">${esc(p.name)}</a>`).join('')}</nav></section>
+${agentsSection(' is-tight')}
 <div class="b-wrap pr-list">${products.map(p => {
     const id = slug(p.name);
     const mockup = p.mockup ? `<figure class="p-mockup"><img src="${esc(p.mockup.src)}" alt="${esc(p.mockup.alt)}" width="${p.mockup.width}" height="${p.mockup.height}" loading="lazy"></figure>` : '';
@@ -196,7 +204,7 @@ export function allPages() {
   return {
     '/': shell(profile.headline, home()),
     '/lo-que-hago/': shell('Lo que hago', workPage(), 'lo-que-hago', `${vortex.summary} ${gallos.summary}`),
-    '/productos/': shell('Productos', productsPage(), 'productos', products.map(p => `${p.name}: ${p.pitch}`).join(' ')),
+    '/productos/': shell('Agentes y productos', productsPage(), 'productos', `${agents.title} ${products.map(p => `${p.name}: ${p.pitch}`).join(' ')}`),
     '/videos/': shell('Videos', videosPage(), 'videos', thinking.text),
     '/mini-libros/': shell('Mini libros', miniPage(), 'mini-libros', miniLibros.paragraphs[0]),
     '/newsletter/': shell('Newsletter', newsletterPage(), 'newsletter', newsletter.description),

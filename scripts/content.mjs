@@ -36,6 +36,7 @@ export const socials = [
 // button.video abre el reproductor; button.href abre un enlace.
 export const news = [
   {kind: 'intro'},
+  {kind: 'item', kicker: 'Vortex Lab · Agentes', title: 'Ocho agentes de IA que trabajan dentro de tu empresa.', text: 'Encuentran proveedores, clasifican partidas, timbran facturas, arman cotizaciones y revisan contratos. Cada uno aprende tus reglas y entrega un resultado concreto.', image: '/assets/agentes-hero.webp', imageAlt: 'Los agentes de Vortex Lab.', tag: 'Agentes', button: {label: 'Conocer los agentes', href: '/productos/#agentes'}},
   {kind: 'item', kicker: 'Vortex Lab · CTPatrol', title: 'Inspecciones de seguridad que no pierden la evidencia.', text: 'Cada punto lleva foto, calificación y una guía de qué revisar, desde el teléfono. Lo usamos para inspecciones C-TPAT.', image: '/assets/ctpatrol-telefonos.webp', imageAlt: 'CTPatrol en el teléfono: la lista de puntos de una inspección y la guía de qué verificar en la defensa.', tag: 'Producto', button: {label: 'Conocer CTPatrol', href: '/productos/#ctpatrol'}},
   {kind: 'item', kicker: 'Vortex Lab · NEXA VISIT', title: 'Que la visita empiece antes de llegar.', text: 'La invitación sale por un enlace, la persona se registra en su teléfono y llega con un pase. La caseta sabe quién entra.', image: '/assets/nexa-app-01.webp', imageAlt: 'Resumen del día en NEXA VISIT.', tag: 'Producto', button: {label: 'Conocer NEXA VISIT', href: '/productos/#nexa-visit'}},
   {kind: 'item', kicker: 'Vortex Lab · PrepIQ', title: 'Un restaurante que sabe qué tiene en la cocina.', text: 'PrepIQ ya está listo: inventario, turnos y cocina en un solo lugar, con IA para restaurantes.', image: '/assets/prepiq-app-02.webp', imageAlt: 'Inventario en PrepIQ.', tag: 'Producto', button: {label: 'Conocer PrepIQ', href: '/productos/#prepiq'}},
@@ -95,10 +96,28 @@ export const vortex = {
   ],
   // Lo que rota en la sección de Vortex Lab: los agentes y luego cada producto.
   showcase: [
-    {title: 'Agentes dentro de la operación', label: 'Agentes de IA', image: '/assets/vortex-agentes.webp', text: 'Arman trámites, dan seguimiento y dejan el expediente listo.', href: 'https://vortexlabai.com'},
+    {title: 'Ocho agentes de IA', label: 'Agentes de IA', image: '/assets/agentes-equipo.webp', text: 'Sourcing, facturación, cotizaciones, legal y más: cada uno se encarga de un proceso.', href: '/productos/#agentes'},
     {title: 'CTPatrol', label: 'Producto · Seguridad', image: '/assets/ctpatrol-telefonos.webp', text: 'Inspecciones desde el teléfono: cada punto con foto, calificación y guía.', href: '/productos/#ctpatrol'},
     {title: 'NEXA VISIT', label: 'Producto · Accesos', image: '/assets/nexa-app-03.webp', text: 'Invitaciones, registro desde el teléfono y pases para entrar.', href: '/productos/#nexa-visit'},
     {title: 'PrepIQ', label: 'Producto · Restaurantes', image: '/assets/prepiq-app-03.webp', text: 'IA para la cocina, el inventario y los turnos.', href: '/productos/#prepiq'}
+  ]
+};
+
+// Agentes de Vortex Lab (tomados de vortexlabai.com/agentes). from = precio mensual desde, en MXN.
+export const agents = {
+  title: 'Ocho especialistas. Un proceso menos para ti.',
+  text: 'Cada agente aprende tus reglas, trabaja en tus canales y entrega un resultado concreto. Elige el proceso que quieres delegar.',
+  url: 'https://vortexlabai.com/agentes',
+  image: '/assets/agentes-equipo.webp',
+  list: [
+    {slug: 'sourcing', name: 'Sourcing', tagline: 'El que encuentra a tus proveedores.', short: 'Encuentra proveedores reales en minutos.', from: 5400},
+    {slug: 'clasificacion', name: 'Clasificación arancelaria', tagline: 'El que acelera tu clasificación arancelaria (MX).', short: 'Clasifica partidas según ley mexicana.', from: 6900},
+    {slug: 'facturacion', name: 'Facturación', tagline: 'El que timbra y envía tus CFDI.', short: 'De cotización a CFDI sin intervención manual.', from: 4900},
+    {slug: 'cotizaciones', name: 'Cotizaciones', tagline: 'El que arma tus propuestas con tu marca.', short: 'Propuestas con tu marca, en fracción del tiempo.', from: 4400},
+    {slug: 'legal', name: 'Legal', tagline: 'El que revisa tus contratos antes que tú.', short: 'Focos rojos en contratos, listos para tu abogado.', from: 6900},
+    {slug: 'marketing', name: 'Marketing', tagline: 'El que dispara tu contenido sin perder tu voz.', short: 'Contenido multi-canal con tu voz de marca.', from: 3900},
+    {slug: 'comunicacion', name: 'Comunicación', tagline: 'El que redacta, responde y da seguimiento.', short: 'Buzón bajo control, sin quemar horas.', from: 3900},
+    {slug: 'custom', name: 'Agente Custom', tagline: 'El que se diseña alrededor de tu proceso.', short: 'Tu proceso, convertido en un agente hecho a la medida.', from: 7900}
   ]
 };
 
@@ -221,7 +240,7 @@ export const newsletter = {
 // Las opciones del formulario de contacto. El mensaje se arma con la que elijas.
 export const contactOptions = [
   {key: 'software', title: 'Software a la medida', text: 'Una app, un sistema interno o agentes de IA para tu operación.'},
-  {key: 'producto', title: 'Uno de mis productos', text: 'CTPatrol, NEXA VISIT o PrepIQ para tu empresa.'},
+  {key: 'producto', title: 'Un agente o un producto', text: 'Un agente de IA, CTPatrol, NEXA VISIT o PrepIQ para tu empresa.'},
   {key: 'produccion', title: 'Una producción profesional', text: 'Un cortometraje, una campaña o videos para tu marca.'},
   {key: 'marca', title: 'Tu página o tu marca', text: 'El sitio, la identidad y la forma de presentarte.'},
   {key: 'marketing', title: 'Estrategia de contenido', text: 'Cómo contar lo que haces en video y redes.'},
