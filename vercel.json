@@ -4,6 +4,16 @@
   "buildCommand": "npm run build:vercel",
   "outputDirectory": "dist",
   "cleanUrls": true,
+  "redirects": [
+    {"source": "/biblioteca", "destination": "/mini-libros", "permanent": true},
+    {"source": "/proyectos", "destination": "/", "permanent": false},
+    {"source": "/proyectos/:slug", "destination": "/", "permanent": false},
+    {"source": "/trabajemos", "destination": "/", "permanent": false},
+    {"source": "/sobre-mi", "destination": "/", "permanent": false},
+    {"source": "/blog", "destination": "/", "permanent": false},
+    {"source": "/blog/:slug", "destination": "/", "permanent": false},
+    {"source": "/videos/preserved", "destination": "/videos", "permanent": false}
+  ],
   "functions": {
     "api/youtube.js": {
       "maxDuration": 30

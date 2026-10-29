@@ -55,6 +55,23 @@ test('Beehiiv receives the normalized email with the key and publication',async(
   assert.equal(sent.utm_medium,'hero');
 });
 
+test('occupation travels with the subscriber and an oversized one is rejected',async()=>{
+  const calls=[];
+  const fetchImpl=async(target,init)=>{calls.push([target,init]);return new Response('{}',{status:201});};
+  await withServer({env:{BEEHIIV_API_KEY:'secret',BEEHIIV_PUBLICATION_ID:'pub_1'},fetchImpl},async(url)=>{
+    assert.equal((await post(url,{email:'ana@empresa.mx',oficio:'  Opero un restaurante  '})).status,200);
+    assert.equal((await post(url,{email:'ana@empresa.mx',oficio:'x'.repeat(81)})).status,400);
+  });
+  assert.equal(calls.length,1);
+  assert.equal(JSON.parse(calls[0][1].body).utm_content,'Opero un restaurante');
+  calls.length=0;
+  const down=[];
+  await withServer({env:{BUTTONDOWN_API_KEY:'k'},fetchImpl:async(target,init)=>{down.push(JSON.parse(init.body));return new Response('{}',{status:201});}},async(url)=>{
+    assert.equal((await post(url,{email:'ana@empresa.mx',oficio:'Dirijo una planta'})).status,200);
+  });
+  assert.equal(down[0].notes,'Dirijo una planta');
+});
+
 test('Buttondown duplicates count as success and outages report a failure',async()=>{
   let reply=()=>new Response('{"code":"email_already_exists","detail":"already subscribed"}',{status:400});
   await withServer({env:{BUTTONDOWN_API_KEY:'k'},fetchImpl:async()=>reply()},async(url)=>{

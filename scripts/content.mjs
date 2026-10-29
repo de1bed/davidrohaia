@@ -1,101 +1,122 @@
 import channelSnapshot from './youtube-snapshot.mjs';
+
 export const channelId = 'UC4MSDfKsvDTxbUDd9w7tavQ';
 export const channelUrl = 'https://www.youtube.com/@davidrochaia';
-export const siteUrl=(process.env.SITE_URL||(process.env.VERCEL_PROJECT_PRODUCTION_URL?`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`:'')).replace(/\/$/,'');
-const previousVideos = [
-  {id:'sH3SfbTnh9s',title:'8 noticias de IA en 3 días que no te puedes perder',published:'2026-10-24T01:02:36+00:00',short:true,image:'/assets/youtube-news.jpg'},
-  {id:'4wwDfZezlQM',title:'La historia de OpenAI: de “sin fines de lucro” a negociar miles de millones con Trump.',published:'2026-10-19T03:07:00+00:00',short:false,image:'/assets/youtube-openai.jpg'},
-  {id:'XfkdES89S5E',title:'Preserved — Higgsfield Global Film Festival',short:false,image:'/assets/youtube-preserved.jpg'},
-  {id:'1n8a83i2yVQ',title:'El amor se devuelve',short:false,image:'/assets/gallos-madres.jpg'},
-  {id:'_PIaniIW0Zc',title:'The Avenerds — Higgsfield Action',short:false,image:'/assets/gallos-avenerds.jpg'},
-  {id:'Wg42r-mAj2Q',title:'Steve Jobs: Apple hoy, el despido que lo cambió todo y su advertencia sobre IA',short:false,image:'https://i.ytimg.com/vi/Wg42r-mAj2Q/hqdefault.jpg'}
-];
-export const videos=channelSnapshot.videos.length?channelSnapshot.videos:previousVideos;
-// ─── Marca personal ───────────────────────────────────────────────
-// Todo lo que aparece en el inicio se edita aquí. Los videos se actualizan solos desde YouTube.
-export const contactEmail='david@gallosmedia.com';
-export const profile={
- name:'David Rocha',
- location:'Tijuana, México',
- headline:'Construyo productos con IA<br>y cuento historias con ella.',
- lead:'Creo software que resuelve problemas reales de operación con VortexLab IA, hago documentales y cine con IA en Gallos Media, y comparto cada semana lo que aprendo en Señal IA.',
- roles:['Builder','Creador','Cine con IA'],
- // Enlace opcional para agendar (Calendly, Cal.com…). Vacío: se usa el correo.
- calendarUrl:''
+export const siteUrl = (process.env.SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : '')).replace(/\/$/, '');
+
+// Número de WhatsApp en formato internacional, sin + ni espacios.
+// PLACEHOLDER: cámbialo por el número real antes de publicar.
+// Ejemplo: '526646961560'
+export const WHATSAPP_NUMBER = '520000000000';
+export const whatsappMessage = 'Hola David, vi tu página y quiero platicarte de un proyecto.';
+
+export const contactEmail = 'david@gallosmedia.com';
+export const videos = channelSnapshot.videos || [];
+
+export const profile = {
+  name: 'David Rocha',
+  location: 'Tijuana, México',
+  headline: 'La inteligencia artificial, puesta a trabajar.',
+  lead: 'Desde Tijuana, David produce cine con ella, la sienta dentro de las empresas, construye el software que esas empresas usan y deja lista la página con la que se dan a conocer.',
+  description: 'David Rocha, desde Tijuana, produce cine con inteligencia artificial en Gallos Media, mete agentes dentro de las empresas con Vortex Lab y construye el software y la página con los que una empresa trabaja y se presenta.'
 };
-export const socials=[
- {name:'YouTube',url:channelUrl,handle:'@davidrochaia'},
- {name:'Instagram',url:'https://instagram.com/davidrochaia/',handle:'@davidrochaia'},
- {name:'TikTok',url:'https://www.tiktok.com/@davidrochaia',handle:'@davidrochaia'},
- {name:'GitHub',url:'https://github.com/de1bed',handle:'de1bed'}
+
+export const socials = [
+  {name: 'YouTube', url: channelUrl, handle: '@davidrochaia'},
+  {name: 'Instagram', url: 'https://instagram.com/davidrochaia/', handle: '@davidrochaia'},
+  {name: 'TikTok', url: 'https://www.tiktok.com/@davidrochaia', handle: '@davidrochaia'},
+  {name: 'GitHub', url: 'https://github.com/de1bed', handle: 'de1bed'}
 ];
-// Lugares donde ha aparecido el trabajo. Solo hechos verificables.
-export const proof=['Higgsfield Global Film Festival','Telcel HistorIAs','Higgsfield Action','La Perrona','LunaticosTV','Gallos Media'];
-// "Ahora mismo": cámbialo cada vez que arranques algo nuevo.
-export const now={updated:'Octubre 2026',items:[
- 'Preparando la edición 002 de Señal IA.',
- 'Escribiendo el primer Mini Libro: la historia de OpenAI.',
- 'Publicando noticias de IA cada semana en YouTube y Shorts.'
-]};
-export const newsletter={
- name:'Señal IA',
- frequency:'Cada semana',
- promise:'Lo que importa de la IA, filtrado para ti.',
- description:'Un newsletter potenciado con IA: un sistema de agentes revisa noticias, lanzamientos y herramientas; yo elijo lo que sí vale tu tiempo y lo explico en lenguaje de negocio.',
- steps:[
-  ['La IA rastrea','Agentes revisan y resumen cientos de fuentes cada semana.'],
-  ['Yo filtro','Elijo lo que sí cambia algo y le doy contexto.'],
-  ['Tú decides','Lo lees en 5 minutos, con ideas para aplicar.']
- ]
+
+export const gallos = {
+  name: 'Gallos Media',
+  url: 'https://gallosmedia.com/',
+  image: '/assets/gallos-home.webp',
+  imageAlt: 'Página de inicio de Gallos Media, productora creativa impulsada por inteligencia artificial.',
+  paragraphs: [
+    'Gallos Media es su productora. Ahí el cine se hace con inteligencia artificial y lo pilotean personas: piezas con calidad de sala, no un filtro encima de un video cualquiera.',
+    'Gallos Media produce de manera formal para Lunáticos TV, una productora más grande. David está involucrado en Lunáticos TV potenciando ese trabajo con inteligencia artificial.'
+  ]
 };
-export const ventures=[
- {name:'VortexLab IA',role:'Automatización e IA',description:'Sistemas de inteligencia artificial y automatización para resolver problemas de operación en empresas.',image:'/assets/gallos-vortex.jpg',url:''},
- {name:'Gallos Media',role:'Estudio creativo',description:'Cine, campañas y videos musicales hechos con nuevas herramientas.',image:'/assets/gallos-avenerds.jpg',url:'https://gallosmedia.com/'}
+
+export const vortex = {
+  name: 'Vortex Lab',
+  url: 'https://vortexlabai.com',
+  image: '/assets/vortex-home.webp',
+  imageAlt: 'Página de inicio de Vortex Lab, el laboratorio donde viven los agentes y los productos.',
+  paragraphs: [
+    'Con Vortex Lab, David mete agentes de inteligencia artificial dentro de la empresa. No se quedan en una presentación: hay agentes operando de verdad, armando trámites, dando seguimiento y dejando el expediente listo.',
+    'Uno de esos trabajos es el de los trámites del SAT. El nombre de la empresa se queda en la empresa.'
+  ]
+};
+
+// Capturas reales, ya sin nombres de personas ni texto de relleno.
+// Para cambiar una imagen, sustituye el archivo en public/assets con el mismo nombre.
+export const products = [
+  {
+    name: 'CTPatrol',
+    url: 'https://ctpatrol.vortexlabai.com',
+    text: 'CTPatrol ordena las inspecciones de seguridad: el recorrido, la evidencia y el expediente quedan en el mismo flujo.',
+    link: 'Abrir CTPatrol',
+    shots: [
+      {src: '/assets/ctpatrol-app-01.webp', width: 1280, height: 497, alt: 'Tablero de inspecciones de CTPatrol, producto de Vortex Lab.'},
+      {src: '/assets/ctpatrol-app-02.webp', width: 1280, height: 742, alt: 'Una inspección en curso dentro de CTPatrol.'},
+      {src: '/assets/ctpatrol-app-03.webp', width: 1280, height: 482, alt: 'Expedientes cerrados en CTPatrol.'}
+    ]
+  },
+  {
+    name: 'NEXA VISIT',
+    url: 'https://nexa.vortexlabai.com',
+    text: 'NEXA VISIT cuida quién entra. La invitación sale por un enlace, la persona se registra en su teléfono y llega con un pase.',
+    link: 'Abrir NEXA VISIT',
+    shots: [
+      {src: '/assets/nexa-app-01.webp', width: 1280, height: 557, alt: 'Resumen del día en NEXA VISIT, producto de Vortex Lab.'},
+      {src: '/assets/nexa-app-02.webp', width: 1280, height: 412, alt: 'Historial de visitas en NEXA VISIT.'},
+      {src: '/assets/nexa-app-03.webp', width: 1280, height: 742, alt: 'Reporte de auditoría en NEXA VISIT.'}
+    ]
+  },
+  {
+    name: 'PrepIQ',
+    url: '',
+    text: 'PrepIQ ya está listo. Es un producto de IA para restaurantes.',
+    link: '',
+    shots: [
+      {src: '/assets/prepiq-app-01.webp', width: 1280, height: 412, alt: 'PrepIQ, producto de IA para restaurantes.'},
+      {src: '/assets/prepiq-app-02.webp', width: 1280, height: 742, alt: 'PrepIQ, producto de IA para restaurantes, en uso.'},
+      {src: '/assets/prepiq-app-03.webp', width: 1280, height: 742, alt: 'PrepIQ, producto de IA para restaurantes, otra vista del producto.'}
+    ]
+  }
 ];
-export const services=[
- {title:'Automatización con IA',description:'Quito el trabajo repetitivo de tu operación: inspecciones, documentos, accesos y reportes.',examples:['ctpatrol','cotizador']},
- {title:'Productos digitales a la medida',description:'De la idea a una app que tu equipo y tus clientes usan desde el teléfono.',examples:['nexa','cimawash']},
- {title:'Video y contenido con IA',description:'Campañas, cortos y piezas para marcas, producidas con IA en Gallos Media.',examples:[],work:['La Perrona','Telcel HistorIAs']}
-];
-// ─── Productos ───────────────────────────────────────────────────
-// status: texto corto que se muestra como etiqueta. demo: false si la URL es solo el código.
-export const projects = [
- {slug:'ctpatrol',name:'CTPatrol',category:'Seguridad · Operaciones',summary:'Inspecciones con evidencia. Decisiones con contexto.',description:'Un flujo móvil para inspecciones C-TPAT: puntos de revisión, fotografías georreferenciadas, análisis con IA y expedientes.',url:'https://ctpatrol.vercel.app',status:'Demo en vivo',demo:true,repo:'https://github.com/de1bed/ctpatrolweb',visual:'patrol',features:['Inspección guiada','Evidencia fotográfica','Análisis con IA','Panel administrativo']},
- {slug:'nexa',name:'Nexa Visit',category:'Accesos · Experiencia móvil',summary:'La visita empieza antes de llegar.',description:'Del enlace de invitación al pase QR. Cuatro experiencias conectadas para quien invita, quien llega, quien autoriza y quien administra.',url:'https://nexa-alpha-opal.vercel.app',status:'Demo en vivo',demo:true,repo:'https://github.com/de1bed/nexa',visual:'nexa',features:['Invitaciones por enlace','Registro desde el teléfono','Pases QR','Control de acceso']},
- {slug:'cimawash',name:'CimaWash',category:'Servicios · Campus',summary:'Tu auto limpio, sin moverlo de su lugar.',description:'Un servicio de lavado para el campus UABC que conecta pedido por QR, pago y operación del equipo.',url:'https://cimawash.vercel.app',status:'Demo en vivo',demo:true,repo:'https://github.com/de1bed/cimawash',visual:'wash',features:['Pedido sin cuenta','Ubicación por cajón','Pago digital','Operación del equipo']},
- {slug:'orbita',name:'Órbita',category:'Conocimiento · Organización',summary:'Ver las conexiones cambia el mapa.',description:'Un universo profesional interactivo para conectar proyectos, personas, empresas y próximos movimientos.',url:'https://github.com/de1bed/mapadevida',status:'Prototipo',demo:false,repo:'https://github.com/de1bed/mapadevida',visual:'orbit',features:['Mapa interactivo','Relaciones y etiquetas','Planes y proyectos','Conexiones en borrador']},
- {slug:'cotizador',name:'Cotizador Treve',category:'Automatización · Documentos',summary:'Del formulario al PDF, en el mismo flujo.',description:'Cotizaciones y contratos con vista previa, acceso por permisos y registro de actividad.',url:'https://tempaltes.vercel.app',status:'Demo en vivo',demo:true,repo:'https://github.com/de1bed/tempaltes',visual:'quote',features:['Vista previa en vivo','PDF Carta y A4','Permisos por sección','Bitácora']}
-];
-export const films = [
- {title:'Preserved',label:'Cortometraje · Ciencia ficción',image:'/assets/youtube-preserved.jpg',id:'XfkdES89S5E',contest:'Higgsfield Global Film Festival',description:'Una historia creada con IA, presentada en el Higgsfield Global Film Festival.'},
- {title:'La Perrona',label:'Campaña · Hecho en Tijuana',image:'/assets/gallos-la-perrona.jpg',description:'Colaboración con la marca tijuanense de salsa nacida en 1960.',url:'https://gallosmedia.com/proyectos'},
- {title:'Platicando con la luna',label:'Video musical · Alonso Ortiz',image:'/assets/gallos-luna.jpg',description:'Video musical en colaboración con LunaticosTV.',url:'https://gallosmedia.com/proyectos'},
- {title:'El amor se devuelve',label:'Cortometraje · Telcel HistorIAs',image:'/assets/gallos-madres.jpg',id:'1n8a83i2yVQ',contest:'Telcel HistorIAs',description:'Un recordatorio de lo que significan las madres frente al paso del tiempo.'},
- {title:'The Avenerds',label:'Ciencia ficción · Higgsfield Action',image:'/assets/gallos-avenerds.jpg',id:'_PIaniIW0Zc',contest:'Higgsfield Action',description:'Cuando la inteligencia artificial supera a sus creadores, el aliado puede convertirse en enemigo.'},
- {title:'VortexLab IA',label:'Marca · Tecnología',image:'/assets/gallos-vortex.jpg',description:'Automatización e inteligencia artificial para resolver problemas de operación.',url:'https://gallosmedia.com/proyectos'}
-];
-export const articles = [
- {slug:'nexa-una-visita-sin-friccion',category:'Dentro del producto',title:'Una visita no debería empezar con una fila.',summary:'El recorrido de Nexa Visit, desde una invitación hasta la autorización de acceso.',read:'4 min',visual:'nexa',paragraphs:[
-  ['Una experiencia, cuatro perspectivas','El control de visitantes parece una tarea sencilla hasta que se observa desde cada lado de la puerta. El anfitrión quiere invitar sin llenar formularios repetidos; el visitante quiere llegar con claridad; el guardia necesita decidir; la administración necesita entender qué está pasando. Nexa Visit organiza esas cuatro perspectivas en una misma plataforma.'],
-  ['El enlace inicia el recorrido','El anfitrión comparte una invitación con día, hora y sede. Quien visita abre el enlace desde su propio teléfono, confirma sus datos y obtiene un pase QR. El registro ocurre antes del encuentro con la caseta y no exige instalar una aplicación.'],
-  ['El QR es una referencia, no una identificación','El pase contiene un token aleatorio. Los datos personales no viajan dentro del código. Al escanearlo, el guardia consulta la visita y toma una decisión explícita. La entrada inicia el registro de permanencia.'],
-  ['Diseñar el recorrido completo','La lección de producto está en la continuidad: invitar, registrarse, llegar, autorizar y medir. Cuando cada paso conserva el contexto del anterior, una tarea cotidiana puede sentirse mucho más simple.']
- ],source:'https://github.com/de1bed/nexa'},
- {slug:'ctpatrol-evidencia-en-contexto',category:'Producto + IA',title:'La fotografía es evidencia. El contexto la hace útil.',summary:'Cómo CTPatrol reúne revisión guiada, fotografías y expedientes en una operación móvil.',read:'3 min',visual:'patrol',paragraphs:[
-  ['Revisar también es documentar','Una inspección de seguridad necesita algo más que marcar una lista. Importa qué se revisó, dónde ocurrió, qué se observó y con qué evidencia puede consultarse después. CTPatrol reúne el recorrido operativo y el expediente administrativo.'],
-  ['La captura en el punto de trabajo','El flujo está pensado para el teléfono del inspector. Los puntos de revisión y la evidencia fotográfica georreferenciada mantienen el contexto de la inspección. El panel administrativo sirve a otra necesidad: consultar y organizar esos expedientes.'],
-  ['El papel de la IA','El análisis con inteligencia artificial se incorpora al flujo de evidencia. Su valor depende de que la información de entrada sea útil y conserve contexto. Un análisis aislado no sustituye un proceso de revisión claro.'],
-  ['El producto termina después de la captura','La experiencia no acaba cuando se toma una foto. También debe resolver cómo recuperarla, comprenderla y relacionarla con una inspección. Diseñar para ambos momentos es lo que convierte una captura en una herramienta de trabajo.']
- ],source:'https://github.com/de1bed/ctpatrolweb'},
- {slug:'openai-la-historia-detras-del-video',category:'En YouTube',title:'La historia de OpenAI deja una pregunta abierta.',summary:'Del laboratorio de investigación a los acuerdos de miles de millones: la pregunta detrás del documental.',read:'3 min',image:'/assets/youtube-openai.jpg',paragraphs:[
-  ['El punto de partida','El video recorre la transformación de OpenAI: su origen como organización sin fines de lucro, las tensiones entre investigación y negocio, y los acuerdos que marcaron su evolución.'],
-  ['Personas, decisiones y rupturas','La salida de Elon Musk, la relación con Microsoft, el nacimiento de ChatGPT y el despido y regreso de Sam Altman forman parte del recorrido. El documental conecta esos episodios para observar una historia más amplia que un lanzamiento tecnológico.'],
-  ['La pregunta que queda','¿Quién tiene voz cuando una organización plantea construir tecnología para toda la humanidad? Esa pregunta guía el video y abre una conversación sobre los incentivos, la concentración de poder y las decisiones detrás de las herramientas que usamos.'],
-  ['Mira el documental','La versión completa está disponible en el canal @davidrochaia. El guion también incorpora una mirada al propio proceso de crear contenido usando ChatGPT.']
- ],video:'4wwDfZezlQM',source:'https://www.youtube.com/watch?v=4wwDfZezlQM'}
-];
-export const books = [
- {title:'The Creative Act',subtitle:'A Way of Being',author:'Rick Rubin',category:'Creatividad',className:'creative',summary:'Una mirada a la creatividad como práctica de atención, apertura y relación con el mundo.',url:'https://www.penguinrandomhouse.com/books/717356/the-creative-act-by-rick-rubin/'},
- {title:'Atomic Habits',subtitle:'Tiny Changes, Remarkable Results',author:'James Clear',category:'Sistemas personales',className:'habits',summary:'Pequeños cambios y sistemas que ayudan a construir hábitos y sostener el progreso.',url:'https://jamesclear.com/atomic-habits'},
- {title:'The Lean Startup',subtitle:'Build. Measure. Learn.',author:'Eric Ries',category:'Producto',className:'lean',summary:'Un marco para experimentar, validar supuestos y aprender antes de escalar un producto.',url:'https://theleanstartup.com/book'}
-];
+
+export const webDesign = {
+  paragraphs: [
+    'Una empresa que ya tiene imagen y operación todavía necesita un lugar en la web. David diseña esa página y la identidad con la que se presenta.',
+    'Es la misma mano: la que dirige una pieza en Gallos Media deja también el sitio, el tono y la forma de verse.'
+  ]
+};
+
+export const thinking = {
+  title: 'Si quieres conocerlo, míralo pensar.',
+  text: 'En YouTube, como @davidrochaia, toma tecnología, economía y sociedad y les quita el discurso. Ahí se entiende cómo decide. Contexto, opinión y un poco de ironía.',
+  preservedTitle: 'Preserved, contada en capítulos',
+  preservedNote: 'Los capítulos cortos de Preserved viven en una sola pieza, para que el resto del canal se pueda leer.'
+};
+
+export const miniLibros = {
+  title: 'De cada video queda una lectura.',
+  paragraphs: [
+    'Los mini libros son entregables digitales que nacen de cada video. No son un libro de estante: son la versión corta para leer después, pasarla en una junta o guardar la idea con sus fuentes.',
+    'Cuando un video se publica, el mini libro va con él.'
+  ]
+};
+
+export const newsletter = {
+  name: 'Newsletter',
+  promise: 'Una nota que llega sabiendo a qué te dedicas.',
+  description: 'Dejas tu correo y a qué te dedicas. Con eso, la inteligencia artificial acomoda cómo te pegan las noticias de negocios, de economía y de inteligencia artificial. No es el mismo boletín para todos.',
+  emailLabel: 'Correo',
+  roleLabel: 'A qué te dedicas',
+  rolePlaceholder: 'Por ejemplo: opero un restaurante, dirijo una planta, diseño marcas',
+  button: 'Quiero recibirla',
+  note: 'El formulario ya guarda el correo y a qué te dedicas. Falta conectar el servicio que envía la nota; mientras tanto, el mensaje le llega a David por correo.'
+};
