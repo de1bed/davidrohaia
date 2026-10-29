@@ -41,7 +41,7 @@ function channel(limitLongs) {
   const l = limitLongs ? longs.slice(0, limitLongs) : longs;
   return `<div class="v-grid" data-longs${limitLongs ? ` data-limit="${limitLongs}"` : ''}>${l.map(longCard).join('')}</div>
 <div class="v-rail-head" data-shorts-head><h3>En corto</h3><p>Ideas de menos de un minuto.</p><a class="b-link" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer">Ver en TikTok ${arrow}</a></div>
-<ol class="v-rail" data-shorts>${reels.map(reelCard).join('')}<li><a class="v-short" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer"><span class="v-thumb is-short rl-more"><strong>@${esc(tiktok.handle)}</strong><span>Más en TikTok ${arrow}</span></span></a></li></ol>`;
+<ol class="v-rail" data-shorts>${reels.map(reelCard).join('')}<li><a class="v-short" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer"><span class="v-thumb is-short rl-more"><img src="${esc(profile.photo)}" alt="" width="720" height="720" loading="lazy"><strong>@${esc(tiktok.handle)}</strong><span>Más en TikTok ${arrow}</span></span></a></li></ol>`;
 }
 
 // ─── Piezas ────────────────────────────────────────────────────────
