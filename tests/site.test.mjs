@@ -1,70 +1,101 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
-import {allPages} from '../scripts/pages.mjs';
-import {WHATSAPP_NUMBER} from '../scripts/content.mjs';
+import {allPages,tagFor} from '../scripts/pages.mjs';
+import {WHATSAPP_NUMBER,news,gallos,vortex,miniLibros,contactOptions} from '../scripts/content.mjs';
 
 const pages = allPages();
 const html = Object.values(pages).join('\n');
 const home = pages['/'];
+const asset = path => existsSync(new URL(`../public${path}`, import.meta.url));
 
-test('the story is four pages and the old catalog is gone',()=>{
-  assert.deepEqual(Object.keys(pages).sort(), ['/','/mini-libros/','/newsletter/','/videos/']);
-  assert.equal(pages['/biblioteca/'], undefined);
-  assert.doesNotMatch(html, /biblioteca|CimaWash|MexPads|MaxPads|Órbita|Orbita|Treve|Crisosa|Trebot|Delfos|ORO24|Señal IA|cientos de fuentes|usado por equipos|5 productos/i);
-  assert.doesNotMatch(html, /david-neon|gallos-luna|gallos-vortex|nexa-visitor|Cine con IA|data-format="film"/);
+test('the site has its own routes for what I do, products and contact',()=>{
+  assert.deepEqual(Object.keys(pages).sort(), ['/','/contacto/','/lo-que-hago/','/mini-libros/','/newsletter/','/productos/','/videos/']);
+  for (const [href] of [['/lo-que-hago/'],['/productos/'],['/contacto/']]) assert.match(home, new RegExp(`href="${href}"`));
+  assert.doesNotMatch(html, /CimaWash|Órbita|Treve|Señal IA|cientos de fuentes|usado por equipos|5 productos|biblioteca/i);
 });
 
-test('reading the home page tells the four ways David helps',()=>{
-  assert.match(home, /Gallos Media/);
-  assert.match(home, /gallosmedia\.com/);
-  assert.match(home, /Lunáticos TV/);
-  assert.match(home, /potenciando ese trabajo con inteligencia artificial/);
-  assert.match(home, /vortexlabai\.com/);
-  assert.match(home, /trámites del SAT/);
-  assert.match(home, /CTPatrol/);
-  assert.match(home, /ctpatrol\.vortexlabai\.com/);
-  assert.match(home, /NEXA VISIT/);
-  assert.match(home, /nexa\.vortexlabai\.com/);
-  assert.match(home, /PrepIQ ya está listo/);
-  assert.match(home, /producto de IA para restaurantes/);
-  assert.match(home, /diseña esa página/);
-  assert.match(home, /Mini libros/);
-  assert.match(home, /name="oficio"/);
-  assert.match(home, /name="email"/);
-  assert.match(home, new RegExp(`wa\\.me/${WHATSAPP_NUMBER}`));
-  assert.equal(WHATSAPP_NUMBER, '520000000000');
+test('the site speaks in first person',()=>{
+  assert.match(home, /Soy David, de Tijuana/);
+  assert.match(home, /Gallos Media es mi productora/);
+  assert.doesNotMatch(html, /David produce|David mete|David diseña|escríbele|Si quieres conocerlo/);
 });
 
-test('product shots are the real app captures, not the login screen',()=>{
-  for (const name of ['ctpatrol-app-01','ctpatrol-app-02','ctpatrol-app-03','nexa-app-01','nexa-app-02','nexa-app-03','prepiq-app-01','prepiq-app-02','prepiq-app-03','gallos-home','vortex-home']) {
-    assert.match(home, new RegExp(`/assets/${name}\\.webp`));
-    assert.equal(existsSync(new URL(`../public/assets/${name}.webp`, import.meta.url)), true);
+test('the home opens with a rotating newsroom: my photo first, then the latest video and the news',()=>{
+  const stage = home.slice(home.indexOf('data-newsroom'), home.indexOf('class="b-proof"'));
+  const slides = stage.match(/data-slide/g) || [];
+  assert.equal(slides.length, news.length);
+  assert.ok(stage.indexOf('/assets/david-rocha.webp') < stage.indexOf('data-latest-video'), 'la foto va primero');
+  assert.match(stage, /La inteligencia artificial, puesta a trabajar\./);
+  assert.match(stage, /data-latest-video[\s\S]*data-video="[\w-]{11}"/);
+  assert.match(stage, /href="\/productos\/#ctpatrol"/);
+  assert.match(stage, /data-video="XfkdES89S5E"/);
+  assert.match(stage, /data-goto="0"/);
+  assert.ok(asset('/assets/david-rocha.webp'));
+});
+
+test('Gallos Media and Vortex Lab are fixed sections whose work rotates with real images',()=>{
+  for (const id of ['gallos','vortex']) assert.match(home, new RegExp(`id="${id}" data-showcase`));
+  for (const item of [...gallos.works, ...vortex.showcase]) {
+    assert.ok(home.includes(item.image), `falta ${item.title}`);
+    assert.ok(asset(item.image), `no existe ${item.image}`);
   }
-  assert.doesNotMatch(html, /ctpatrol-home|login/);
+  assert.match(home, /data-video="XfkdES89S5E"/);
+  assert.doesNotMatch(home, /gallos-home\.webp|vortex-home\.webp/, 'no screenshots of the websites');
+  assert.match(home, /trámites del SAT/);
+  assert.match(home, /Lunáticos TV/);
 });
 
-test('videos are not stuck on a hardcoded film filter',()=>{
+test('products have their real captures and every product anchor exists',()=>{
+  const products = pages['/productos/'];
+  for (const id of ['ctpatrol','nexa-visit','prepiq']) assert.match(products, new RegExp(`id="${id}"`));
+  for (const name of ['ctpatrol-app-01','ctpatrol-app-02','ctpatrol-app-03','nexa-app-01','nexa-app-02','nexa-app-03','prepiq-app-01','prepiq-app-02','prepiq-app-03']) {
+    assert.match(products, new RegExp(`/assets/${name}\\.webp`));
+    assert.ok(asset(`/assets/${name}.webp`));
+  }
+  assert.match(products, /ctpatrol\.vortexlabai\.com/);
+  assert.match(products, /nexa\.vortexlabai\.com/);
+});
+
+test('videos carry a tag, shorts use the vertical cover, Preserved chapters are grouped',()=>{
   const videos = pages['/videos/'];
-  assert.match(videos, /data-format="all"/);
-  assert.match(videos, /data-format="video"/);
   assert.match(videos, /data-format="short"/);
-  assert.doesNotMatch(videos, /data-format="film"/);
+  assert.match(videos, /data-tag="Noticias"/);
+  assert.match(videos, /class="v-tag"/);
+  assert.match(videos, /oardefault\.jpg/);
   assert.match(videos, /Preserved, contada en capítulos/);
-  assert.match(home, /data-video=/);
-  assert.doesNotMatch(home, /david-rocha-portrait|david-neon/);
+  assert.equal(tagFor({id:'aaaaaaaaaaa',title:'8 noticias de IA en 3 días'}), 'Noticias');
+  assert.equal(tagFor({id:'XfkdES89S5E',title:'Preserved'}), 'Cine');
 });
 
-test('the home page reads in a clear order: index, what he does, what he shares',()=>{
-  const order = ['id="mapa"', 'Parte 1', 'id="cine"', 'id="agentes"', 'id="productos"', 'id="pagina"', 'Parte 2', 'id="youtube"', 'id="tiktok"', 'id="lecturas"', 'id="newsletter"', 'id="contacto"'];
-  const positions = order.map(marker => home.indexOf(marker));
-  positions.forEach((position, i) => assert.ok(position > -1, `falta ${order[i]}`));
-  assert.deepEqual([...positions].sort((a, b) => a - b), positions);
-  for (const href of ['#cine', '#agentes', '#productos', '#pagina', '#youtube', '#tiktok', '#lecturas', '#newsletter']) assert.match(home, new RegExp(`href="${href}"`));
-});
-
-test('TikTok shows the latest videos through the official creator embed',()=>{
+test('social section has the TikTok creator embed and an Instagram slot with a profile fallback',()=>{
   assert.match(home, /class="tiktok-embed"[^>]*data-unique-id="davidrochaia"[^>]*data-embed-type="creator"/);
-  assert.match(home, /https:\/\/www\.tiktok\.com\/@davidrochaia/);
-  assert.doesNotMatch(home, /<script[^>]+tiktok\.com\/embed\.js/, 'the TikTok script loads lazily from site.js');
+  assert.doesNotMatch(home, /<script[^>]+tiktok\.com\/embed\.js/);
+  assert.match(home, /data-instagram hidden/);
+  assert.match(home, /data-instagram-fallback/);
+});
+
+test('mini books are placeholders that can be bought once a link is added',()=>{
+  const mini = pages['/mini-libros/'];
+  assert.equal(miniLibros.books.length, 3);
+  assert.match(mini, /Próximamente/);
+  assert.match(mini, /Avísame cuando salga/);
+  assert.doesNotMatch(mini, /data-video=/, 'the books do not come from the current videos');
+});
+
+test('newsletter explains how it works and asks for the occupation',()=>{
+  const nl = pages['/newsletter/'];
+  assert.match(nl, /name="oficio"/);
+  assert.match(nl, /name="email"/);
+  assert.match(nl, /Qué pasó/);
+  assert.match(nl, /Qué haría yo/);
+  assert.ok(asset('/assets/newsletter-preview.svg'));
+});
+
+test('contact page has my photo, the options and WhatsApp',()=>{
+  const contact = pages['/contacto/'];
+  assert.match(contact, /david-rocha\.webp/);
+  for (const o of contactOptions) assert.ok(contact.includes(`value="${o.key}"`));
+  assert.match(contact, new RegExp(`data-whatsapp="${WHATSAPP_NUMBER}"`));
+  assert.match(html, new RegExp(`wa\\.me/${WHATSAPP_NUMBER}`));
 });

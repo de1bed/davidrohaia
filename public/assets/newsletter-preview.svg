@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" font-family="Inter,Helvetica,Arial,sans-serif">
+  <defs>
+    <radialGradient id="glow" cx="85%" cy="10%" r="70%"><stop offset="0" stop-color="#e5432d" stop-opacity=".45"/><stop offset="1" stop-color="#e5432d" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="30" stdDeviation="30" flood-color="#000" flood-opacity=".45"/></filter>
+  </defs>
+  <rect width="1280" height="800" fill="#0e0d10"/>
+  <rect width="1280" height="800" fill="url(#glow)"/>
+  <g filter="url(#shadow)" transform="translate(250 90) rotate(-1.5 390 310)">
+    <rect width="780" height="620" rx="28" fill="#fff"/>
+    <rect width="780" height="58" rx="28" fill="#f1efeb"/><rect y="30" width="780" height="28" fill="#f1efeb"/>
+    <circle cx="36" cy="29" r="7" fill="#d8d4cc"/><circle cx="60" cy="29" r="7" fill="#d8d4cc"/><circle cx="84" cy="29" r="7" fill="#d8d4cc"/>
+    <text x="112" y="35" font-size="17" fill="#8a8a90">Bandeja de entrada</text>
+    <rect x="44" y="92" width="56" height="56" rx="16" fill="#e5432d"/>
+    <text x="72" y="128" font-size="20" font-weight="700" fill="#fff" text-anchor="middle">DR</text>
+    <text x="118" y="114" font-size="22" font-weight="700" fill="#0f0f12">David Rocha · Newsletter</text>
+    <text x="118" y="142" font-size="18" fill="#8a8a90">Para ti, que me dijiste:</text>
+    <rect x="320" y="122" width="236" height="32" rx="16" fill="#fbe6e2"/>
+    <text x="438" y="144" font-size="17" font-weight="700" fill="#e5432d" text-anchor="middle">Opero un restaurante</text>
+    <line x1="44" y1="184" x2="736" y2="184" stroke="#e3dfd7" stroke-width="2"/>
+    <g font-size="15" font-weight="700" letter-spacing="2" fill="#e5432d">
+      <text x="44" y="232">01 · QUÉ PASÓ</text>
+      <text x="44" y="360">02 · POR QUÉ TE IMPORTA</text>
+      <text x="44" y="488">03 · QUÉ HARÍA YO</text>
+    </g>
+    <g fill="#e9e6e0">
+      <rect x="44" y="252" width="640" height="16" rx="8"/><rect x="44" y="280" width="560" height="16" rx="8"/><rect x="44" y="308" width="420" height="16" rx="8"/>
+      <rect x="44" y="380" width="600" height="16" rx="8"/><rect x="44" y="408" width="520" height="16" rx="8"/>
+      <rect x="44" y="508" width="660" height="16" rx="8"/><rect x="44" y="536" width="380" height="16" rx="8"/>
+    </g>
+    <text x="44" y="592" font-size="15" fill="#8a8a90">Ejemplo de estructura · Cada nota se acomoda a tu trabajo</text>
+  </g>
+</svg>

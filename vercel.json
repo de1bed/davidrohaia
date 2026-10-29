@@ -6,9 +6,9 @@
   "cleanUrls": true,
   "redirects": [
     {"source": "/biblioteca", "destination": "/mini-libros", "permanent": true},
-    {"source": "/proyectos", "destination": "/", "permanent": false},
-    {"source": "/proyectos/:slug", "destination": "/", "permanent": false},
-    {"source": "/trabajemos", "destination": "/", "permanent": false},
+    {"source": "/proyectos", "destination": "/productos", "permanent": false},
+    {"source": "/proyectos/:slug", "destination": "/productos", "permanent": false},
+    {"source": "/trabajemos", "destination": "/contacto", "permanent": false},
     {"source": "/sobre-mi", "destination": "/", "permanent": false},
     {"source": "/blog", "destination": "/", "permanent": false},
     {"source": "/blog/:slug", "destination": "/", "permanent": false},
@@ -19,6 +19,9 @@
       "maxDuration": 30
     },
     "api/subscribe.js": {
+      "maxDuration": 10
+    },
+    "api/instagram.js": {
       "maxDuration": 10
     }
   },

@@ -1,24 +1,29 @@
 # David Rocha
 
-Sitio de marca personal. El texto vive en `scripts/content.mjs`. El inicio abre con un índice y se lee en dos partes:
+Sitio de marca personal, en primera persona. Todo el texto vive en `scripts/content.mjs`.
 
-1. **Lo que hace por una empresa**: 01 cine (Gallos Media), 02 agentes (Vortex Lab), 03 productos (CTPatrol, NEXA VISIT, PrepIQ, con pestañas y capturas reales), 04 páginas web.
-2. **Lo que comparte**: 05 YouTube, 06 TikTok, 07 Mini libros, 08 Newsletter.
-
-Cierra con contacto por WhatsApp. Diseño en `public/site.css`; comportamiento (videos en vivo, pestañas, galería, TikTok, formularios) en `public/site.js`.
+- **Inicio**: un noticiero que rota (mi foto primero, luego el video más reciente del canal, productos, cortometrajes y el newsletter), Gallos Media y Vortex Lab con sus trabajos rotando, videos con etiquetas, redes (Instagram y TikTok), mini libros, newsletter y contacto.
+- **Rutas**: `/lo-que-hago/`, `/productos/`, `/videos/`, `/mini-libros/`, `/newsletter/` y `/contacto/`.
+- Diseño en `public/site.css`; comportamiento en `public/site.js`.
 
 ## Cómo actualizar el sitio
 
 | Quiero cambiar… | Dónde |
 | --- | --- |
-| Titular, bajada, ubicación | `profile` |
+| Titular, bajada, ubicación, foto | `profile` |
+| Noticias del inicio (agregar, quitar, ordenar) | `news` |
+| Título con gancho, mini opinión y etiqueta de un video | `videoNotes` (por id de YouTube) |
+| Etiquetas automáticas de videos | `videoTags` |
+| Trabajos que rotan en Gallos Media y Vortex Lab | `gallos.works`, `vortex.showcase` |
+| Mini libros (portada, precio y enlace de compra) | `miniLibros.books` (`buyUrl` + `price` cambian el botón a "Comprar") |
+| Opciones del formulario de contacto | `contactOptions` |
 | Número de WhatsApp | `WHATSAPP_NUMBER` (hoy es un placeholder) |
-| Gallos Media, Lunáticos TV, Vortex Lab | `gallos`, `vortex` |
 | CTPatrol, NEXA VISIT, PrepIQ | `products` y los archivos `public/assets/*-app-0N.webp` |
-| Mini libros y newsletter | `miniLibros`, `newsletter` |
+| Newsletter (pasos y ejemplo) | `newsletter` |
 | Redes | `socials` |
 | Dónde ha aparecido el trabajo | `proof` |
-| Sección de TikTok | `tiktok` (usa el embed oficial del perfil: los videos más nuevos aparecen solos) |
+| TikTok | `tiktok` (embed oficial del perfil: los videos más nuevos aparecen solos) |
+| Instagram | `instagram`; las publicaciones aparecen solas al definir `INSTAGRAM_ACCESS_TOKEN` en Vercel |
 
 Los videos del canal no se editan a mano: salen de YouTube y, si no responde, de `scripts/youtube-snapshot.mjs`.
 

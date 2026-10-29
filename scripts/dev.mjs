@@ -1,6 +1,7 @@
 import {createServer} from 'node:http';
 import youtube from '../api/youtube.js';
 import subscribe from '../api/subscribe.js';
+import instagram from '../api/instagram.js';
 import {readFile,stat} from 'node:fs/promises';
 import path from 'node:path';
 const root=path.resolve('dist');
@@ -10,6 +11,7 @@ createServer(async(req,res)=>{
   const url=new URL(req.url,'http://localhost');
   if(url.pathname==='/api/youtube'||url.pathname==='/api/youtube/'){await youtube(req,res);return;}
   if(url.pathname==='/api/subscribe'){await subscribe(req,res);return;}
+  if(url.pathname==='/api/instagram'){await instagram(req,res);return;}
   let file=path.resolve(root,'.'+decodeURIComponent(url.pathname));
   if(!file.startsWith(root+path.sep)&&file!==root){res.writeHead(403);res.end();return;}
   const info=await stat(file);if(info.isDirectory())file=path.join(file,'index.html');
