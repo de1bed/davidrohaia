@@ -112,15 +112,15 @@ function newsletterBlock(source, {page = false} = {}) {
 }
 
 function contactBand() {
-  return `<section class="b-cta"><div class="b-wrap cta-grid"><img src="${esc(profile.photo)}" alt="" width="720" height="720" loading="lazy"><div><p class="b-eyebrow">Contacto</p><h2>¿Tienes algo en mente? Platiquemos.</h2><p>Una producción, un software, uno de mis productos o algo que todavía no tiene nombre. Cuéntame y lo vemos juntos.</p><div class="b-actions"><a class="b-btn is-accent is-lg" href="/contacto/">Escríbeme ${next}</a>${whatsappButton('WhatsApp', 'b-btn is-ghost is-lg')}</div></div></div></section>`;
+  return `<section class="b-cta"><div class="b-wrap cta-grid"><img src="${esc(profile.photo)}" alt="" width="720" height="720" loading="lazy"><div><p class="b-eyebrow">Contacto</p><h2>¿Tienes algo en mente? Platiquemos.</h2><p>Un software, agentes de IA, uno de mis productos, una producción o algo que todavía no tiene nombre. Cuéntame y lo vemos juntos.</p><div class="b-actions"><a class="b-btn is-accent is-lg" href="/contacto/">Escríbeme ${next}</a>${whatsappButton('WhatsApp', 'b-btn is-ghost is-lg')}</div></div></div></section>`;
 }
 
 // ─── Páginas ───────────────────────────────────────────────────────
 function home() {
   return `${newsroom()}
+${showcase(vortex, vortex.showcase, 'vortex')}
 <section class="b-proof" aria-label="Dónde ha aparecido mi trabajo"><p>Mi trabajo en</p><div class="b-marquee"><div>${proof.map(p => `<span>${esc(p)}</span>`).join('<i aria-hidden="true">✦</i>')}<i aria-hidden="true">✦</i></div><div aria-hidden="true">${proof.map(p => `<span>${esc(p)}</span>`).join('<i>✦</i>')}<i>✦</i></div></div></section>
 ${showcase(gallos, gallos.works, 'gallos')}
-${showcase(vortex, vortex.showcase, 'vortex')}
 <section class="b-section b-wrap" id="youtube">${head('YouTube · @davidrochaia', esc(thinking.title), esc(thinking.text), `<a class="b-btn is-dark" href="${esc(channelUrl)}?sub_confirmation=1" target="_blank" rel="noreferrer">Suscribirme ${arrow}</a>`)}${channel(3)}<ol class="r-posts" data-instagram hidden></ol><p class="b-more"><a class="b-link" href="/videos/">Ver todos los videos ${next}</a><a class="b-link" href="${esc(instagram.url)}" target="_blank" rel="noreferrer">También en Instagram ${arrow}</a></p></section>
 <section class="b-section b-wrap" id="libros">${head('Mini libros', esc(miniLibros.title), esc(miniLibros.paragraphs[0]), `<a class="b-link" href="/mini-libros/">Ver la colección ${next}</a>`)}<div class="bk-grid">${miniLibros.books.map(bookCard).join('')}</div></section>
 ${newsletterBlock('inicio')}
@@ -129,9 +129,9 @@ ${contactBand()}`;
 
 function workPage() {
   const grid = items => `<div class="w-grid">${items.map(it => `<article class="w-card"><figure><img src="${esc(it.image)}" alt="${esc(it.title)}" loading="lazy"></figure><p class="sc-label">${esc(it.label)}</p><h3>${esc(it.title)}</h3><p>${esc(it.text)}</p>${action({...it, label: it.video ? 'Ver' : 'Conocer'}, 'b-link')}</article>`).join('')}</div>`;
-  return `<section class="b-page-hero b-wrap"><p class="b-eyebrow">Lo que hago</p><h1>Cine, agentes y productos. Todo con IA.</h1><p class="b-lead">Trabajo desde dos lugares: Gallos Media, donde hacemos cine y campañas, y Vortex Lab, donde metemos la IA a la operación y construimos productos. Esto es parte de lo que ha salido de ahí.</p></section>
-<section class="b-section b-wrap is-tight" id="gallos"><div class="w-head"><p class="b-eyebrow">${esc(gallos.role)}</p><h2>${esc(gallos.name)}</h2><p class="b-head-lead">${esc(gallos.summary)} ${gallos.paragraphs.map(esc).join(' ')}</p><a class="b-link" href="${esc(gallos.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(gallos.name)} ${arrow}</a></div>${grid(gallos.works)}</section>
-<section class="b-section b-wrap" id="vortex"><div class="w-head"><p class="b-eyebrow">${esc(vortex.role)}</p><h2>${esc(vortex.name)}</h2><p class="b-head-lead">${esc(vortex.summary)} ${vortex.paragraphs.map(esc).join(' ')}</p><a class="b-link" href="${esc(vortex.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(vortex.name)} ${arrow}</a></div>${grid(vortex.showcase)}</section>
+  return `<section class="b-page-hero b-wrap"><p class="b-eyebrow">Lo que hago</p><h1>Agentes, productos y cine. Todo con IA.</h1><p class="b-lead">Trabajo desde dos lugares: Vortex Lab, donde desarrollamos inteligencia artificial para empresas (agentes y productos), y Gallos Media, donde hacemos cine y campañas. Esto es parte de lo que ha salido de ahí.</p></section>
+<section class="b-section b-wrap is-tight" id="vortex"><div class="w-head"><p class="b-eyebrow">${esc(vortex.role)}</p><h2>${esc(vortex.name)}</h2><p class="b-head-lead">${esc(vortex.summary)} ${vortex.paragraphs.map(esc).join(' ')}</p><a class="b-link" href="${esc(vortex.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(vortex.name)} ${arrow}</a></div>${grid(vortex.showcase)}</section>
+<section class="b-section b-wrap" id="gallos"><div class="w-head"><p class="b-eyebrow">${esc(gallos.role)}</p><h2>${esc(gallos.name)}</h2><p class="b-head-lead">${esc(gallos.summary)} ${gallos.paragraphs.map(esc).join(' ')}</p><a class="b-link" href="${esc(gallos.url)}" target="_blank" rel="noreferrer">Entrar a ${esc(gallos.name)} ${arrow}</a></div>${grid(gallos.works)}</section>
 ${contactBand()}`;
 }
 
@@ -195,11 +195,11 @@ function shell(title, body, current = '', description = profile.description) {
 export function allPages() {
   return {
     '/': shell(profile.headline, home()),
-    '/lo-que-hago/': shell('Lo que hago', workPage(), 'lo-que-hago', `${gallos.summary} ${vortex.summary}`),
+    '/lo-que-hago/': shell('Lo que hago', workPage(), 'lo-que-hago', `${vortex.summary} ${gallos.summary}`),
     '/productos/': shell('Productos', productsPage(), 'productos', products.map(p => `${p.name}: ${p.pitch}`).join(' ')),
     '/videos/': shell('Videos', videosPage(), 'videos', thinking.text),
     '/mini-libros/': shell('Mini libros', miniPage(), 'mini-libros', miniLibros.paragraphs[0]),
     '/newsletter/': shell('Newsletter', newsletterPage(), 'newsletter', newsletter.description),
-    '/contacto/': shell('Contacto', contactPage(), 'contacto', 'Una producción, software a la medida o uno de mis productos. Cuéntame qué quieres hacer.')
+    '/contacto/': shell('Contacto', contactPage(), 'contacto', 'Software a la medida, agentes de IA, uno de mis productos o una producción. Cuéntame qué quieres hacer.')
   };
 }

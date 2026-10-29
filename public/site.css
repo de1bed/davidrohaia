@@ -108,8 +108,8 @@ html:not(.js) .n-slide+.n-slide{margin-top:48px}
 
 /* Escaparates: Gallos Media y Vortex Lab */
 .sc{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr);gap:clamp(28px,5vw,64px);align-items:start}
-#vortex.sc{grid-template-columns:minmax(0,1.5fr) minmax(0,.8fr)}
-#vortex.sc .sc-intro{order:2}
+#gallos.sc{grid-template-columns:minmax(0,1.5fr) minmax(0,.8fr)}
+#gallos.sc .sc-intro{order:2}
 .sc-intro{position:sticky;top:110px}
 .sc-intro h2{font-size:clamp(40px,4.8vw,68px);line-height:.98;letter-spacing:-.055em;font-weight:690;margin-bottom:18px}
 .sc-summary{font-size:clamp(19px,1.7vw,23px);line-height:1.4;letter-spacing:-.02em;font-weight:560;margin-bottom:16px}
@@ -348,11 +348,11 @@ main>.b-section:last-child{padding-bottom:clamp(64px,8vw,112px)}
  .site-header{height:64px}.mobile-nav{top:63px}
  .main-nav,.header-contact{display:none}
  .menu-button{display:block}
- .n-slide,.sc,#vortex.sc,.p-panel,.nl-grid,.ct,.b-faq{grid-template-columns:1fr}
+ .n-slide,.sc,#gallos.sc,.p-panel,.nl-grid,.ct,.b-faq{grid-template-columns:1fr}
  .n-slide{align-content:start;gap:24px}
  .n-media{order:-1;max-height:46vh}
  .n-media.is-portrait{aspect-ratio:16/12}
- #vortex.sc .sc-intro{order:0}
+ #gallos.sc .sc-intro{order:0}
  .sc-intro,.ct-side{position:static}
  .v-grid,.bk-grid{grid-template-columns:1fr 1fr}
  .nl-cards{grid-template-columns:1fr}

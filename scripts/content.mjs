@@ -19,8 +19,8 @@ export const profile = {
   location: 'Tijuana, México',
   photo: '/assets/david-rocha.webp',
   headline: 'La inteligencia artificial, puesta a trabajar.',
-  lead: 'Soy David, de Tijuana. Hago cine con inteligencia artificial, la llevo a la operación de algunas empresas y construyo el software que usan. Aquí voy dejando lo que aprendo y lo que voy construyendo.',
-  description: 'David Rocha, desde Tijuana: cine con inteligencia artificial en Gallos Media, agentes y productos en Vortex Lab, y videos sobre tecnología, economía y sociedad.'
+  lead: 'Soy David, de Tijuana. Desarrollo inteligencia artificial para empresas: agentes que trabajan dentro de la operación y el software que la usa. También hago cine con IA. Aquí voy dejando lo que aprendo y lo que voy construyendo.',
+  description: 'David Rocha, desde Tijuana: desarrollo de inteligencia artificial para empresas en Vortex Lab (agentes y productos), cine con IA en Gallos Media y videos sobre tecnología, economía y sociedad.'
 };
 
 export const socials = [
@@ -36,11 +36,11 @@ export const socials = [
 // button.video abre el reproductor; button.href abre un enlace.
 export const news = [
   {kind: 'intro'},
-  {kind: 'latest-video', kicker: 'Nuevo en YouTube'},
   {kind: 'item', kicker: 'Vortex Lab · CTPatrol', title: 'Inspecciones de seguridad que no pierden la evidencia.', text: 'Cada punto lleva foto, calificación y una guía de qué revisar, desde el teléfono. Lo usamos para inspecciones C-TPAT.', image: '/assets/ctpatrol-telefonos.webp', imageAlt: 'CTPatrol en el teléfono: la lista de puntos de una inspección y la guía de qué verificar en la defensa.', tag: 'Producto', button: {label: 'Conocer CTPatrol', href: '/productos/#ctpatrol'}},
-  {kind: 'item', kicker: 'Gallos Media · Cortometraje', title: '¿Qué hace real a una mente?', text: 'Preserved es un cortometraje que hicimos con IA para el Higgsfield Global Film Festival. Una pregunta sobre conciencia e identidad.', image: '/assets/film-preserved.webp', imageAlt: 'Preserved, cortometraje hecho con IA.', tag: 'Cine', button: {label: 'Ver Preserved', video: 'XfkdES89S5E'}},
   {kind: 'item', kicker: 'Vortex Lab · NEXA VISIT', title: 'Que la visita empiece antes de llegar.', text: 'La invitación sale por un enlace, la persona se registra en su teléfono y llega con un pase. La caseta sabe quién entra.', image: '/assets/nexa-app-01.webp', imageAlt: 'Resumen del día en NEXA VISIT.', tag: 'Producto', button: {label: 'Conocer NEXA VISIT', href: '/productos/#nexa-visit'}},
   {kind: 'item', kicker: 'Vortex Lab · PrepIQ', title: 'Un restaurante que sabe qué tiene en la cocina.', text: 'PrepIQ ya está listo: inventario, turnos y cocina en un solo lugar, con IA para restaurantes.', image: '/assets/prepiq-app-02.webp', imageAlt: 'Inventario en PrepIQ.', tag: 'Producto', button: {label: 'Conocer PrepIQ', href: '/productos/#prepiq'}},
+  {kind: 'latest-video', kicker: 'Nuevo en YouTube'},
+  {kind: 'item', kicker: 'Gallos Media · Cortometraje', title: '¿Qué hace real a una mente?', text: 'Preserved es un cortometraje que hicimos con IA para el Higgsfield Global Film Festival. Una pregunta sobre conciencia e identidad.', image: '/assets/film-preserved.webp', imageAlt: 'Preserved, cortometraje hecho con IA.', tag: 'Cine', button: {label: 'Ver Preserved', video: 'XfkdES89S5E'}},
   {kind: 'item', kicker: 'Una nota por correo', title: 'Una nota que llega sabiendo a qué te dedicas.', text: 'Me dices a qué te dedicas y la nota de negocios, economía e IA llega acomodada a tu trabajo.', image: '/assets/newsletter-preview.svg', imageAlt: 'Ejemplo de la nota del newsletter.', tag: 'Newsletter', button: {label: 'Quiero recibirla', href: '/newsletter/'}}
 ];
 
@@ -88,7 +88,7 @@ export const gallos = {
 export const vortex = {
   name: 'Vortex Lab',
   url: 'https://vortexlabai.com',
-  role: 'Laboratorio de IA',
+  role: 'Desarrollo de IA',
   summary: 'Vortex Lab es donde metemos agentes de inteligencia artificial dentro de las empresas y construimos productos propios.',
   paragraphs: [
     'No se quedan en una presentación: hay agentes operando de verdad, armando trámites, dando seguimiento y dejando el expediente listo. Uno de esos trabajos es el de los trámites del SAT; el nombre de la empresa se queda en la empresa.'
@@ -220,9 +220,9 @@ export const newsletter = {
 // ─── Contacto ──────────────────────────────────────────────────────
 // Las opciones del formulario de contacto. El mensaje se arma con la que elijas.
 export const contactOptions = [
-  {key: 'produccion', title: 'Una producción profesional', text: 'Un cortometraje, una campaña o videos para tu marca.'},
   {key: 'software', title: 'Software a la medida', text: 'Una app, un sistema interno o agentes de IA para tu operación.'},
   {key: 'producto', title: 'Uno de mis productos', text: 'CTPatrol, NEXA VISIT o PrepIQ para tu empresa.'},
+  {key: 'produccion', title: 'Una producción profesional', text: 'Un cortometraje, una campaña o videos para tu marca.'},
   {key: 'marca', title: 'Tu página o tu marca', text: 'El sitio, la identidad y la forma de presentarte.'},
   {key: 'marketing', title: 'Estrategia de contenido', text: 'Cómo contar lo que haces en video y redes.'},
   {key: 'otro', title: 'Otra cosa', text: 'Si no está en la lista, igual cuéntame.'}
