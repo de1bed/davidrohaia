@@ -205,23 +205,15 @@
   const tagFor = v => v.grouped ? 'Cine' : notes[v.id]?.tag || tagRules.find(t => t.re.test(v.title))?.tag || 'Opinión';
   function shape(list) {
     const clean = list.filter(v => /^[\w-]{11}$/.test(v.id) && v.title);
-    const preserved = clean.filter(v => v.short && /preserved/i.test(v.title));
-    const rest = clean.filter(v => !(v.short && /preserved/i.test(v.title)));
-    const longs = rest.filter(v => !v.short);
-    const shorts = rest.filter(v => v.short);
-    if (preserved.length) {
-      const film = clean.find(v => v.id === 'XfkdES89S5E') || preserved[0];
-      shorts.push({id: film.id, title: 'Preserved, contada en capítulos', image: film.image, short: true, grouped: preserved.length, context: 'Los capítulos cortos de Preserved viven en una sola pieza, para que el resto del canal se pueda leer.'});
-    }
-    return {longs, shorts};
+    const longs = clean.filter(v => !v.short);
+    return {longs};
   }
   function thumb(v, cls = '') {
-    const src = v.short && !v.grouped ? `https://i.ytimg.com/vi/${v.id}/oardefault.jpg` : imageUrl(v.image) || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
+    const src = imageUrl(v.image) || `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
     const context = notes[v.id]?.note || v.context || (v.short ? 'Una idea corta del canal @davidrochaia.' : 'Un video del canal @davidrochaia.');
     return `<button class="v-thumb ${cls}" type="button" data-video="${esc(v.id)}" data-title="${esc(v.title)}" data-context="${esc(context)}" aria-label="Reproducir: ${esc(v.title)}"><img src="${esc(src)}" alt="" loading="lazy" data-fallback-id="${esc(v.id)}"><span class="v-play" aria-hidden="true">▶</span><span class="v-tag">${esc(tagFor(v))}</span></button>`;
   }
   const longCard = v => `<article class="v-card">${thumb(v)}<h3>${esc(v.title)}</h3><p class="v-meta">${esc(notes[v.id]?.note || v.publishedLabel || 'YouTube · @davidrochaia')}</p></article>`;
-  const shortCard = v => `<li><article class="v-short">${thumb(v, 'is-short')}<h3>${esc(v.title)}</h3>${v.grouped ? `<p class="v-meta">${esc(v.context)}</p>` : ''}</article></li>`;
   function bindFallbacks(root) {
     root.querySelectorAll('img[data-fallback-id]').forEach(img => {
       if (img.dataset.bound) return;
@@ -250,21 +242,26 @@
     updateLatest(all.longs);
     if (!longsBox) { bindFallbacks(document); return; }
     const match = v => (!q || String(v.title).toLocaleLowerCase('es').includes(q)) && (!tagFilter || tagFor(v) === tagFilter);
-    const longs = all.longs.filter(match), shorts = all.shorts.filter(match);
+    const longs = all.longs.filter(match);
     const longLimit = Number(longsBox.dataset.limit) || longs.length;
-    const shortLimit = Number(shortsBox?.dataset.limit) || shorts.length;
     const showLong = format !== 'short', showShort = format !== 'video';
     longsBox.innerHTML = showLong ? longs.slice(0, longLimit).map(longCard).join('') : '';
     longsBox.hidden = !showLong || !longs.length;
+    // Los reels vienen en la página; aquí solo se filtran por búsqueda.
+    let shorts = 0;
     if (shortsBox) {
-      shortsBox.innerHTML = showShort ? shorts.slice(0, shortLimit).map(shortCard).join('') : '';
-      shortsBox.hidden = !showShort || !shorts.length;
+      shortsBox.querySelectorAll('[data-reel]').forEach(item => {
+        const ok = showShort && !tagFilter && (!q || item.dataset.title.includes(q));
+        item.hidden = !ok;
+        if (ok) shorts++;
+      });
+      shortsBox.hidden = !showShort || !shorts;
       if (shortsHead) shortsHead.hidden = shortsBox.hidden;
     }
     bindFallbacks(document);
     const status = document.querySelector('[data-catalog-status]');
     if (status) {
-      const count = (showLong ? longs.length : 0) + (showShort ? shorts.length : 0);
+      const count = (showLong ? longs.length : 0) + shorts;
       status.textContent = count ? `${count} ${count === 1 ? 'pieza' : 'piezas'} del canal.` : 'Nada coincide con esa búsqueda.';
     }
   }
