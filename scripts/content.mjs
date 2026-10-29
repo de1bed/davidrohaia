@@ -37,7 +37,7 @@ export const socials = [
 export const news = [
   {kind: 'intro'},
   {kind: 'latest-video', kicker: 'Nuevo en YouTube'},
-  {kind: 'item', kicker: 'Vortex Lab · CTPatrol', title: 'Inspecciones de seguridad que no pierden la evidencia.', text: 'El recorrido, las fotos y el expediente quedan en el mismo flujo. Lo usamos para inspecciones C-TPAT.', image: '/assets/ctpatrol-app-01.webp', imageAlt: 'Tablero de inspecciones de CTPatrol.', tag: 'Producto', button: {label: 'Conocer CTPatrol', href: '/productos/#ctpatrol'}},
+  {kind: 'item', kicker: 'Vortex Lab · CTPatrol', title: 'Inspecciones de seguridad que no pierden la evidencia.', text: 'Cada punto lleva foto, calificación y una guía de qué revisar, desde el teléfono. Lo usamos para inspecciones C-TPAT.', image: '/assets/ctpatrol-telefonos.webp', imageAlt: 'CTPatrol en el teléfono: la lista de puntos de una inspección y la guía de qué verificar en la defensa.', tag: 'Producto', button: {label: 'Conocer CTPatrol', href: '/productos/#ctpatrol'}},
   {kind: 'item', kicker: 'Gallos Media · Cortometraje', title: '¿Qué hace real a una mente?', text: 'Preserved es un cortometraje que hicimos con IA para el Higgsfield Global Film Festival. Una pregunta sobre conciencia e identidad.', image: '/assets/film-preserved.webp', imageAlt: 'Preserved, cortometraje hecho con IA.', tag: 'Cine', button: {label: 'Ver Preserved', video: 'XfkdES89S5E'}},
   {kind: 'item', kicker: 'Vortex Lab · NEXA VISIT', title: 'Que la visita empiece antes de llegar.', text: 'La invitación sale por un enlace, la persona se registra en su teléfono y llega con un pase. La caseta sabe quién entra.', image: '/assets/nexa-app-01.webp', imageAlt: 'Resumen del día en NEXA VISIT.', tag: 'Producto', button: {label: 'Conocer NEXA VISIT', href: '/productos/#nexa-visit'}},
   {kind: 'item', kicker: 'Vortex Lab · PrepIQ', title: 'Un restaurante que sabe qué tiene en la cocina.', text: 'PrepIQ ya está listo: inventario, turnos y cocina en un solo lugar, con IA para restaurantes.', image: '/assets/prepiq-app-02.webp', imageAlt: 'Inventario en PrepIQ.', tag: 'Producto', button: {label: 'Conocer PrepIQ', href: '/productos/#prepiq'}},
@@ -96,7 +96,7 @@ export const vortex = {
   // Lo que rota en la sección de Vortex Lab: los agentes y luego cada producto.
   showcase: [
     {title: 'Agentes dentro de la operación', label: 'Agentes de IA', image: '/assets/vortex-agentes.webp', text: 'Arman trámites, dan seguimiento y dejan el expediente listo.', href: 'https://vortexlabai.com'},
-    {title: 'CTPatrol', label: 'Producto · Seguridad', image: '/assets/ctpatrol-app-02.webp', text: 'Inspecciones con evidencia y expediente en el mismo flujo.', href: '/productos/#ctpatrol'},
+    {title: 'CTPatrol', label: 'Producto · Seguridad', image: '/assets/ctpatrol-telefonos.webp', text: 'Inspecciones desde el teléfono: cada punto con foto, calificación y guía.', href: '/productos/#ctpatrol'},
     {title: 'NEXA VISIT', label: 'Producto · Accesos', image: '/assets/nexa-app-03.webp', text: 'Invitaciones, registro desde el teléfono y pases para entrar.', href: '/productos/#nexa-visit'},
     {title: 'PrepIQ', label: 'Producto · Restaurantes', image: '/assets/prepiq-app-03.webp', text: 'IA para la cocina, el inventario y los turnos.', href: '/productos/#prepiq'}
   ]
@@ -109,6 +109,7 @@ export const products = [
     name: 'CTPatrol',
     url: 'https://ctpatrol.vortexlabai.com',
     pitch: 'Gestiona tus inspecciones sin perder la evidencia.',
+    mockup: {src: '/assets/ctpatrol-telefonos.webp', width: 1600, height: 1100, alt: 'CTPatrol en el teléfono: la lista de puntos de una inspección y la guía de qué verificar en la defensa.'},
     text: 'CTPatrol ordena las inspecciones de seguridad: el recorrido, la evidencia y el expediente quedan en el mismo flujo.',
     for: 'Equipos de seguridad y operaciones logísticas.',
     link: 'Abrir CTPatrol',
@@ -157,9 +158,15 @@ export const thinking = {
 export const tiktok = {
   handle: 'davidrochaia',
   url: 'https://www.tiktok.com/@davidrochaia',
-  title: 'Lo más reciente, en corto.',
-  text: 'En TikTok va la versión rápida: una noticia, una herramienta o una idea en menos de un minuto.'
+  title: 'Reels',
+  text: 'La versión rápida: una noticia, una herramienta o una idea en menos de un minuto.'
 };
+
+// Reels: miniaturas que llevan a TikTok. Para agregar uno, copia una línea y cambia la imagen y el título.
+export const reels = [
+  {title: '¿Musk monopolio? SpaceX controla el espacio', image: '/assets/reel-musk-spacex.webp'},
+  {title: '¿Hablar con los muertos?', image: '/assets/reel-hablar-con-muertos.webp'}
+];
 
 export const instagram = {
   handle: 'davidrochaia',

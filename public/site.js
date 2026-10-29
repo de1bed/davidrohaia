@@ -107,18 +107,13 @@
     }));
   });
 
-  // TikTok: el embed oficial del perfil se carga cuando la sección se acerca a la pantalla.
+  // Carga diferida cuando la sección se acerca a la pantalla.
   const lazy = (node, load) => {
     if (!node) return;
     if (!('IntersectionObserver' in window)) return load();
     const observer = new IntersectionObserver(entries => { if (entries.some(e => e.isIntersecting)) { observer.disconnect(); load(); } }, {rootMargin: '600px'});
     observer.observe(node);
   };
-  lazy(document.querySelector('[data-tiktok]'), () => {
-    if (document.querySelector('script[src*="tiktok.com/embed.js"]')) return;
-    document.body.append(Object.assign(document.createElement('script'), {src: 'https://www.tiktok.com/embed.js', async: true}));
-  });
-
   // Instagram: publicaciones recientes por la API oficial (si está configurada).
   const igList = document.querySelector('[data-instagram]');
   lazy(igList, async () => {
@@ -130,7 +125,6 @@
       if (!safe.length) return;
       igList.innerHTML = safe.map(p => `<li><a href="${esc(p.url)}" target="_blank" rel="noreferrer" aria-label="${esc(p.caption || 'Publicación de Instagram')}"><img src="${esc(p.image)}" alt="" loading="lazy">${p.video ? '<i>▶ Reel</i>' : ''}</a></li>`).join('');
       igList.hidden = false;
-      document.querySelector('[data-instagram-fallback]').hidden = true;
     } catch { /* se queda el enlace al perfil */ }
   });
 

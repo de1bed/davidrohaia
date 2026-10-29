@@ -1,4 +1,4 @@
-import {channelUrl,contactEmail,contactOptions,gallos,instagram,miniLibros,news,newsletter,products,profile,proof,siteUrl,socials,thinking,tiktok,videoNotes,videoTags,videos,vortex,WHATSAPP_NUMBER,whatsappMessage} from './content.mjs';
+import {channelUrl,contactEmail,contactOptions,gallos,instagram,miniLibros,news,newsletter,products,profile,proof,reels,siteUrl,socials,thinking,tiktok,videoNotes,videoTags,videos,vortex,WHATSAPP_NUMBER,whatsappMessage} from './content.mjs';
 
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
@@ -104,9 +104,9 @@ function showcase(brand, items, id) {
 }
 
 function socialSection() {
-  return `<section class="b-section b-wrap" id="redes">${head('Redes', 'En corto, en redes.', 'Lo rápido vive aquí: noticias, herramientas y pruebas que no caben en un video largo.')}
-<div class="r-grid"><div class="r-card"><div class="r-top"><strong>Instagram</strong><a class="b-link" href="${esc(instagram.url)}" target="_blank" rel="noreferrer">@${esc(instagram.handle)} ${arrow}</a></div><ol class="r-posts" data-instagram hidden></ol><a class="r-fallback" href="${esc(instagram.url)}" target="_blank" rel="noreferrer" data-instagram-fallback><span>◎</span><p>${esc(instagram.text)}</p><b>Ver Instagram ${arrow}</b></a></div>
-<div class="r-card" id="tiktok"><div class="r-top"><strong>TikTok</strong><a class="b-link" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer">@${esc(tiktok.handle)} ${arrow}</a></div><div class="t-embed" data-tiktok><blockquote class="tiktok-embed" cite="${esc(tiktok.url)}" data-unique-id="${esc(tiktok.handle)}" data-embed-type="creator" style="max-width:780px;min-width:288px"><section><a target="_blank" rel="noreferrer" href="${esc(tiktok.url)}?refer=creator_embed">@${esc(tiktok.handle)}</a></section></blockquote><p class="t-fallback">${esc(tiktok.text)} <a href="${esc(tiktok.url)}" target="_blank" rel="noreferrer">Ver TikTok ${arrow}</a></p></div></div></div></section>`;
+  return `<section class="b-section b-wrap" id="reels">${head(`TikTok · @${esc(tiktok.handle)}`, esc(tiktok.title), esc(tiktok.text), `<a class="b-btn is-dark" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer">Ver más en TikTok ${arrow}</a>`)}
+<ol class="rl-grid">${reels.map(r => `<li><a class="rl-card" href="${esc(r.url || tiktok.url)}" target="_blank" rel="noreferrer"><img src="${esc(r.image)}" alt="${esc(r.title)}" loading="lazy" width="540" height="959"><span class="v-play" aria-hidden="true">▶</span></a></li>`).join('')}<li><a class="rl-card rl-more" href="${esc(tiktok.url)}" target="_blank" rel="noreferrer"><strong>@${esc(tiktok.handle)}</strong><span>Más reels en TikTok ${arrow}</span></a></li></ol>
+<ol class="r-posts" data-instagram hidden></ol><p class="b-more"><a class="b-link" href="${esc(instagram.url)}" target="_blank" rel="noreferrer">También en Instagram ${arrow}</a></p></section>`;
 }
 
 function bookCard(b) {
@@ -148,8 +148,9 @@ function productsPage() {
   return `<section class="b-page-hero b-wrap"><p class="b-eyebrow">Productos · ${esc(vortex.name)}</p><h1>Productos que ya están funcionando.</h1><p class="b-lead">Salen de Vortex Lab. Los construimos para problemas que vimos de cerca y ahora cualquier empresa los puede usar.</p><nav class="pr-jump" aria-label="Productos">${products.map(p => `<a href="#${slug(p.name)}">${esc(p.name)}</a>`).join('')}</nav></section>
 <div class="b-wrap pr-list">${products.map(p => {
     const id = slug(p.name);
+    const mockup = p.mockup ? `<figure class="p-mockup"><img src="${esc(p.mockup.src)}" alt="${esc(p.mockup.alt)}" width="${p.mockup.width}" height="${p.mockup.height}" loading="lazy"></figure>` : '';
     const cta = p.url ? `<a class="b-btn is-accent" href="${esc(p.url)}" target="_blank" rel="noreferrer">${esc(p.link)} ${arrow}</a>` : '';
-    return `<article class="p-panel" id="${id}"><div class="p-copy"><p class="b-eyebrow">${esc(p.name)}</p><h2>${esc(p.pitch)}</h2><p>${esc(p.text)}</p><p class="p-for"><b>Para:</b> ${esc(p.for)}</p><div class="b-actions">${cta}<a class="b-btn" href="/contacto/?quiero=producto&amp;producto=${encodeURIComponent(p.name)}">Quiero ${esc(p.name)} ${next}</a></div></div><div class="p-gallery" data-gallery>${browser(p.shots[0], 'is-main')}<div class="p-thumbs">${p.shots.map((s, j) => `<button type="button" data-shot="${esc(s.src)}" data-alt="${esc(s.alt)}" data-width="${s.width}" data-height="${s.height}" aria-label="Ver captura ${j + 1} de ${esc(p.name)}"${j ? '' : ' aria-current="true"'}><img src="${esc(s.src)}" alt="" loading="lazy"></button>`).join('')}</div></div></article>`;
+    return `<article class="p-panel" id="${id}"><div class="p-copy"><p class="b-eyebrow">${esc(p.name)}</p><h2>${esc(p.pitch)}</h2><p>${esc(p.text)}</p><p class="p-for"><b>Para:</b> ${esc(p.for)}</p><div class="b-actions">${cta}<a class="b-btn" href="/contacto/?quiero=producto&amp;producto=${encodeURIComponent(p.name)}">Quiero ${esc(p.name)} ${next}</a></div></div><div class="p-gallery" data-gallery>${mockup}${browser(p.shots[0], 'is-main')}<div class="p-thumbs">${p.shots.map((s, j) => `<button type="button" data-shot="${esc(s.src)}" data-alt="${esc(s.alt)}" data-width="${s.width}" data-height="${s.height}" aria-label="Ver captura ${j + 1} de ${esc(p.name)}"${j ? '' : ' aria-current="true"'}><img src="${esc(s.src)}" alt="" loading="lazy"></button>`).join('')}</div></div></article>`;
   }).join('')}</div>
 ${contactBand()}`;
 }

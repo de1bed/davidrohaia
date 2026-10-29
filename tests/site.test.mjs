@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import {allPages,tagFor} from '../scripts/pages.mjs';
-import {WHATSAPP_NUMBER,news,gallos,vortex,miniLibros,contactOptions} from '../scripts/content.mjs';
+import {WHATSAPP_NUMBER,news,gallos,vortex,miniLibros,contactOptions,reels} from '../scripts/content.mjs';
 
 const pages = allPages();
 const html = Object.values(pages).join('\n');
@@ -68,11 +68,24 @@ test('videos carry a tag, shorts use the vertical cover, Preserved chapters are 
   assert.equal(tagFor({id:'XfkdES89S5E',title:'Preserved'}), 'Cine');
 });
 
-test('social section has the TikTok creator embed and an Instagram slot with a profile fallback',()=>{
-  assert.match(home, /class="tiktok-embed"[^>]*data-unique-id="davidrochaia"[^>]*data-embed-type="creator"/);
-  assert.doesNotMatch(home, /<script[^>]+tiktok\.com\/embed\.js/);
+test('reels show their covers and link to my TikTok',()=>{
+  for (const r of reels) {
+    assert.ok(home.includes(r.image), `falta ${r.title}`);
+    assert.ok(asset(r.image));
+  }
+  assert.match(home, /id="reels"/);
+  assert.match(home, /href="https:\/\/www\.tiktok\.com\/@davidrochaia"/);
+  assert.doesNotMatch(html, /tiktok-embed|tiktok\.com\/embed\.js/);
   assert.match(home, /data-instagram hidden/);
-  assert.match(home, /data-instagram-fallback/);
+});
+
+test('CTPatrol is shown in phone mockups in the newsroom, Vortex Lab and its product page',()=>{
+  const mock = '/assets/ctpatrol-telefonos.webp';
+  assert.ok(asset(mock));
+  const stage = home.slice(home.indexOf('data-newsroom'), home.indexOf('class="b-proof"'));
+  assert.ok(stage.includes(mock));
+  assert.ok(home.slice(home.indexOf('id="vortex"')).includes(mock));
+  assert.ok(pages['/productos/'].slice(pages['/productos/'].indexOf('id="ctpatrol"')).includes(mock));
 });
 
 test('mini books are placeholders that can be bought once a link is added',()=>{
