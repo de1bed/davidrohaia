@@ -165,7 +165,12 @@ export const tiktok = {
 // Reels: miniaturas que llevan a TikTok. Para agregar uno, copia una línea y cambia la imagen y el título.
 export const reels = [
   {title: '¿Musk monopolio? SpaceX controla el espacio', image: '/assets/reel-musk-spacex.webp'},
-  {title: '¿Hablar con los muertos?', image: '/assets/reel-hablar-con-muertos.webp'}
+  {title: '¿Hablar con los muertos?', image: '/assets/reel-hablar-con-muertos.webp'},
+  {title: 'La IA resolvió un problema que ni entendemos', image: '/assets/reel-ia-resolvio-problema.webp'},
+  {title: '¿Una IA mexicana?', image: '/assets/reel-ia-mexicana.webp'},
+  {title: '¿Modales para la IA?', image: '/assets/reel-modales-ia.webp'},
+  {title: 'Los agentes atacan Wikipedia', image: '/assets/reel-agentes-wikipedia.webp'},
+  {title: '¿Y si filtran tu identificación?', image: '/assets/reel-filtran-identificacion.webp'}
 ];
 
 export const instagram = {
